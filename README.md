@@ -46,3 +46,18 @@ Le compte Cloudflare (et la connexion du dépôt GitHub) sont gérés par Aurél
   - `SANITY_PROJECT_ID` = `u6nnkwb0`
   - `SANITY_DATASET` = `production`
   - `SANITY_READ_TOKEN` = (le jeton de lecture, voir `.env` local — à ne jamais commiter)
+
+## Ajouter du contenu (procédure pour Hubert)
+
+Quand Aurélia transmet des images et informations pour une nouvelle Revue, Pochette de patron ou Patron gratuit :
+
+1. Identifier le type de document (Revue / Pochette de patron / Patron gratuit) selon la description d'Aurélia.
+2. Vérifier que les référentiels nécessaires existent déjà (catégorie, marque, décennie) ; en créer de nouveaux via `mcp__Sanity__create_documents` si besoin.
+3. Uploader les images légères (couverture, aperçus, recto/verso) directement en assets Sanity (`mcp__Sanity__create_documents` ou `mcp__Sanity__generate_image` pour des visuels de test).
+4. Pour une Revue ou un Patron gratuit destiné au téléchargement :
+   - Confirmer avec Aurélia le statut de droits (`domaine-public` uniquement si elle le confirme explicitement).
+   - Si domaine public et fichier lourd (scan complet de revue) : uploader sur Cloudflare R2 (voir procédure ci-dessus), renseigner l'URL publique dans `urlScanComplet`.
+   - Si domaine public et fichier léger (patron gratuit, 1-4 pages) : le fichier doit être un vrai asset Sanity dans `fichierPatron`. **Limite connue** : le jeu d'outils MCP actuel ne permet pas d'uploader un fichier binaire arbitraire (seulement des images via `generate_image`) — un vrai PDF doit être ajouté manuellement via Sanity Studio tant qu'un outil d'upload de fichier n'est pas disponible.
+5. Créer le document via `mcp__Sanity__create_documents` avec tous les champs renseignés.
+6. Publier le document via `mcp__Sanity__publish_documents`.
+7. Envoyer à Aurélia un lien de prévisualisation si elle souhaite vérifier avant publication définitive.
