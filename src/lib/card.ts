@@ -1,15 +1,19 @@
 import { getEntryPath } from './catalog'
 import type { CatalogEntry } from './catalog'
 import { getBadgeLabel, getBadgeVariant } from './badge'
+import { useTranslations } from '../i18n'
+import type { Locale } from '../i18n'
 
-export function renderEntryCardHtml(entry: CatalogEntry): string {
-  const badge = `<span class="badge badge--${getBadgeVariant(entry.type)}">${getBadgeLabel(entry.type)}</span>`
+export function renderEntryCardHtml(entry: CatalogEntry, locale: Locale): string {
+  const t = useTranslations(locale)
+  const badge = `<span class="badge badge--${getBadgeVariant(entry.type)}">${getBadgeLabel(entry.type, locale)}</span>`
   const image = entry.imageUrl ? `<img src="${entry.imageUrl}" alt="${entry.titre}" loading="lazy" />` : ''
   const content = `${badge}${image}<span class="card-title">${entry.titre}</span>`
-  const path = getEntryPath(entry)
+  const basePath = getEntryPath(entry)
+  const path = basePath && locale === 'en' ? `/en${basePath}` : basePath
   const media = path ? `<a href="${path}">${content}</a>` : content
   const download = entry.telechargementUrl
-    ? `<a class="card-download" href="${entry.telechargementUrl}" download>Télécharger</a>`
+    ? `<a class="card-download" href="${entry.telechargementUrl}" download>${t.card.telecharger}</a>`
     : ''
   return `<li class="card">${media}${download}</li>`
 }
