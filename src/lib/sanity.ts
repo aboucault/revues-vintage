@@ -20,6 +20,7 @@ export interface RevueDoc {
   slug: string
   editeur?: string
   numero?: string
+  dateParution?: string
   decennieLabel?: string
   categories: string[]
   statutDroits: StatutDroits
@@ -61,6 +62,7 @@ const REVUE_QUERY = `*[_type == "revue"]{
   "slug": slug.current,
   editeur,
   numero,
+  dateParution,
   "decennieLabel": decennie->label[$locale],
   "categories": categories[]->nom[$locale],
   statutDroits,

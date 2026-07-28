@@ -9,12 +9,13 @@ vi.mock('@sanity/client', () => ({
 describe('fetchRevues', () => {
   it('interroge Sanity avec la requête GROQ des revues et la locale demandée', async () => {
     const { fetchRevues } = await import('./sanity')
-    fetchMock.mockResolvedValueOnce([{ _id: '1', titre: 'Modes & Travaux 1958' }])
+    fetchMock.mockResolvedValueOnce([{ _id: '1', titre: 'Modes & Travaux 1958', dateParution: '1958-03-12' }])
 
     const result = await fetchRevues('fr')
 
     expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('_type == "revue"'), { locale: 'fr' })
-    expect(result).toEqual([{ _id: '1', titre: 'Modes & Travaux 1958' }])
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('dateParution'), { locale: 'fr' })
+    expect(result).toEqual([{ _id: '1', titre: 'Modes & Travaux 1958', dateParution: '1958-03-12' }])
   })
 })
 
