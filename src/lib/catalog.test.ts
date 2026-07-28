@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { buildCatalog } from './catalog'
+import { buildCatalog, getEntryPath } from './catalog'
+import type { CatalogEntry } from './catalog'
 import type { PatronGratuitDoc, PochettePatronDoc, RevueDoc } from './sanity'
 
 const baseRevue: RevueDoc = {
@@ -77,5 +78,35 @@ describe('buildCatalog — patrons gratuits', () => {
     }
     const [entry] = buildCatalog([], [], [patron])
     expect(entry.telechargementUrl).toBeUndefined()
+  })
+})
+
+function makeEntry(overrides: Partial<CatalogEntry>): CatalogEntry {
+  return {
+    id: '1',
+    createdAt: '2026-01-01T00:00:00Z',
+    type: 'revue',
+    titre: 'Titre',
+    slug: 'un-titre',
+    categories: [],
+    caracteristiquesStyle: [],
+    imageUrl: '',
+    ...overrides,
+  }
+}
+
+describe('getEntryPath', () => {
+  it('pointe vers /revues/<slug> pour une revue', () => {
+    expect(getEntryPath(makeEntry({ type: 'revue', slug: 'un-titre' }))).toBe('/revues/un-titre')
+  })
+
+  it('pointe vers /ressources-gratuites/<slug> pour un patron gratuit', () => {
+    expect(getEntryPath(makeEntry({ type: 'patron-gratuit', slug: 'un-patron' }))).toBe(
+      '/ressources-gratuites/un-patron'
+    )
+  })
+
+  it('ne retourne aucun chemin pour une pochette de patron (pas de page de détail en V1)', () => {
+    expect(getEntryPath(makeEntry({ type: 'pochette-patron', slug: 'une-pochette' }))).toBeUndefined()
   })
 })

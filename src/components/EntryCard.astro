@@ -1,4 +1,5 @@
 ---
+import { getEntryPath } from '../lib/catalog'
 import type { CatalogEntry } from '../lib/catalog'
 import { getBadgeLabel, getBadgeVariant } from '../lib/badge'
 
@@ -7,8 +8,7 @@ interface Props {
 }
 
 const { entry } = Astro.props
-// Les Pochettes de patron n'ont pas de page de détail (V1) : pas de lien de navigation pour ce type.
-const href = entry.type === 'pochette-patron' ? undefined : `/${entry.type}/${entry.slug}`
+const href = getEntryPath(entry)
 const badgeClass = `badge badge--${getBadgeVariant(entry.type)}`
 ---
 {href ? (

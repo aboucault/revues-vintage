@@ -19,7 +19,7 @@ function makeEntry(overrides: Partial<CatalogEntry>): CatalogEntry {
 describe('renderEntryCardHtml', () => {
   it('encapsule une revue dans un lien vers sa page de détail', () => {
     const html = renderEntryCardHtml(makeEntry({ type: 'revue', slug: 'modes-travaux' }))
-    expect(html).toContain('<a href="/revue/modes-travaux">')
+    expect(html).toContain('<a href="/revues/modes-travaux">')
     expect(html).toContain('badge--primary')
     expect(html).toContain('Revue')
   })
