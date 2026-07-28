@@ -2,24 +2,27 @@
 import { getEntryPath } from '../lib/catalog'
 import type { CatalogEntry } from '../lib/catalog'
 import { getBadgeLabel, getBadgeVariant } from '../lib/badge'
+import type { Locale } from '../i18n'
 
 interface Props {
   entry: CatalogEntry
+  locale: Locale
 }
 
-const { entry } = Astro.props
-const href = getEntryPath(entry)
+const { entry, locale } = Astro.props
+const basePath = getEntryPath(entry)
+const href = basePath && locale === 'en' ? `/en${basePath}` : basePath
 const badgeClass = `badge badge--${getBadgeVariant(entry.type)}`
 ---
 {href ? (
   <a class="card" href={href}>
-    <span class={badgeClass}>{getBadgeLabel(entry.type)}</span>
+    <span class={badgeClass}>{getBadgeLabel(entry.type, locale)}</span>
     {entry.imageUrl && <img src={entry.imageUrl} alt={entry.titre} loading="lazy" />}
     <span class="card-title">{entry.titre}</span>
   </a>
 ) : (
   <div class="card">
-    <span class={badgeClass}>{getBadgeLabel(entry.type)}</span>
+    <span class={badgeClass}>{getBadgeLabel(entry.type, locale)}</span>
     {entry.imageUrl && <img src={entry.imageUrl} alt={entry.titre} loading="lazy" />}
     <span class="card-title">{entry.titre}</span>
   </div>

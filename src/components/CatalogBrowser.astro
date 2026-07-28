@@ -1,9 +1,12 @@
 ---
 import type { CatalogEntry } from '../lib/catalog'
 import { buildFacetOptions } from '../lib/facets'
+import { useTranslations } from '../i18n'
+import type { Locale } from '../i18n'
 
 interface Props {
   entries: CatalogEntry[]
+  locale: Locale
   showMarqueFilter?: boolean
   showCaracteristiquesFilter?: boolean
   showTitreFilter?: boolean
@@ -12,11 +15,14 @@ interface Props {
 
 const {
   entries,
+  locale,
   showMarqueFilter = false,
   showCaracteristiquesFilter = false,
   showTitreFilter = false,
   showSearchInput = false,
 } = Astro.props
+
+const t = useTranslations(locale)
 
 const categorieOptions = buildFacetOptions(entries.flatMap((e) => e.categories))
 const decennieOptions = buildFacetOptions(
@@ -34,14 +40,14 @@ const caracteristiqueOptions = showCaracteristiquesFilter
   <form id="filter-form" class="catalog-filters">
     {showSearchInput && (
       <label class="filter-group">
-        Rechercher
-        <input type="search" name="q" placeholder="Ex : robe portefeuille 1948" />
+        {t.catalog.searchLabel}
+        <input type="search" name="q" placeholder={t.catalog.searchPlaceholder} />
       </label>
     )}
 
     {decennieOptions.length > 0 && (
       <fieldset class="filter-group">
-        <legend>Décennie</legend>
+        <legend>{t.catalog.decennie}</legend>
         {decennieOptions.map((option) => (
           <label class="filter-option">
             <input type="checkbox" name="decennies" value={option.value} />
@@ -53,7 +59,7 @@ const caracteristiqueOptions = showCaracteristiquesFilter
 
     {showTitreFilter && titreOptions.length > 0 && (
       <fieldset class="filter-group">
-        <legend>Titre de revue</legend>
+        <legend>{t.catalog.titreRevue}</legend>
         {titreOptions.map((option) => (
           <label class="filter-option">
             <input type="checkbox" name="titres" value={option.value} />
@@ -65,7 +71,7 @@ const caracteristiqueOptions = showCaracteristiquesFilter
 
     {categorieOptions.length > 0 && (
       <fieldset class="filter-group">
-        <legend>Catégorie</legend>
+        <legend>{t.catalog.categorie}</legend>
         {categorieOptions.map((option) => (
           <label class="filter-option">
             <input type="checkbox" name="categories" value={option.value} />
@@ -77,7 +83,7 @@ const caracteristiqueOptions = showCaracteristiquesFilter
 
     {showMarqueFilter && marqueOptions.length > 0 && (
       <fieldset class="filter-group">
-        <legend>Marque</legend>
+        <legend>{t.catalog.marque}</legend>
         {marqueOptions.map((option) => (
           <label class="filter-option">
             <input type="checkbox" name="marques" value={option.value} />
@@ -89,7 +95,7 @@ const caracteristiqueOptions = showCaracteristiquesFilter
 
     {showCaracteristiquesFilter && caracteristiqueOptions.length > 0 && (
       <fieldset class="filter-group">
-        <legend>Caractéristique de style</legend>
+        <legend>{t.catalog.caracteristiqueStyle}</legend>
         {caracteristiqueOptions.map((option) => (
           <label class="filter-option">
             <input type="checkbox" name="caracteristiques" value={option.value} />
@@ -100,10 +106,10 @@ const caracteristiqueOptions = showCaracteristiquesFilter
     )}
 
     <label class="filter-group">
-      Trier par
+      {t.catalog.trierPar}
       <select name="sort">
-        <option value="recent">Plus récents</option>
-        <option value="titre-asc">Titre (A→Z)</option>
+        <option value="recent">{t.catalog.triRecent}</option>
+        <option value="titre-asc">{t.catalog.triTitreAsc}</option>
       </select>
     </label>
   </form>
@@ -112,22 +118,28 @@ const caracteristiqueOptions = showCaracteristiquesFilter
     <p id="result-count" class="result-count"></p>
     <ul id="results-list" class="card-grid"></ul>
     <p id="empty-state" class="empty-state" hidden>
-      Aucun résultat. Essayez de modifier vos filtres ou votre recherche.
+      {t.catalog.emptyState}
     </p>
   </div>
 </div>
 
 <script type="application/json" id="catalog-data" set:html={JSON.stringify(entries)} />
+<script type="application/json" id="catalog-locale" set:html={JSON.stringify(locale)} />
 
 <script>
   import { filterCatalog } from '../lib/filter'
   import { sortEntries } from '../lib/sort'
   import { renderEntryCardHtml } from '../lib/card'
+  import { useTranslations } from '../i18n'
+  import type { Locale } from '../i18n'
   import type { CatalogEntry } from '../lib/catalog'
   import type { SortOption } from '../lib/sort'
 
   const dataEl = document.getElementById('catalog-data') as HTMLScriptElement
   const entries: CatalogEntry[] = JSON.parse(dataEl.textContent ?? '[]')
+  const localeEl = document.getElementById('catalog-locale') as HTMLScriptElement
+  const locale: Locale = JSON.parse(localeEl.textContent ?? '"fr"')
+  const t = useTranslations(locale)
   const form = document.getElementById('filter-form') as HTMLFormElement
   const resultsList = document.getElementById('results-list') as HTMLUListElement
   const resultCount = document.getElementById('result-count') as HTMLParagraphElement
@@ -138,8 +150,8 @@ const caracteristiqueOptions = showCaracteristiquesFilter
   }
 
   function render(list: CatalogEntry[]) {
-    resultsList.innerHTML = list.map(renderEntryCardHtml).join('')
-    resultCount.textContent = `${list.length} résultat${list.length > 1 ? 's' : ''}`
+    resultsList.innerHTML = list.map((entry) => renderEntryCardHtml(entry, locale)).join('')
+    resultCount.textContent = t.catalog.resultat(list.length)
     emptyState.hidden = list.length > 0
   }
 
