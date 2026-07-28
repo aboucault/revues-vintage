@@ -1,0 +1,15 @@
+---
+import HomePage from '../../components/pages/HomePage.astro'
+import { fetchRevues, fetchPochettesPatron, fetchPatronsGratuits } from '../../lib/sanity'
+import { buildCatalog } from '../../lib/catalog'
+import { sortEntries } from '../../lib/sort'
+
+const [revues, pochettes, patronsGratuits] = await Promise.all([
+  fetchRevues('en'),
+  fetchPochettesPatron('en'),
+  fetchPatronsGratuits('en'),
+])
+const entries = buildCatalog(revues, pochettes, patronsGratuits)
+const derniersAjouts = sortEntries(entries, 'recent').slice(0, 6)
+---
+<HomePage locale="en" derniersAjouts={derniersAjouts} />

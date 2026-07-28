@@ -1,133 +1,15 @@
 ---
-import Layout from '../layouts/Layout.astro'
-import EntryCard from '../components/EntryCard.astro'
+import HomePage from '../components/pages/HomePage.astro'
 import { fetchRevues, fetchPochettesPatron, fetchPatronsGratuits } from '../lib/sanity'
 import { buildCatalog } from '../lib/catalog'
 import { sortEntries } from '../lib/sort'
 
 const [revues, pochettes, patronsGratuits] = await Promise.all([
-  fetchRevues(),
-  fetchPochettesPatron(),
-  fetchPatronsGratuits(),
+  fetchRevues('fr'),
+  fetchPochettesPatron('fr'),
+  fetchPatronsGratuits('fr'),
 ])
 const entries = buildCatalog(revues, pochettes, patronsGratuits)
 const derniersAjouts = sortEntries(entries, 'recent').slice(0, 6)
-
-const facons = [
-  {
-    titre: 'Revues d’époque',
-    description: 'Feuilletez les magazines français numérisés, page par page.',
-    lien: '/revues',
-    libelle: 'Parcourir les revues',
-  },
-  {
-    titre: 'Pochettes de patrons à dater',
-    description: 'Identifiez un patron ancien en comparant la pochette, son éditeur et son style.',
-    lien: '/dater-un-patron',
-    libelle: 'Rechercher une pochette',
-  },
-  {
-    titre: 'Patrons gratuits',
-    description: 'Téléchargez des patrons de couture, tricot, broderie ou crochet issus de revues anciennes.',
-    lien: '/ressources-gratuites',
-    libelle: 'Voir les patrons gratuits',
-  },
-]
 ---
-<Layout title="Accueil">
-  <section class="hero">
-    <h1>Explorez un siècle de mode à la française</h1>
-    <p>
-      Revues d’époque, pochettes de patrons à dater et patrons gratuits à télécharger. Un
-      patrimoine unique, accessible à tous.
-    </p>
-    <a class="button" href="/revues">Explorer le catalogue</a>
-  </section>
-
-  <section class="facons">
-    {facons.map((f) => (
-      <div class="facon-card">
-        <h2>{f.titre}</h2>
-        <p>{f.description}</p>
-        <a href={f.lien}>{f.libelle} →</a>
-      </div>
-    ))}
-  </section>
-
-  <section class="derniers-ajouts">
-    <h2>Derniers ajouts</h2>
-    <ul class="card-grid">
-      {derniersAjouts.map((entry) => <EntryCard entry={entry} />)}
-    </ul>
-  </section>
-
-  <form class="search-form" action="/revues" method="get">
-    <label for="q">Que recherchez-vous ?</label>
-    <input id="q" type="search" name="q" placeholder="Ex : robe portefeuille 1948, tricot..." />
-    <button type="submit">Rechercher</button>
-  </form>
-</Layout>
-
-<style>
-  .hero {
-    text-align: center;
-    padding: var(--space-4) 0;
-  }
-
-  .button {
-    display: inline-block;
-    margin-top: var(--space-2);
-    padding: 0.75rem 1.5rem;
-    background: var(--color-primary);
-    color: var(--color-primary-contrast);
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .facons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--space-3);
-    margin: var(--space-4) 0;
-  }
-
-  .facon-card {
-    background: var(--color-bg-alt);
-    border-radius: var(--radius);
-    padding: var(--space-3);
-  }
-
-  .search-form {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-2);
-    background: var(--color-bg-alt);
-    border-radius: var(--radius);
-    padding: var(--space-3);
-    margin-top: var(--space-4);
-  }
-
-  .search-form label {
-    font-weight: 500;
-    width: 100%;
-  }
-
-  .search-form input {
-    flex: 1;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-  }
-
-  .search-form button {
-    padding: 0.5rem 1rem;
-    background: var(--color-primary);
-    color: var(--color-primary-contrast);
-    border: none;
-    border-radius: var(--radius);
-    font-weight: 500;
-    cursor: pointer;
-  }
-</style>
+<HomePage locale="fr" derniersAjouts={derniersAjouts} />

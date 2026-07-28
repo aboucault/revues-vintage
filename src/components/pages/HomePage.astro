@@ -1,0 +1,131 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import EntryCard from '../EntryCard.astro'
+import { useTranslations } from '../../i18n'
+import type { Locale } from '../../i18n'
+import type { CatalogEntry } from '../../lib/catalog'
+
+interface Props {
+  locale: Locale
+  derniersAjouts: CatalogEntry[]
+}
+
+const { locale, derniersAjouts } = Astro.props
+const t = useTranslations(locale)
+const base = locale === 'en' ? '/en' : ''
+
+const facons = [
+  {
+    titre: t.home.facon1Titre,
+    description: t.home.facon1Description,
+    lien: `${base}/revues`,
+    libelle: t.home.facon1Libelle,
+  },
+  {
+    titre: t.home.facon2Titre,
+    description: t.home.facon2Description,
+    lien: `${base}/dater-un-patron`,
+    libelle: t.home.facon2Libelle,
+  },
+  {
+    titre: t.home.facon3Titre,
+    description: t.home.facon3Description,
+    lien: `${base}/ressources-gratuites`,
+    libelle: t.home.facon3Libelle,
+  },
+]
+---
+<Layout title={t.nav.accueil} locale={locale}>
+  <section class="hero">
+    <h1>{t.home.heroTitle}</h1>
+    <p>{t.home.heroSubtitle}</p>
+    <a class="button" href={`${base}/revues`}>{t.home.heroButton}</a>
+  </section>
+
+  <section class="facons">
+    {facons.map((f) => (
+      <div class="facon-card">
+        <h2>{f.titre}</h2>
+        <p>{f.description}</p>
+        <a href={f.lien}>{f.libelle} →</a>
+      </div>
+    ))}
+  </section>
+
+  <section class="derniers-ajouts">
+    <h2>{t.home.derniersAjouts}</h2>
+    <ul class="card-grid">
+      {derniersAjouts.map((entry) => <EntryCard entry={entry} locale={locale} />)}
+    </ul>
+  </section>
+
+  <form class="search-form" action={`${base}/revues`} method="get">
+    <label for="q">{t.home.searchLabel}</label>
+    <input id="q" type="search" name="q" placeholder={t.home.searchPlaceholder} />
+    <button type="submit">{t.home.searchButton}</button>
+  </form>
+</Layout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: var(--space-4) 0;
+  }
+
+  .button {
+    display: inline-block;
+    margin-top: var(--space-2);
+    padding: 0.75rem 1.5rem;
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .facons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-3);
+    margin: var(--space-4) 0;
+  }
+
+  .facon-card {
+    background: var(--color-bg-alt);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+  }
+
+  .search-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--color-bg-alt);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    margin-top: var(--space-4);
+  }
+
+  .search-form label {
+    font-weight: 500;
+    width: 100%;
+  }
+
+  .search-form input {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .search-form button {
+    padding: 0.5rem 1rem;
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 500;
+    cursor: pointer;
+  }
+</style>
