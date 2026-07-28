@@ -15,6 +15,12 @@ export const revue = defineType({
     }),
     defineField({ name: 'editeur', title: 'Éditeur', type: 'string' }),
     defineField({ name: 'numero', title: 'Numéro', type: 'string' }),
+    defineField({
+      name: 'dateParution',
+      title: 'Date de parution exacte',
+      type: 'date',
+      description: 'Optionnel : si connue, remplace l\'affichage de la décennie dans le titre (la décennie reste affichée en cartouche).',
+    }),
     defineField({ name: 'decennie', title: 'Décennie', type: 'reference', to: [{ type: 'decennie' }] }),
     defineField({
       name: 'categories',
