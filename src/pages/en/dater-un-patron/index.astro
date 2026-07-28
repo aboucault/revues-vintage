@@ -1,0 +1,9 @@
+---
+import DaterUnPatronPage from '../../../components/pages/DaterUnPatronPage.astro'
+import { fetchPochettesPatron } from '../../../lib/sanity'
+import { buildCatalog } from '../../../lib/catalog'
+
+const pochettes = await fetchPochettesPatron('en')
+const entries = buildCatalog([], pochettes, [])
+---
+<DaterUnPatronPage locale="en" entries={entries} />

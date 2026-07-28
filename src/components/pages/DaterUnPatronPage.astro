@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import CatalogBrowser from '../CatalogBrowser.astro'
+import { useTranslations } from '../../i18n'
+import type { Locale } from '../../i18n'
+import type { CatalogEntry } from '../../lib/catalog'
+
+interface Props {
+  locale: Locale
+  entries: CatalogEntry[]
+}
+
+const { locale, entries } = Astro.props
+const t = useTranslations(locale)
+---
+<Layout title={t.pages.daterUnPatronTitre} locale={locale}>
+  <h1>{t.pages.daterUnPatronTitre}</h1>
+  <p>{t.pages.daterUnPatronIntro}</p>
+  <CatalogBrowser entries={entries} locale={locale} showMarqueFilter showCaracteristiquesFilter />
+</Layout>

@@ -1,14 +1,9 @@
 ---
-import Layout from '../../layouts/Layout.astro'
-import CatalogBrowser from '../../components/CatalogBrowser.astro'
+import DaterUnPatronPage from '../../components/pages/DaterUnPatronPage.astro'
 import { fetchPochettesPatron } from '../../lib/sanity'
 import { buildCatalog } from '../../lib/catalog'
 
-const pochettes = await fetchPochettesPatron()
+const pochettes = await fetchPochettesPatron('fr')
 const entries = buildCatalog([], pochettes, [])
 ---
-<Layout title="Dater un patron">
-  <h1>Dater un patron</h1>
-  <p>Comparez votre patron aux pochettes de référence ci-dessous pour estimer sa période.</p>
-  <CatalogBrowser entries={entries} showMarqueFilter showCaracteristiquesFilter />
-</Layout>
+<DaterUnPatronPage locale="fr" entries={entries} />
