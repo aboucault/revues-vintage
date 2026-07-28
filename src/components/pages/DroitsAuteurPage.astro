@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import { useTranslations } from '../../i18n'
+import type { Locale } from '../../i18n'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const t = useTranslations(locale)
+---
+<Layout title={t.pages.droitsAuteurTitre} locale={locale}>
+  <h1>{t.pages.droitsAuteurTitre}</h1>
+  <p>{t.pages.droitsAuteurParagraphe1}</p>
+  <p>{t.pages.droitsAuteurParagraphe2}</p>
+</Layout>
