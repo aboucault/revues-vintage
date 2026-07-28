@@ -1,13 +1,9 @@
 ---
-import Layout from '../../layouts/Layout.astro'
-import CatalogBrowser from '../../components/CatalogBrowser.astro'
+import RevuesIndexPage from '../../components/pages/RevuesIndexPage.astro'
 import { fetchRevues } from '../../lib/sanity'
 import { buildCatalog } from '../../lib/catalog'
 
-const revues = await fetchRevues()
+const revues = await fetchRevues('fr')
 const entries = buildCatalog(revues, [], [])
 ---
-<Layout title="Consulter une revue vintage">
-  <h1>Consulter une revue vintage</h1>
-  <CatalogBrowser entries={entries} showTitreFilter showSearchInput />
-</Layout>
+<RevuesIndexPage locale="fr" entries={entries} />

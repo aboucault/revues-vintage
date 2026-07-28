@@ -1,0 +1,17 @@
+---
+import RevueDetailPage from '../../../components/pages/RevueDetailPage.astro'
+import { fetchRevues } from '../../../lib/sanity'
+import type { RevueDoc } from '../../../lib/sanity'
+
+export async function getStaticPaths() {
+  const revues = await fetchRevues('en')
+  return revues.map((revue) => ({ params: { slug: revue.slug }, props: { revue } }))
+}
+
+interface Props {
+  revue: RevueDoc
+}
+
+const { revue } = Astro.props as Props
+---
+<RevueDetailPage locale="en" revue={revue} />

@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import { useTranslations } from '../../i18n'
+import type { Locale } from '../../i18n'
+import type { RevueDoc } from '../../lib/sanity'
+
+interface Props {
+  locale: Locale
+  revue: RevueDoc
+}
+
+const { locale, revue } = Astro.props
+const t = useTranslations(locale)
+const downloadHref = revue.statutDroits === 'domaine-public' ? revue.urlScanComplet : undefined
+---
+<Layout title={revue.titre} locale={locale}>
+  <h1>{revue.titre}</h1>
+  <p>{revue.editeur} — {revue.numero}</p>
+  {revue.decennieLabel && <p>{t.revueDetail.periodeEstimee} {revue.decennieLabel}</p>}
+  {revue.couvertureUrl && <img src={revue.couvertureUrl} alt={revue.titre} width="300" />}
+  <div>
+    {revue.apercuPagesUrls.map((url) => (
+      <img src={url} alt={t.revueDetail.apercuAlt} width="300" />
+    ))}
+  </div>
+  {downloadHref && <a href={downloadHref} download>{t.revueDetail.telechargerLaRevueComplete}</a>}
+</Layout>

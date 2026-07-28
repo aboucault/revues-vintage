@@ -1,0 +1,9 @@
+---
+import RevuesIndexPage from '../../../components/pages/RevuesIndexPage.astro'
+import { fetchRevues } from '../../../lib/sanity'
+import { buildCatalog } from '../../../lib/catalog'
+
+const revues = await fetchRevues('en')
+const entries = buildCatalog(revues, [], [])
+---
+<RevuesIndexPage locale="en" entries={entries} />
