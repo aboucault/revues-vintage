@@ -1,0 +1,99 @@
+---
+import type { CatalogEntry } from '../lib/catalog'
+
+interface Props {
+  entries: CatalogEntry[]
+  showMarqueFilter?: boolean
+  showCaracteristiquesFilter?: boolean
+}
+
+const { entries, showMarqueFilter = false, showCaracteristiquesFilter = false } = Astro.props
+
+const categories = [...new Set(entries.flatMap((e) => e.categories))].sort()
+const decennies = [...new Set(entries.map((e) => e.decennieLabel).filter((v): v is string => Boolean(v)))].sort()
+const marques = showMarqueFilter
+  ? [...new Set(entries.map((e) => e.marqueNom).filter((v): v is string => Boolean(v)))].sort()
+  : []
+const caracteristiques = showCaracteristiquesFilter
+  ? [...new Set(entries.flatMap((e) => e.caracteristiquesStyle))].sort()
+  : []
+---
+<div class="catalog-browser">
+  <form id="filter-form">
+    <label>
+      Catégorie
+      <select name="categorie">
+        <option value="">Toutes</option>
+        {categories.map((c) => <option value={c}>{c}</option>)}
+      </select>
+    </label>
+    <label>
+      Décennie
+      <select name="decennieLabel">
+        <option value="">Toutes</option>
+        {decennies.map((d) => <option value={d}>{d}</option>)}
+      </select>
+    </label>
+    {showMarqueFilter && (
+      <label>
+        Marque
+        <select name="marqueNom">
+          <option value="">Toutes</option>
+          {marques.map((m) => <option value={m}>{m}</option>)}
+        </select>
+      </label>
+    )}
+    {showCaracteristiquesFilter && (
+      <label>
+        Caractéristique de style
+        <select name="caracteristiqueStyle">
+          <option value="">Toutes</option>
+          {caracteristiques.map((c) => <option value={c}>{c}</option>)}
+        </select>
+      </label>
+    )}
+  </form>
+  <ul id="results-list"></ul>
+</div>
+
+<script type="application/json" id="catalog-data" set:html={JSON.stringify(entries)} />
+
+<script>
+  import { filterCatalog } from '../lib/filter'
+  import type { CatalogEntry } from '../lib/catalog'
+
+  const dataEl = document.getElementById('catalog-data') as HTMLScriptElement
+  const entries: CatalogEntry[] = JSON.parse(dataEl.textContent ?? '[]')
+  const form = document.getElementById('filter-form') as HTMLFormElement
+  const resultsList = document.getElementById('results-list') as HTMLUListElement
+
+  function render(list: CatalogEntry[]) {
+    resultsList.innerHTML = list
+      .map(
+        (entry) => `
+      <li>
+        <a href="/${entry.type}/${entry.slug}">
+          ${entry.imageUrl ? `<img src="${entry.imageUrl}" alt="${entry.titre}" width="120" />` : ''}
+          <span>${entry.titre}</span>
+        </a>
+        ${entry.telechargementUrl ? `<a href="${entry.telechargementUrl}" download>Télécharger</a>` : ''}
+      </li>`
+      )
+      .join('')
+  }
+
+  function applyFilters() {
+    const formData = new FormData(form)
+    render(
+      filterCatalog(entries, {
+        categorie: (formData.get('categorie') as string) || undefined,
+        decennieLabel: (formData.get('decennieLabel') as string) || undefined,
+        marqueNom: (formData.get('marqueNom') as string) || undefined,
+        caracteristiqueStyle: (formData.get('caracteristiqueStyle') as string) || undefined,
+      })
+    )
+  }
+
+  form.addEventListener('change', applyFilters)
+  render(entries)
+</script>
