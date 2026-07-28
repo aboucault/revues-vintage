@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import CatalogBrowser from '../../components/CatalogBrowser.astro'
+import { fetchPatronsGratuits } from '../../lib/sanity'
+import { buildCatalog } from '../../lib/catalog'
+
+const patronsGratuits = await fetchPatronsGratuits()
+const entries = buildCatalog([], [], patronsGratuits)
+---
+<Layout title="Ressources gratuites">
+  <h1>Ressources gratuites</h1>
+  <CatalogBrowser entries={entries} />
+</Layout>
