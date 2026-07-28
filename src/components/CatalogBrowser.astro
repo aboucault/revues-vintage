@@ -8,7 +8,6 @@ interface Props {
   showCaracteristiquesFilter?: boolean
   showTitreFilter?: boolean
   showSearchInput?: boolean
-  initialQuery?: string
 }
 
 const {
@@ -17,7 +16,6 @@ const {
   showCaracteristiquesFilter = false,
   showTitreFilter = false,
   showSearchInput = false,
-  initialQuery = '',
 } = Astro.props
 
 const categorieOptions = buildFacetOptions(entries.flatMap((e) => e.categories))
@@ -37,7 +35,7 @@ const caracteristiqueOptions = showCaracteristiquesFilter
     {showSearchInput && (
       <label class="filter-group">
         Rechercher
-        <input type="search" name="q" value={initialQuery} placeholder="Ex : robe portefeuille 1948" />
+        <input type="search" name="q" placeholder="Ex : robe portefeuille 1948" />
       </label>
     )}
 
@@ -157,6 +155,14 @@ const caracteristiqueOptions = showCaracteristiquesFilter
     })
     const sort = (formData.get('sort') as SortOption) || 'recent'
     render(sortEntries(filtered, sort))
+  }
+
+  // Astro.url.searchParams n'est pas fiable en sortie statique (page pré-générée, sans requête
+  // par la suite) : le paramètre ?q= doit être lu côté client, pas côté serveur.
+  const searchInput = form.elements.namedItem('q') as HTMLInputElement | null
+  if (searchInput) {
+    const initialQuery = new URLSearchParams(window.location.search).get('q')
+    if (initialQuery) searchInput.value = initialQuery
   }
 
   form.addEventListener('input', applyFilters)
