@@ -34,3 +34,15 @@ wrangler r2 object put revues-vintage-scans/<nom-fichier>.pdf --file=<chemin-loc
 ```
 
 L'URL publique résultante est renseignée dans le champ `urlScanComplet` du document `revue` correspondant.
+
+## Déploiement Cloudflare Pages
+
+Le compte Cloudflare (et la connexion du dépôt GitHub) sont gérés par Aurélia directement dans le dashboard Cloudflare Pages :
+
+- Dépôt : `aboucault/revues-vintage`, branche `master`
+- Commande de build : `npm run build`
+- Répertoire de sortie : `dist`
+- Variables d'environnement à renseigner dans Cloudflare Pages (Settings → Environment variables) :
+  - `SANITY_PROJECT_ID` = `u6nnkwb0`
+  - `SANITY_DATASET` = `production`
+  - `SANITY_READ_TOKEN` = (le jeton de lecture, voir `.env` local — à ne jamais commiter)
