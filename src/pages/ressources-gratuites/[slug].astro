@@ -1,10 +1,10 @@
 ---
-import Layout from '../../layouts/Layout.astro'
+import RessourceGratuitePage from '../../components/pages/RessourceGratuitePage.astro'
 import { fetchPatronsGratuits } from '../../lib/sanity'
 import type { PatronGratuitDoc } from '../../lib/sanity'
 
 export async function getStaticPaths() {
-  const patronsGratuits = await fetchPatronsGratuits()
+  const patronsGratuits = await fetchPatronsGratuits('fr')
   return patronsGratuits.map((patron) => ({ params: { slug: patron.slug }, props: { patron } }))
 }
 
@@ -14,10 +14,4 @@ interface Props {
 
 const { patron } = Astro.props as Props
 ---
-<Layout title={patron.titre}>
-  <h1>{patron.titre}</h1>
-  {patron.description && <p>{patron.description}</p>}
-  {patron.statutDroits === 'domaine-public' && patron.fichierUrl && (
-    <a href={patron.fichierUrl} download>Télécharger le patron</a>
-  )}
-</Layout>
+<RessourceGratuitePage locale="fr" patron={patron} />

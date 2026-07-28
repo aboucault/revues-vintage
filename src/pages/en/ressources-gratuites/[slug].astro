@@ -1,0 +1,17 @@
+---
+import RessourceGratuitePage from '../../../components/pages/RessourceGratuitePage.astro'
+import { fetchPatronsGratuits } from '../../../lib/sanity'
+import type { PatronGratuitDoc } from '../../../lib/sanity'
+
+export async function getStaticPaths() {
+  const patronsGratuits = await fetchPatronsGratuits('en')
+  return patronsGratuits.map((patron) => ({ params: { slug: patron.slug }, props: { patron } }))
+}
+
+interface Props {
+  patron: PatronGratuitDoc
+}
+
+const { patron } = Astro.props as Props
+---
+<RessourceGratuitePage locale="en" patron={patron} />

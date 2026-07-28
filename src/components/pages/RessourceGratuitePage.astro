@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import { useTranslations } from '../../i18n'
+import type { Locale } from '../../i18n'
+import type { PatronGratuitDoc } from '../../lib/sanity'
+
+interface Props {
+  locale: Locale
+  patron: PatronGratuitDoc
+}
+
+const { locale, patron } = Astro.props
+const t = useTranslations(locale)
+const downloadHref = patron.statutDroits === 'domaine-public' ? patron.fichierUrl : undefined
+---
+<Layout title={patron.titre} locale={locale}>
+  <h1>{patron.titre}</h1>
+  {patron.description && <p>{patron.description}</p>}
+  {downloadHref && <a href={downloadHref} download>{t.patronGratuitDetail.telechargerLePatron}</a>}
+</Layout>

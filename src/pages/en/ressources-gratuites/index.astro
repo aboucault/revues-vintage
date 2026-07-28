@@ -1,0 +1,9 @@
+---
+import RessourcesGratuitesIndexPage from '../../../components/pages/RessourcesGratuitesIndexPage.astro'
+import { fetchPatronsGratuits } from '../../../lib/sanity'
+import { buildCatalog } from '../../../lib/catalog'
+
+const patronsGratuits = await fetchPatronsGratuits('en')
+const entries = buildCatalog([], [], patronsGratuits)
+---
+<RessourcesGratuitesIndexPage locale="en" entries={entries} />
