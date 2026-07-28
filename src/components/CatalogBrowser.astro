@@ -1,100 +1,208 @@
 ---
 import type { CatalogEntry } from '../lib/catalog'
+import { buildFacetOptions } from '../lib/facets'
 
 interface Props {
   entries: CatalogEntry[]
   showMarqueFilter?: boolean
   showCaracteristiquesFilter?: boolean
+  showTitreFilter?: boolean
+  showSearchInput?: boolean
+  initialQuery?: string
 }
 
-const { entries, showMarqueFilter = false, showCaracteristiquesFilter = false } = Astro.props
+const {
+  entries,
+  showMarqueFilter = false,
+  showCaracteristiquesFilter = false,
+  showTitreFilter = false,
+  showSearchInput = false,
+  initialQuery = '',
+} = Astro.props
 
-const categories = [...new Set(entries.flatMap((e) => e.categories))].sort()
-const decennies = [...new Set(entries.map((e) => e.decennieLabel).filter((v): v is string => Boolean(v)))].sort()
-const marques = showMarqueFilter
-  ? [...new Set(entries.map((e) => e.marqueNom).filter((v): v is string => Boolean(v)))].sort()
+const categorieOptions = buildFacetOptions(entries.flatMap((e) => e.categories))
+const decennieOptions = buildFacetOptions(
+  entries.map((e) => e.decennieLabel).filter((v): v is string => Boolean(v))
+)
+const titreOptions = showTitreFilter ? buildFacetOptions(entries.map((e) => e.titre)) : []
+const marqueOptions = showMarqueFilter
+  ? buildFacetOptions(entries.map((e) => e.marqueNom).filter((v): v is string => Boolean(v)))
   : []
-const caracteristiques = showCaracteristiquesFilter
-  ? [...new Set(entries.flatMap((e) => e.caracteristiquesStyle))].sort()
+const caracteristiqueOptions = showCaracteristiquesFilter
+  ? buildFacetOptions(entries.flatMap((e) => e.caracteristiquesStyle))
   : []
 ---
 <div class="catalog-browser">
-  <form id="filter-form">
-    <label>
-      Catégorie
-      <select name="categorie">
-        <option value="">Toutes</option>
-        {categories.map((c) => <option value={c}>{c}</option>)}
-      </select>
-    </label>
-    <label>
-      Décennie
-      <select name="decennieLabel">
-        <option value="">Toutes</option>
-        {decennies.map((d) => <option value={d}>{d}</option>)}
-      </select>
-    </label>
-    {showMarqueFilter && (
-      <label>
-        Marque
-        <select name="marqueNom">
-          <option value="">Toutes</option>
-          {marques.map((m) => <option value={m}>{m}</option>)}
-        </select>
+  <form id="filter-form" class="catalog-filters">
+    {showSearchInput && (
+      <label class="filter-group">
+        Rechercher
+        <input type="search" name="q" value={initialQuery} placeholder="Ex : robe portefeuille 1948" />
       </label>
     )}
-    {showCaracteristiquesFilter && (
-      <label>
-        Caractéristique de style
-        <select name="caracteristiqueStyle">
-          <option value="">Toutes</option>
-          {caracteristiques.map((c) => <option value={c}>{c}</option>)}
-        </select>
-      </label>
+
+    {decennieOptions.length > 0 && (
+      <fieldset class="filter-group">
+        <legend>Décennie</legend>
+        {decennieOptions.map((option) => (
+          <label class="filter-option">
+            <input type="checkbox" name="decennies" value={option.value} />
+            {option.value} ({option.count})
+          </label>
+        ))}
+      </fieldset>
     )}
+
+    {showTitreFilter && titreOptions.length > 0 && (
+      <fieldset class="filter-group">
+        <legend>Titre de revue</legend>
+        {titreOptions.map((option) => (
+          <label class="filter-option">
+            <input type="checkbox" name="titres" value={option.value} />
+            {option.value} ({option.count})
+          </label>
+        ))}
+      </fieldset>
+    )}
+
+    {categorieOptions.length > 0 && (
+      <fieldset class="filter-group">
+        <legend>Catégorie</legend>
+        {categorieOptions.map((option) => (
+          <label class="filter-option">
+            <input type="checkbox" name="categories" value={option.value} />
+            {option.value} ({option.count})
+          </label>
+        ))}
+      </fieldset>
+    )}
+
+    {showMarqueFilter && marqueOptions.length > 0 && (
+      <fieldset class="filter-group">
+        <legend>Marque</legend>
+        {marqueOptions.map((option) => (
+          <label class="filter-option">
+            <input type="checkbox" name="marques" value={option.value} />
+            {option.value} ({option.count})
+          </label>
+        ))}
+      </fieldset>
+    )}
+
+    {showCaracteristiquesFilter && caracteristiqueOptions.length > 0 && (
+      <fieldset class="filter-group">
+        <legend>Caractéristique de style</legend>
+        {caracteristiqueOptions.map((option) => (
+          <label class="filter-option">
+            <input type="checkbox" name="caracteristiques" value={option.value} />
+            {option.value} ({option.count})
+          </label>
+        ))}
+      </fieldset>
+    )}
+
+    <label class="filter-group">
+      Trier par
+      <select name="sort">
+        <option value="recent">Plus récents</option>
+        <option value="titre-asc">Titre (A→Z)</option>
+      </select>
+    </label>
   </form>
-  <ul id="results-list"></ul>
+
+  <div class="catalog-results">
+    <p id="result-count" class="result-count"></p>
+    <ul id="results-list" class="card-grid"></ul>
+    <p id="empty-state" class="empty-state" hidden>
+      Aucun résultat. Essayez de modifier vos filtres ou votre recherche.
+    </p>
+  </div>
 </div>
 
 <script type="application/json" id="catalog-data" set:html={JSON.stringify(entries)} />
 
 <script>
   import { filterCatalog } from '../lib/filter'
+  import { sortEntries } from '../lib/sort'
+  import { renderEntryCardHtml } from '../lib/card'
   import type { CatalogEntry } from '../lib/catalog'
+  import type { SortOption } from '../lib/sort'
 
   const dataEl = document.getElementById('catalog-data') as HTMLScriptElement
   const entries: CatalogEntry[] = JSON.parse(dataEl.textContent ?? '[]')
   const form = document.getElementById('filter-form') as HTMLFormElement
   const resultsList = document.getElementById('results-list') as HTMLUListElement
+  const resultCount = document.getElementById('result-count') as HTMLParagraphElement
+  const emptyState = document.getElementById('empty-state') as HTMLParagraphElement
 
-  // Les Pochettes de patron n'ont pas de page de détail (V1) : pas de lien de navigation pour ce type.
+  function getCheckedValues(name: string): string[] {
+    return new FormData(form).getAll(name).map(String)
+  }
+
   function render(list: CatalogEntry[]) {
-    resultsList.innerHTML = list
-      .map((entry) => {
-        const media = `${entry.imageUrl ? `<img src="${entry.imageUrl}" alt="${entry.titre}" width="120" />` : ''}<span>${entry.titre}</span>`
-        const item =
-          entry.type === 'pochette-patron' ? media : `<a href="/${entry.type}/${entry.slug}">${media}</a>`
-        return `
-      <li>
-        ${item}
-        ${entry.telechargementUrl ? `<a href="${entry.telechargementUrl}" download>Télécharger</a>` : ''}
-      </li>`
-      })
-      .join('')
+    resultsList.innerHTML = list.map(renderEntryCardHtml).join('')
+    resultCount.textContent = `${list.length} résultat${list.length > 1 ? 's' : ''}`
+    emptyState.hidden = list.length > 0
   }
 
   function applyFilters() {
     const formData = new FormData(form)
-    render(
-      filterCatalog(entries, {
-        categorie: (formData.get('categorie') as string) || undefined,
-        decennieLabel: (formData.get('decennieLabel') as string) || undefined,
-        marqueNom: (formData.get('marqueNom') as string) || undefined,
-        caracteristiqueStyle: (formData.get('caracteristiqueStyle') as string) || undefined,
-      })
-    )
+    const filtered = filterCatalog(entries, {
+      q: (formData.get('q') as string) || undefined,
+      categories: getCheckedValues('categories'),
+      marques: getCheckedValues('marques'),
+      decennies: getCheckedValues('decennies'),
+      caracteristiques: getCheckedValues('caracteristiques'),
+      titres: getCheckedValues('titres'),
+    })
+    const sort = (formData.get('sort') as SortOption) || 'recent'
+    render(sortEntries(filtered, sort))
   }
 
-  form.addEventListener('change', applyFilters)
-  render(entries)
+  form.addEventListener('input', applyFilters)
+  applyFilters()
 </script>
+
+<style>
+  .catalog-browser {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .catalog-filters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    background: var(--color-bg-alt);
+    border-radius: var(--radius);
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .filter-option {
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .result-count {
+    color: var(--color-text);
+    opacity: 0.75;
+  }
+
+  .empty-state {
+    opacity: 0.75;
+  }
+</style>

@@ -44,3 +44,62 @@ a {
 button {
   font-family: var(--font-body);
 }
+
+.card-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-3);
+  padding: 0;
+  margin: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius);
+  padding: var(--space-2);
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: calc(var(--radius) / 2);
+}
+
+.card a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.badge {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  color: var(--color-primary-contrast);
+}
+
+.badge--primary {
+  background: var(--color-primary);
+}
+
+.badge--accent {
+  background: var(--color-accent);
+}
+
+.card-title {
+  font-weight: 500;
+}
+
+.card-download {
+  color: var(--color-primary);
+  font-weight: 600;
+}
