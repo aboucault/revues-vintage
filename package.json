@@ -17,6 +17,7 @@
     "astro": "^7.1.4"
   },
   "devDependencies": {
+    "sanity": "^6.6.0",
     "vitest": "^4.1.10"
   }
 }
