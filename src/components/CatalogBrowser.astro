@@ -67,18 +67,19 @@ const caracteristiques = showCaracteristiquesFilter
   const form = document.getElementById('filter-form') as HTMLFormElement
   const resultsList = document.getElementById('results-list') as HTMLUListElement
 
+  // Les Pochettes de patron n'ont pas de page de détail (V1) : pas de lien de navigation pour ce type.
   function render(list: CatalogEntry[]) {
     resultsList.innerHTML = list
-      .map(
-        (entry) => `
+      .map((entry) => {
+        const media = `${entry.imageUrl ? `<img src="${entry.imageUrl}" alt="${entry.titre}" width="120" />` : ''}<span>${entry.titre}</span>`
+        const item =
+          entry.type === 'pochette-patron' ? media : `<a href="/${entry.type}/${entry.slug}">${media}</a>`
+        return `
       <li>
-        <a href="/${entry.type}/${entry.slug}">
-          ${entry.imageUrl ? `<img src="${entry.imageUrl}" alt="${entry.titre}" width="120" />` : ''}
-          <span>${entry.titre}</span>
-        </a>
+        ${item}
         ${entry.telechargementUrl ? `<a href="${entry.telechargementUrl}" download>Télécharger</a>` : ''}
       </li>`
-      )
+      })
       .join('')
   }
 

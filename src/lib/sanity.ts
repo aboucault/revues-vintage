@@ -5,7 +5,9 @@ export const sanityClient = createClient({
   dataset: import.meta.env.SANITY_DATASET ?? 'production',
   apiVersion: '2024-01-01',
   token: import.meta.env.SANITY_READ_TOKEN,
-  useCdn: true,
+  // Le site se reconstruit à chaque publication (webhook Sanity → Cloudflare Pages),
+  // donc chaque build doit lire l'API en direct plutôt que le CDN mis en cache.
+  useCdn: false,
 })
 
 export type StatutDroits = 'domaine-public' | 'incertain' | 'protege'
@@ -58,7 +60,7 @@ const REVUE_QUERY = `*[_type == "revue"]{
   "categories": categories[]->nom,
   statutDroits,
   "couvertureUrl": couverture.asset->url,
-  "apercuPagesUrls": apercuPages[].asset->url,
+  "apercuPagesUrls": coalesce(apercuPages[].asset->url, []),
   urlScanComplet
 }`
 
@@ -74,7 +76,7 @@ const POCHETTE_QUERY = `*[_type == "pochettePatron"]{
   numeroPatron,
   "categories": categories[]->nom,
   "decennieLabel": decennie->label,
-  caracteristiquesStyle,
+  "caracteristiquesStyle": coalesce(caracteristiquesStyle, []),
   "imageRectoUrl": imageRecto.asset->url,
   "imageVersoUrl": imageVerso.asset->url
 }`
