@@ -13,7 +13,15 @@ export const patronGratuit = defineType({
       options: { source: 'titre' },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({ name: 'description', title: 'Description', type: 'text' }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'object',
+      fields: [
+        defineField({ name: 'fr', title: 'Français', type: 'text' }),
+        defineField({ name: 'en', title: 'Anglais', type: 'text' }),
+      ],
+    }),
     defineField({
       name: 'categories',
       title: 'Catégories',
