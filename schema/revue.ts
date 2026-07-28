@@ -40,9 +40,9 @@ export const revue = defineType({
     defineField({ name: 'apercuPages', title: 'Aperçu de pages', type: 'array', of: [{ type: 'image' }] }),
     defineField({
       name: 'urlScanComplet',
-      title: 'URL du scan complet (Cloudflare R2)',
-      type: 'url',
-      description: 'Renseigné uniquement si statutDroits = domaine-public',
+      title: 'Scan complet',
+      type: 'file',
+      description: 'Le lien de lecture n\'est affiché publiquement que si statutDroits = domaine-public',
     }),
   ],
 })

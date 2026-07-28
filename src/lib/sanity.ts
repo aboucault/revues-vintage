@@ -66,7 +66,7 @@ const REVUE_QUERY = `*[_type == "revue"]{
   statutDroits,
   "couvertureUrl": couverture.asset->url,
   "apercuPagesUrls": coalesce(apercuPages[].asset->url, []),
-  urlScanComplet
+  "urlScanComplet": urlScanComplet.asset->url
 }`
 
 export async function fetchRevues(locale: Locale): Promise<RevueDoc[]> {
