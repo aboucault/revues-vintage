@@ -1,4 +1,5 @@
 import { createClient } from '@sanity/client'
+import type { Locale } from '../i18n'
 
 export const sanityClient = createClient({
   projectId: import.meta.env.SANITY_PROJECT_ID,
@@ -60,16 +61,16 @@ const REVUE_QUERY = `*[_type == "revue"]{
   "slug": slug.current,
   editeur,
   numero,
-  "decennieLabel": decennie->label,
-  "categories": categories[]->nom,
+  "decennieLabel": decennie->label[$locale],
+  "categories": categories[]->nom[$locale],
   statutDroits,
   "couvertureUrl": couverture.asset->url,
   "apercuPagesUrls": coalesce(apercuPages[].asset->url, []),
   urlScanComplet
 }`
 
-export async function fetchRevues(): Promise<RevueDoc[]> {
-  return sanityClient.fetch(REVUE_QUERY)
+export async function fetchRevues(locale: Locale): Promise<RevueDoc[]> {
+  return sanityClient.fetch(REVUE_QUERY, { locale })
 }
 
 const POCHETTE_QUERY = `*[_type == "pochettePatron"]{
@@ -79,15 +80,15 @@ const POCHETTE_QUERY = `*[_type == "pochettePatron"]{
   "slug": slug.current,
   "marqueNom": marque->nom,
   numeroPatron,
-  "categories": categories[]->nom,
-  "decennieLabel": decennie->label,
+  "categories": categories[]->nom[$locale],
+  "decennieLabel": decennie->label[$locale],
   "caracteristiquesStyle": coalesce(caracteristiquesStyle, []),
   "imageRectoUrl": imageRecto.asset->url,
   "imageVersoUrl": imageVerso.asset->url
 }`
 
-export async function fetchPochettesPatron(): Promise<PochettePatronDoc[]> {
-  return sanityClient.fetch(POCHETTE_QUERY)
+export async function fetchPochettesPatron(locale: Locale): Promise<PochettePatronDoc[]> {
+  return sanityClient.fetch(POCHETTE_QUERY, { locale })
 }
 
 const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
@@ -95,13 +96,13 @@ const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
   _createdAt,
   titre,
   "slug": slug.current,
-  description,
-  "categories": categories[]->nom,
+  "description": description[$locale],
+  "categories": categories[]->nom[$locale],
   "revueSourceSlug": revueSource->slug.current,
   "fichierUrl": fichierPatron.asset->url,
   statutDroits
 }`
 
-export async function fetchPatronsGratuits(): Promise<PatronGratuitDoc[]> {
-  return sanityClient.fetch(PATRON_GRATUIT_QUERY)
+export async function fetchPatronsGratuits(locale: Locale): Promise<PatronGratuitDoc[]> {
+  return sanityClient.fetch(PATRON_GRATUIT_QUERY, { locale })
 }

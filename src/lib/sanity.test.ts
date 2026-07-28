@@ -7,37 +7,37 @@ vi.mock('@sanity/client', () => ({
 }))
 
 describe('fetchRevues', () => {
-  it('interroge Sanity avec la requête GROQ des revues et retourne le résultat', async () => {
+  it('interroge Sanity avec la requête GROQ des revues et la locale demandée', async () => {
     const { fetchRevues } = await import('./sanity')
     fetchMock.mockResolvedValueOnce([{ _id: '1', titre: 'Modes & Travaux 1958' }])
 
-    const result = await fetchRevues()
+    const result = await fetchRevues('fr')
 
-    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('_type == "revue"'))
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('_type == "revue"'), { locale: 'fr' })
     expect(result).toEqual([{ _id: '1', titre: 'Modes & Travaux 1958' }])
   })
 })
 
 describe('fetchPochettesPatron', () => {
-  it('interroge Sanity avec la requête GROQ des pochettes de patron', async () => {
+  it('interroge Sanity avec la requête GROQ des pochettes de patron et la locale demandée', async () => {
     const { fetchPochettesPatron } = await import('./sanity')
     fetchMock.mockResolvedValueOnce([{ _id: '2', titre: 'Vogue 1234' }])
 
-    const result = await fetchPochettesPatron()
+    const result = await fetchPochettesPatron('en')
 
-    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('_type == "pochettePatron"'))
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('_type == "pochettePatron"'), { locale: 'en' })
     expect(result).toEqual([{ _id: '2', titre: 'Vogue 1234' }])
   })
 })
 
 describe('fetchPatronsGratuits', () => {
-  it('interroge Sanity avec la requête GROQ des patrons gratuits', async () => {
+  it('interroge Sanity avec la requête GROQ des patrons gratuits et la locale demandée', async () => {
     const { fetchPatronsGratuits } = await import('./sanity')
     fetchMock.mockResolvedValueOnce([{ _id: '3', titre: 'Robe à smocks' }])
 
-    const result = await fetchPatronsGratuits()
+    const result = await fetchPatronsGratuits('fr')
 
-    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('_type == "patronGratuit"'))
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('_type == "patronGratuit"'), { locale: 'fr' })
     expect(result).toEqual([{ _id: '3', titre: 'Robe à smocks' }])
   })
 })
