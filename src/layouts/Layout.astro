@@ -1,25 +1,93 @@
 ---
+import '../styles/global.css'
+
 interface Props {
   title: string
 }
 const { title } = Astro.props
+
+const navLinks = [
+  { href: '/', label: 'Accueil' },
+  { href: '/revues', label: 'Revues' },
+  { href: '/dater-un-patron', label: 'Dater un patron' },
+  { href: '/ressources-gratuites', label: 'Ressources gratuites' },
+  { href: '/droits-auteur', label: "Droits d'auteur" },
+]
+
+const currentPath = Astro.url.pathname
+function isActive(href: string) {
+  return href === '/' ? currentPath === '/' : currentPath.startsWith(href)
+}
 ---
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <title>{title} — Revues Vintage</title>
   </head>
   <body>
-    <nav>
-      <a href="/">Accueil</a>
-      <a href="/revues">Consulter une revue vintage</a>
-      <a href="/dater-un-patron">Dater un patron</a>
-      <a href="/ressources-gratuites">Ressources gratuites</a>
-      <a href="/droits-auteur">Droits d'auteur</a>
-    </nav>
+    <header class="site-header">
+      <a class="logo" href="/">Revues Vintage</a>
+      <nav class="site-nav">
+        {navLinks.map((link) => (
+          <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))}
+      </nav>
+    </header>
     <main>
       <slot />
     </main>
   </body>
 </html>
+
+<style>
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .site-nav {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .site-nav a {
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 500;
+    padding-bottom: 0.2rem;
+  }
+
+  .site-nav a[aria-current='page'] {
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+  }
+
+  main {
+    padding: var(--space-4);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+</style>

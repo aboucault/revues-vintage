@@ -1,0 +1,46 @@
+:root {
+  --color-bg: #f7f1e6;
+  --color-bg-alt: #efe6d8;
+  --color-text: #3a2e22;
+  --color-primary: #1f3d2e;
+  --color-primary-contrast: #f7f1e6;
+  --color-accent: #7a2331;
+  --color-border: #dcd0bc;
+
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+button {
+  font-family: var(--font-body);
+}
