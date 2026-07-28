@@ -1,25 +1,34 @@
 ---
 import '../styles/global.css'
+import { useTranslations, switchLocalePath } from '../i18n'
+import type { Locale } from '../i18n'
 
 interface Props {
   title: string
+  locale: Locale
 }
-const { title } = Astro.props
+const { title, locale } = Astro.props
+const t = useTranslations(locale)
+const base = locale === 'en' ? '/en' : ''
 
 const navLinks = [
-  { href: '/', label: 'Accueil' },
-  { href: '/revues', label: 'Revues' },
-  { href: '/dater-un-patron', label: 'Dater un patron' },
-  { href: '/ressources-gratuites', label: 'Ressources gratuites' },
-  { href: '/droits-auteur', label: "Droits d'auteur" },
+  { href: base || '/', label: t.nav.accueil },
+  { href: `${base}/revues`, label: t.nav.revues },
+  { href: `${base}/dater-un-patron`, label: t.nav.daterUnPatron },
+  { href: `${base}/ressources-gratuites`, label: t.nav.ressourcesGratuites },
+  { href: `${base}/droits-auteur`, label: t.nav.droitsAuteur },
 ]
 
 const currentPath = Astro.url.pathname
+const homeHref = base || '/'
 function isActive(href: string) {
-  return href === '/' ? currentPath === '/' : currentPath.startsWith(href)
+  return href === homeHref ? currentPath === href : currentPath.startsWith(href)
 }
+
+const otherLocale: Locale = locale === 'fr' ? 'en' : 'fr'
+const otherLocalePath = switchLocalePath(currentPath, otherLocale)
 ---
-<html lang="fr">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,13 +42,14 @@ function isActive(href: string) {
   </head>
   <body>
     <header class="site-header">
-      <a class="logo" href="/">Revues Vintage</a>
+      <a class="logo" href={homeHref}>Revues Vintage</a>
       <nav class="site-nav">
         {navLinks.map((link) => (
           <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
             {link.label}
           </a>
         ))}
+        <a class="lang-switch" href={otherLocalePath}>{t.langSwitch.label}</a>
       </nav>
     </header>
     <main>
@@ -69,6 +79,7 @@ function isActive(href: string) {
 
   .site-nav {
     display: flex;
+    align-items: center;
     gap: var(--space-3);
     flex-wrap: wrap;
   }
@@ -83,6 +94,12 @@ function isActive(href: string) {
   .site-nav a[aria-current='page'] {
     color: var(--color-primary);
     border-bottom: 2px solid var(--color-primary);
+  }
+
+  .lang-switch {
+    opacity: 0.75;
+    border-left: 1px solid var(--color-border);
+    padding-left: var(--space-3);
   }
 
   main {
