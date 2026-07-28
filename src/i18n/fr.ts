@@ -53,6 +53,8 @@ export const fr: Dictionary = {
     periodeEstimee: 'Période estimée :',
     apercuAlt: 'Aperçu de page',
     telechargerLaRevueComplete: 'Télécharger la revue complète',
+    lireEnLigne: 'Lire en ligne',
+    ouvrirLePdf: 'Ouvrir le PDF',
   },
   patronGratuitDetail: {
     telechargerLePatron: 'Télécharger le patron',

@@ -50,6 +50,8 @@ export interface Dictionary {
     periodeEstimee: string
     apercuAlt: string
     telechargerLaRevueComplete: string
+    lireEnLigne: string
+    ouvrirLePdf: string
   }
   patronGratuitDetail: {
     telechargerLePatron: string

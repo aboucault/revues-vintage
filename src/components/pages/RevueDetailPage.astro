@@ -24,4 +24,18 @@ const downloadHref = revue.statutDroits === 'domaine-public' ? revue.urlScanComp
     ))}
   </div>
   {downloadHref && <a href={downloadHref} download>{t.revueDetail.telechargerLaRevueComplete}</a>}
+  {revue.urlScanComplet && (
+    <section>
+      <h2>{t.revueDetail.lireEnLigne}</h2>
+      <iframe
+        src={revue.urlScanComplet}
+        title={revue.titre}
+        width="100%"
+        height="800"
+        style="height: 80vh; border: 1px solid #ccc;"
+      >
+        <a href={revue.urlScanComplet}>{t.revueDetail.ouvrirLePdf}</a>
+      </iframe>
+    </section>
+  )}
 </Layout>
