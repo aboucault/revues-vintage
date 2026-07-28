@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import { fetchRevues } from '../../lib/sanity'
+import type { RevueDoc } from '../../lib/sanity'
+
+export async function getStaticPaths() {
+  const revues = await fetchRevues()
+  return revues.map((revue) => ({ params: { slug: revue.slug }, props: { revue } }))
+}
+
+interface Props {
+  revue: RevueDoc
+}
+
+const { revue } = Astro.props as Props
+---
+<Layout title={revue.titre}>
+  <h1>{revue.titre}</h1>
+  <p>{revue.editeur} — {revue.numero}</p>
+  {revue.decennieLabel && <p>Période estimée : {revue.decennieLabel}</p>}
+  {revue.couvertureUrl && <img src={revue.couvertureUrl} alt={revue.titre} width="300" />}
+  <div>
+    {revue.apercuPagesUrls.map((url) => (
+      <img src={url} alt="Aperçu de page" width="300" />
+    ))}
+  </div>
+  {revue.statutDroits === 'domaine-public' && revue.urlScanComplet && (
+    <a href={revue.urlScanComplet} download>Télécharger la revue complète</a>
+  )}
+</Layout>
