@@ -1,0 +1,46 @@
+import { describe, expect, it } from 'vitest'
+import { useTranslations, getLocaleFromUrl, switchLocalePath } from './index'
+
+describe('useTranslations', () => {
+  it('retourne le dictionnaire français pour la locale fr', () => {
+    const t = useTranslations('fr')
+    expect(t.nav.accueil).toBe('Accueil')
+    expect(t.badges.pochettePatron).toBe('Pochette à dater')
+  })
+
+  it('retourne le dictionnaire anglais pour la locale en', () => {
+    const t = useTranslations('en')
+    expect(t.nav.accueil).toBe('Home')
+    expect(t.badges.pochettePatron).toBe('Pattern to date')
+  })
+})
+
+describe('getLocaleFromUrl', () => {
+  it('détecte la locale anglaise sur un chemin préfixé /en/', () => {
+    expect(getLocaleFromUrl('/en/revues')).toBe('en')
+  })
+
+  it('détecte la locale anglaise sur la racine /en', () => {
+    expect(getLocaleFromUrl('/en')).toBe('en')
+  })
+
+  it('retourne la locale française par défaut', () => {
+    expect(getLocaleFromUrl('/revues')).toBe('fr')
+    expect(getLocaleFromUrl('/')).toBe('fr')
+  })
+})
+
+describe('switchLocalePath', () => {
+  it('ajoute le préfixe /en pour basculer vers l’anglais', () => {
+    expect(switchLocalePath('/revues', 'en')).toBe('/en/revues')
+  })
+
+  it('retire le préfixe /en pour basculer vers le français', () => {
+    expect(switchLocalePath('/en/revues', 'fr')).toBe('/revues')
+  })
+
+  it('gère la racine dans les deux sens', () => {
+    expect(switchLocalePath('/', 'en')).toBe('/en')
+    expect(switchLocalePath('/en', 'fr')).toBe('/')
+  })
+})
