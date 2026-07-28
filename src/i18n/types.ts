@@ -47,8 +47,6 @@ export interface Dictionary {
     telecharger: string
   }
   revueDetail: {
-    periodeEstimee: string
-    apercuAlt: string
     telechargerLaRevueComplete: string
     lireEnLigne: string
     ouvrirLePdf: string

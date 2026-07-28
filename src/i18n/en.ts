@@ -50,8 +50,6 @@ export const en: Dictionary = {
     telecharger: 'Download',
   },
   revueDetail: {
-    periodeEstimee: 'Estimated period:',
-    apercuAlt: 'Page preview',
     telechargerLaRevueComplete: 'Download the full magazine',
     lireEnLigne: 'Read online',
     ouvrirLePdf: 'Open the PDF',
