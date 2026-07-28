@@ -4,6 +4,7 @@ export type CatalogEntryType = 'revue' | 'pochette-patron' | 'patron-gratuit'
 
 export interface CatalogEntry {
   id: string
+  createdAt: string
   type: CatalogEntryType
   titre: string
   slug: string
@@ -22,6 +23,7 @@ export function buildCatalog(
 ): CatalogEntry[] {
   const revueEntries: CatalogEntry[] = revues.map((r) => ({
     id: r._id,
+    createdAt: r._createdAt,
     type: 'revue',
     titre: r.titre,
     slug: r.slug,
@@ -34,6 +36,7 @@ export function buildCatalog(
 
   const pochetteEntries: CatalogEntry[] = pochettes.map((p) => ({
     id: p._id,
+    createdAt: p._createdAt,
     type: 'pochette-patron',
     titre: p.titre,
     slug: p.slug,
@@ -47,6 +50,7 @@ export function buildCatalog(
 
   const patronGratuitEntries: CatalogEntry[] = patronsGratuits.map((p) => ({
     id: p._id,
+    createdAt: p._createdAt,
     type: 'patron-gratuit',
     titre: p.titre,
     slug: p.slug,

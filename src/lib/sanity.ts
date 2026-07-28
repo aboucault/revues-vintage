@@ -14,6 +14,7 @@ export type StatutDroits = 'domaine-public' | 'incertain' | 'protege'
 
 export interface RevueDoc {
   _id: string
+  _createdAt: string
   titre: string
   slug: string
   editeur?: string
@@ -28,6 +29,7 @@ export interface RevueDoc {
 
 export interface PochettePatronDoc {
   _id: string
+  _createdAt: string
   titre: string
   slug: string
   marqueNom?: string
@@ -41,6 +43,7 @@ export interface PochettePatronDoc {
 
 export interface PatronGratuitDoc {
   _id: string
+  _createdAt: string
   titre: string
   slug: string
   description?: string
@@ -52,6 +55,7 @@ export interface PatronGratuitDoc {
 
 const REVUE_QUERY = `*[_type == "revue"]{
   _id,
+  _createdAt,
   titre,
   "slug": slug.current,
   editeur,
@@ -70,6 +74,7 @@ export async function fetchRevues(): Promise<RevueDoc[]> {
 
 const POCHETTE_QUERY = `*[_type == "pochettePatron"]{
   _id,
+  _createdAt,
   titre,
   "slug": slug.current,
   "marqueNom": marque->nom,
@@ -87,6 +92,7 @@ export async function fetchPochettesPatron(): Promise<PochettePatronDoc[]> {
 
 const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
   _id,
+  _createdAt,
   titre,
   "slug": slug.current,
   description,
