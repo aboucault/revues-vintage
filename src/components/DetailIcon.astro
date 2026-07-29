@@ -1,0 +1,34 @@
+---
+export type IconName = 'calendar' | 'building' | 'hash' | 'tags'
+
+interface Props {
+  name: IconName
+}
+
+const { name } = Astro.props
+
+const paths: Record<IconName, string> = {
+  calendar: '<rect x="3" y="4" width="14" height="13" rx="1.5"/><path d="M3 8h14M7 2.5v3M13 2.5v3"/>',
+  building: '<rect x="4" y="3" width="12" height="14" rx="1"/><path d="M7 7h1M12 7h1M7 10h1M12 10h1M7 13h1M12 13h1"/>',
+  hash: '<path d="M7 3l-1.5 14M14 3l-1.5 14M3.5 8h13M3 12.5h13"/>',
+  tags: '<path d="M11 3H4v7l8.5 8.5a1.5 1.5 0 0 0 2.12 0l3.88-3.88a1.5 1.5 0 0 0 0-2.12L11 3Z"/><circle cx="7.5" cy="7.5" r="1"/>',
+}
+---
+<svg
+  class="detail-icon"
+  viewBox="0 0 20 20"
+  width="16"
+  height="16"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  set:html={paths[name]}
+/>
+<style>
+  .detail-icon {
+    flex-shrink: 0;
+    color: var(--color-primary);
+  }
+</style>
