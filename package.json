@@ -10,7 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "vitest run"
+    "test": "vitest run",
+    "studio": "sanity dev",
+    "studio:deploy": "sanity deploy"
   },
   "dependencies": {
     "@sanity/client": "^7.25.0",
@@ -18,7 +20,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@sanity/vision": "^6.7.0",
     "sanity": "^6.6.0",
+    "styled-components": "^6.4.4",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10"
   }

@@ -2,6 +2,8 @@
 dist/
 # generated types
 .astro/
+# Sanity CLI local cache
+.sanity/
 
 # dependencies
 node_modules/
