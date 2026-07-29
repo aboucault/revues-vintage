@@ -43,7 +43,9 @@ const otherLocalePath = switchLocalePath(currentPath, otherLocale)
   </head>
   <body>
     <header class="site-header">
-      <a class="logo" href={homeHref}>Revues Vintage</a>
+      <a class="logo" href={homeHref}>
+        <img src="/logo.png" alt="Les Revues Vintage" width="1240" height="217" />
+      </a>
       <nav class="site-nav">
         {navLinks.map((link) => (
           <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
@@ -71,11 +73,13 @@ const otherLocalePath = switchLocalePath(currentPath, otherLocale)
   }
 
   .logo {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-primary);
-    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .logo img {
+    height: 40px;
+    width: auto;
   }
 
   .site-nav {
