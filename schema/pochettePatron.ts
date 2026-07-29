@@ -24,6 +24,30 @@ export const pochettePatron = defineType({
     }),
     defineField({ name: 'decennie', title: 'Décennie', type: 'reference', to: [{ type: 'decennie' }] }),
     defineField({
+      name: 'annee',
+      title: 'Année',
+      type: 'number',
+      description: 'Optionnel : année seule quand la date complète n\'est pas connue.',
+    }),
+    defineField({
+      name: 'dateParution',
+      title: 'Date de parution exacte',
+      type: 'date',
+      description: 'Optionnel : date complète de la revue source, quand elle est connue.',
+    }),
+    defineField({
+      name: 'precisionDate',
+      title: 'Précision de la date',
+      type: 'string',
+      description: 'À remplir seulement si année ou date de parution est renseignée.',
+      options: {
+        list: [
+          { title: 'Certaine (confirmée dans une revue)', value: 'certaine' },
+          { title: 'Déduite (style + numéro, non confirmée)', value: 'deduite' },
+        ],
+      },
+    }),
+    defineField({
       name: 'caracteristiquesStyle',
       title: 'Caractéristiques de style',
       type: 'array',
