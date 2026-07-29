@@ -25,16 +25,19 @@ export interface Dictionary {
     searchButton: string
   }
   catalog: {
-    searchLabel: string
-    searchPlaceholder: string
     decennie: string
     titreRevue: string
     categorie: string
     marque: string
     caracteristiqueStyle: string
-    trierPar: string
+    rechercherTitrePlaceholder: string
+    trierPrefixe: string
     triRecent: string
     triTitreAsc: string
+    reinitialiser: string
+    pagePrecedente: string
+    pageSuivante: string
+    pageIndicateur: (page: number, total: number) => string
     resultat: (count: number) => string
     emptyState: string
   }
@@ -45,6 +48,7 @@ export interface Dictionary {
   }
   card: {
     telecharger: string
+    numero: (numero: string) => string
   }
   revueDetail: {
     telechargerLaRevueComplete: string

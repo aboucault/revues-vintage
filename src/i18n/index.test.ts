@@ -20,6 +20,18 @@ describe('useTranslations', () => {
     expect(t.detailPage.partage).toBe('Partage')
     expect(t.pochettePatronDetail.marqueLabel).toBe('Marque')
   })
+
+  it('expose les nouvelles clés du catalogue restylé', () => {
+    const t = useTranslations('fr')
+    expect(t.catalog.reinitialiser).toBe('Réinitialiser les filtres')
+    expect(t.catalog.pageIndicateur(2, 5)).toBe('Page 2 / 5')
+    expect(t.card.numero('39')).toBe('n°39')
+
+    const en = useTranslations('en')
+    expect(en.catalog.reinitialiser).toBe('Reset filters')
+    expect(en.catalog.pageIndicateur(2, 5)).toBe('Page 2 of 5')
+    expect(en.card.numero('39')).toBe('No. 39')
+  })
 })
 
 describe('getLocaleFromUrl', () => {
