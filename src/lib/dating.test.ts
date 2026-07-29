@@ -18,12 +18,12 @@ describe('formatAnneeOuDate', () => {
 describe('getPrecisionBadge', () => {
   const labels = { certaine: 'Date confirmée', deduite: 'Date estimée' }
 
-  it('renvoie le badge "certaine" en variante primary', () => {
-    expect(getPrecisionBadge(true, 'certaine', labels)).toEqual({ label: 'Date confirmée', variant: 'primary' })
+  it('renvoie le badge "certaine" en variante grisée', () => {
+    expect(getPrecisionBadge(true, 'certaine', labels)).toEqual({ label: 'Date confirmée', variant: 'muted' })
   })
 
-  it('renvoie le badge "déduite" en variante outline', () => {
-    expect(getPrecisionBadge(true, 'deduite', labels)).toEqual({ label: 'Date estimée', variant: 'outline' })
+  it('renvoie le badge "déduite" en variante grisée', () => {
+    expect(getPrecisionBadge(true, 'deduite', labels)).toEqual({ label: 'Date estimée', variant: 'muted' })
   })
 
   it("ne renvoie rien si aucune date n'est affichée", () => {

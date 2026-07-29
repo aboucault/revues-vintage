@@ -104,10 +104,9 @@ button {
   background: var(--color-accent);
 }
 
-.badge--outline {
-  background: transparent;
+.badge--muted {
+  background: var(--color-border);
   color: var(--color-text);
-  border: 1px solid var(--color-border);
 }
 
 .card-title {

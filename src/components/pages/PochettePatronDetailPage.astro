@@ -22,7 +22,7 @@ const precisionBadge = getPrecisionBadge(Boolean(dateFormatee), pochette.precisi
 
 const badges = [
   { label: t.badges.pochettePatron, variant: 'primary' as const },
-  ...(pochette.decennieLabel ? [{ label: pochette.decennieLabel, variant: 'accent' as const }] : []),
+  ...(pochette.decennieLabel ? [{ label: pochette.decennieLabel, variant: 'muted' as const }] : []),
   ...(precisionBadge ? [precisionBadge] : []),
 ]
 

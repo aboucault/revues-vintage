@@ -20,9 +20,9 @@ export function getPrecisionBadge(
   hasDate: boolean,
   precisionDate: PrecisionDate | undefined,
   labels: PrecisionBadgeLabels,
-): { label: string; variant: 'primary' | 'outline' } | undefined {
+): { label: string; variant: 'muted' } | undefined {
   if (!hasDate || !precisionDate) return undefined
   return precisionDate === 'certaine'
-    ? { label: labels.certaine, variant: 'primary' }
-    : { label: labels.deduite, variant: 'outline' }
+    ? { label: labels.certaine, variant: 'muted' }
+    : { label: labels.deduite, variant: 'muted' }
 }

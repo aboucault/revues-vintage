@@ -23,7 +23,7 @@ const precisionBadge = getPrecisionBadge(Boolean(dateFormatee), revue.precisionD
 
 const badges = [
   { label: t.badges.revue, variant: 'primary' as const },
-  ...(revue.decennieLabel ? [{ label: revue.decennieLabel, variant: 'accent' as const }] : []),
+  ...(revue.decennieLabel ? [{ label: revue.decennieLabel, variant: 'muted' as const }] : []),
   ...(precisionBadge ? [precisionBadge] : []),
 ]
 
