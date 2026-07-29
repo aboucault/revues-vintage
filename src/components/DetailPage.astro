@@ -50,9 +50,10 @@ const {
   <div class="detail-page">
     <aside class="detail-page__sidebar">
       <a class="detail-page__back" href={backHref}>← {backLabel}</a>
-      <h1>{title}</h1>
-      <hr class="detail-page__divider" />
-      {subtitle && <p class="detail-page__subtitle">{subtitle}</p>}
+      <h1>
+        {title}
+        {subtitle && <span class="detail-page__subtitle">{subtitle}</span>}
+      </h1>
       {badges.length > 0 && (
         <div class="detail-page__badges">
           {badges.map((badge) => (
@@ -110,18 +111,11 @@ const {
     margin: 0;
   }
 
-  .detail-page__divider {
-    width: 100%;
-    border: none;
-    border-top: 1px solid var(--color-border);
-    margin: 0;
-  }
-
   .detail-page__subtitle {
     font-family: var(--font-heading);
     font-size: 1.4rem;
     color: var(--color-primary);
-    margin: 0;
+    margin-left: var(--space-2);
   }
 
   .detail-page__badges {
