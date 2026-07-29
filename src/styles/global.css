@@ -81,6 +81,7 @@ button {
 
 .card-media {
   position: relative;
+  min-height: 2.4rem;
 }
 
 .card-media img {

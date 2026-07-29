@@ -37,89 +37,101 @@ const caracteristiqueOptions = showCaracteristiquesFilter
   : []
 ---
 <div class="catalog-browser">
-  <form id="filter-form" class="catalog-filters">
-    {showSearchInput && (
-      <label class="filter-group">
-        {t.catalog.searchLabel}
-        <input type="search" name="q" placeholder={t.catalog.searchPlaceholder} />
-      </label>
-    )}
+  <div class="catalog-sidebar">
+    <form id="filter-form" class="catalog-filters">
+      {decennieOptions.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>{t.catalog.decennie}</legend>
+          {decennieOptions.map((option) => (
+            <label class="filter-option">
+              <input type="checkbox" name="decennies" value={option.value} />
+              {option.value} ({option.count})
+            </label>
+          ))}
+        </fieldset>
+      )}
 
-    {decennieOptions.length > 0 && (
-      <fieldset class="filter-group">
-        <legend>{t.catalog.decennie}</legend>
-        {decennieOptions.map((option) => (
-          <label class="filter-option">
-            <input type="checkbox" name="decennies" value={option.value} />
-            {option.value} ({option.count})
-          </label>
-        ))}
-      </fieldset>
-    )}
+      {showTitreFilter && titreOptions.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>{t.catalog.titreRevue}</legend>
+          {showSearchInput && (
+            <input
+              type="search"
+              name="q"
+              class="filter-search"
+              placeholder={t.catalog.rechercherTitrePlaceholder}
+            />
+          )}
+          {titreOptions.map((option) => (
+            <label class="filter-option">
+              <input type="checkbox" name="titres" value={option.value} />
+              {option.value} ({option.count})
+            </label>
+          ))}
+        </fieldset>
+      )}
 
-    {showTitreFilter && titreOptions.length > 0 && (
-      <fieldset class="filter-group">
-        <legend>{t.catalog.titreRevue}</legend>
-        {titreOptions.map((option) => (
-          <label class="filter-option">
-            <input type="checkbox" name="titres" value={option.value} />
-            {option.value} ({option.count})
-          </label>
-        ))}
-      </fieldset>
-    )}
+      {categorieOptions.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>{t.catalog.categorie}</legend>
+          {categorieOptions.map((option) => (
+            <label class="filter-option">
+              <input type="checkbox" name="categories" value={option.value} />
+              {option.value} ({option.count})
+            </label>
+          ))}
+        </fieldset>
+      )}
 
-    {categorieOptions.length > 0 && (
-      <fieldset class="filter-group">
-        <legend>{t.catalog.categorie}</legend>
-        {categorieOptions.map((option) => (
-          <label class="filter-option">
-            <input type="checkbox" name="categories" value={option.value} />
-            {option.value} ({option.count})
-          </label>
-        ))}
-      </fieldset>
-    )}
+      {showMarqueFilter && marqueOptions.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>{t.catalog.marque}</legend>
+          {marqueOptions.map((option) => (
+            <label class="filter-option">
+              <input type="checkbox" name="marques" value={option.value} />
+              {option.value} ({option.count})
+            </label>
+          ))}
+        </fieldset>
+      )}
 
-    {showMarqueFilter && marqueOptions.length > 0 && (
-      <fieldset class="filter-group">
-        <legend>{t.catalog.marque}</legend>
-        {marqueOptions.map((option) => (
-          <label class="filter-option">
-            <input type="checkbox" name="marques" value={option.value} />
-            {option.value} ({option.count})
-          </label>
-        ))}
-      </fieldset>
-    )}
-
-    {showCaracteristiquesFilter && caracteristiqueOptions.length > 0 && (
-      <fieldset class="filter-group">
-        <legend>{t.catalog.caracteristiqueStyle}</legend>
-        {caracteristiqueOptions.map((option) => (
-          <label class="filter-option">
-            <input type="checkbox" name="caracteristiques" value={option.value} />
-            {option.value} ({option.count})
-          </label>
-        ))}
-      </fieldset>
-    )}
-
-    <label class="filter-group">
-      {t.catalog.trierPar}
-      <select name="sort">
-        <option value="recent">{t.catalog.triRecent}</option>
-        <option value="titre-asc">{t.catalog.triTitreAsc}</option>
-      </select>
-    </label>
-  </form>
+      {showCaracteristiquesFilter && caracteristiqueOptions.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>{t.catalog.caracteristiqueStyle}</legend>
+          {caracteristiqueOptions.map((option) => (
+            <label class="filter-option">
+              <input type="checkbox" name="caracteristiques" value={option.value} />
+              {option.value} ({option.count})
+            </label>
+          ))}
+        </fieldset>
+      )}
+    </form>
+    <button type="button" id="reset-filters" class="reset-filters">{t.catalog.reinitialiser}</button>
+  </div>
 
   <div class="catalog-results">
-    <p id="result-count" class="result-count"></p>
+    <div class="catalog-results-header">
+      <p id="result-count" class="result-count"></p>
+      <label class="sort-control">
+        {t.catalog.trierPrefixe}
+        <select id="sort-select">
+          <option value="recent">{t.catalog.triRecent}</option>
+          <option value="titre-asc">{t.catalog.triTitreAsc}</option>
+        </select>
+      </label>
+    </div>
+
     <ul id="results-list" class="card-grid"></ul>
     <p id="empty-state" class="empty-state" hidden>
       {t.catalog.emptyState}
     </p>
+
+    <div id="pagination" class="pagination" hidden>
+      <button type="button" id="pagination-prev" class="pagination-button">{t.catalog.pagePrecedente}</button>
+      <span id="pagination-indicator" class="pagination-indicator"></span>
+      <button type="button" id="pagination-next" class="pagination-button">{t.catalog.pageSuivante}</button>
+    </div>
   </div>
 </div>
 
@@ -129,11 +141,14 @@ const caracteristiqueOptions = showCaracteristiquesFilter
 <script>
   import { filterCatalog } from '../lib/filter'
   import { sortEntries } from '../lib/sort'
+  import { paginate } from '../lib/pagination'
   import { renderEntryCardHtml } from '../lib/card'
   import { useTranslations } from '../i18n'
   import type { Locale } from '../i18n'
   import type { CatalogEntry } from '../lib/catalog'
   import type { SortOption } from '../lib/sort'
+
+  const PAGE_SIZE = 12
 
   const dataEl = document.getElementById('catalog-data') as HTMLScriptElement
   const entries: CatalogEntry[] = JSON.parse(dataEl.textContent ?? '[]')
@@ -141,9 +156,17 @@ const caracteristiqueOptions = showCaracteristiquesFilter
   const locale: Locale = JSON.parse(localeEl.textContent ?? '"fr"')
   const t = useTranslations(locale)
   const form = document.getElementById('filter-form') as HTMLFormElement
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement
+  const resetButton = document.getElementById('reset-filters') as HTMLButtonElement
   const resultsList = document.getElementById('results-list') as HTMLUListElement
   const resultCount = document.getElementById('result-count') as HTMLParagraphElement
   const emptyState = document.getElementById('empty-state') as HTMLParagraphElement
+  const paginationNav = document.getElementById('pagination') as HTMLDivElement
+  const prevButton = document.getElementById('pagination-prev') as HTMLButtonElement
+  const nextButton = document.getElementById('pagination-next') as HTMLButtonElement
+  const pageIndicator = document.getElementById('pagination-indicator') as HTMLSpanElement
+
+  let currentPage = 1
 
   function getCheckedValues(name: string): string[] {
     return new FormData(form).getAll(name).map(String)
@@ -151,11 +174,17 @@ const caracteristiqueOptions = showCaracteristiquesFilter
 
   function render(list: CatalogEntry[]) {
     resultsList.innerHTML = list.map((entry) => renderEntryCardHtml(entry, locale)).join('')
-    resultCount.textContent = t.catalog.resultat(list.length)
     emptyState.hidden = list.length > 0
   }
 
-  function applyFilters() {
+  function renderPaginationControls(totalPages: number) {
+    paginationNav.hidden = totalPages <= 1
+    prevButton.disabled = currentPage <= 1
+    nextButton.disabled = currentPage >= totalPages
+    pageIndicator.textContent = t.catalog.pageIndicateur(currentPage, totalPages)
+  }
+
+  function getFilteredSorted(): CatalogEntry[] {
     const formData = new FormData(form)
     const filtered = filterCatalog(entries, {
       q: (formData.get('q') as string) || undefined,
@@ -165,8 +194,22 @@ const caracteristiqueOptions = showCaracteristiquesFilter
       caracteristiques: getCheckedValues('caracteristiques'),
       titres: getCheckedValues('titres'),
     })
-    const sort = (formData.get('sort') as SortOption) || 'recent'
-    render(sortEntries(filtered, sort))
+    const sort = (sortSelect.value as SortOption) || 'recent'
+    return sortEntries(filtered, sort)
+  }
+
+  function renderCurrentPage() {
+    const filteredSorted = getFilteredSorted()
+    resultCount.textContent = t.catalog.resultat(filteredSorted.length)
+    const { items, totalPages, page } = paginate(filteredSorted, currentPage, PAGE_SIZE)
+    currentPage = page
+    render(items)
+    renderPaginationControls(totalPages)
+  }
+
+  function applyFilters() {
+    currentPage = 1
+    renderCurrentPage()
   }
 
   // Astro.url.searchParams n'est pas fiable en sortie statique (page pré-générée, sans requête
@@ -178,6 +221,21 @@ const caracteristiqueOptions = showCaracteristiquesFilter
   }
 
   form.addEventListener('input', applyFilters)
+  sortSelect.addEventListener('input', applyFilters)
+  resetButton.addEventListener('click', () => {
+    form.reset()
+    sortSelect.value = 'recent'
+    applyFilters()
+  })
+  prevButton.addEventListener('click', () => {
+    currentPage -= 1
+    renderCurrentPage()
+  })
+  nextButton.addEventListener('click', () => {
+    currentPage += 1
+    renderCurrentPage()
+  })
+
   applyFilters()
 </script>
 
@@ -187,6 +245,12 @@ const caracteristiqueOptions = showCaracteristiquesFilter
     grid-template-columns: 260px 1fr;
     gap: var(--space-4);
     align-items: start;
+  }
+
+  .catalog-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
   }
 
   .catalog-filters {
@@ -205,7 +269,16 @@ const caracteristiqueOptions = showCaracteristiquesFilter
     border: none;
     padding: 0;
     margin: 0;
-    font-weight: 500;
+  }
+
+  .filter-group legend {
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-primary);
+    padding: 0;
+    margin-bottom: 0.3rem;
   }
 
   .filter-option {
@@ -215,12 +288,96 @@ const caracteristiqueOptions = showCaracteristiquesFilter
     gap: 0.4rem;
   }
 
+  .filter-search {
+    font-family: var(--font-body);
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: calc(var(--radius) / 2);
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  .reset-filters {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-weight: 500;
+    font-family: var(--font-body);
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .catalog-results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+    flex-wrap: wrap;
+  }
+
   .result-count {
     color: var(--color-text);
     opacity: 0.75;
+    margin: 0;
+  }
+
+  .sort-control {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 500;
+  }
+
+  .sort-control select {
+    font-family: var(--font-body);
+    padding: 0.3rem 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: calc(var(--radius) / 2);
+    background: var(--color-bg);
+    color: var(--color-text);
   }
 
   .empty-state {
     opacity: 0.75;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .pagination[hidden] {
+    display: none;
+  }
+
+  .pagination-button {
+    font-family: var(--font-body);
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: calc(var(--radius) / 2);
+    background: var(--color-bg);
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .pagination-button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .pagination-indicator {
+    opacity: 0.75;
+  }
+
+  @media (max-width: 720px) {
+    .catalog-browser {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
