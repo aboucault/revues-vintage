@@ -71,6 +71,7 @@ export const fr: Dictionary = {
     numeroPatronLabel: 'Numéro de patron',
     categoriesLabel: 'Catégories',
     caracteristiquesLabel: 'Caractéristiques de style',
+    dateLabel: 'Date',
     imageRectoAlt: 'Recto de la pochette',
     imageVersoAlt: 'Verso de la pochette',
   },
@@ -88,6 +89,8 @@ export const fr: Dictionary = {
     partage: 'Partage',
     copierLeLien: 'Copier le lien',
     lienCopie: 'Lien copié !',
+    dateCertaine: 'Date confirmée',
+    dateDeduite: 'Date estimée',
   },
   pages: {
     daterUnPatronTitre: 'Dater un patron',

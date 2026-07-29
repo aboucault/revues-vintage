@@ -13,7 +13,7 @@ interface MetadataRow {
 
 interface Badge {
   label: string
-  variant: 'primary' | 'accent'
+  variant: 'primary' | 'accent' | 'outline'
 }
 
 interface Props {
@@ -143,17 +143,19 @@ const {
 
   .detail-page__metadata li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.5rem;
     font-size: 0.9rem;
   }
 
   .detail-page__metadata-label {
     opacity: 0.7;
+    text-align: left;
   }
 
   .detail-page__metadata-value {
     font-weight: 500;
+    text-align: left;
   }
 
   .detail-page__info-box {

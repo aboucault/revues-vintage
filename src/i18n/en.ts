@@ -71,6 +71,7 @@ export const en: Dictionary = {
     numeroPatronLabel: 'Pattern number',
     categoriesLabel: 'Categories',
     caracteristiquesLabel: 'Style features',
+    dateLabel: 'Date',
     imageRectoAlt: 'Envelope front',
     imageVersoAlt: 'Envelope back',
   },
@@ -88,6 +89,8 @@ export const en: Dictionary = {
     partage: 'Share',
     copierLeLien: 'Copy link',
     lienCopie: 'Link copied!',
+    dateCertaine: 'Confirmed date',
+    dateDeduite: 'Estimated date',
   },
   pages: {
     daterUnPatronTitre: 'Date a Pattern',

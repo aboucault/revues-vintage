@@ -4,6 +4,7 @@ import { useTranslations } from '../../i18n'
 import type { Locale } from '../../i18n'
 import type { PochettePatronDoc } from '../../lib/sanity'
 import { getLegalText } from '../../lib/legal'
+import { formatAnneeOuDate, getPrecisionBadge } from '../../lib/dating'
 
 interface Props {
   locale: Locale
@@ -13,13 +14,20 @@ interface Props {
 const { locale, pochette } = Astro.props
 const t = useTranslations(locale)
 const base = locale === 'en' ? '/en' : ''
+const dateFormatee = formatAnneeOuDate(pochette.annee, pochette.dateParution, locale)
+const precisionBadge = getPrecisionBadge(Boolean(dateFormatee), pochette.precisionDate, {
+  certaine: t.detailPage.dateCertaine,
+  deduite: t.detailPage.dateDeduite,
+})
 
 const badges = [
   { label: t.badges.pochettePatron, variant: 'primary' as const },
   ...(pochette.decennieLabel ? [{ label: pochette.decennieLabel, variant: 'accent' as const }] : []),
+  ...(precisionBadge ? [precisionBadge] : []),
 ]
 
 const metadata = [
+  ...(dateFormatee ? [{ icon: 'calendar' as const, label: t.pochettePatronDetail.dateLabel, value: dateFormatee }] : []),
   ...(pochette.marqueNom ? [{ icon: 'building' as const, label: t.pochettePatronDetail.marqueLabel, value: pochette.marqueNom }] : []),
   ...(pochette.numeroPatron
     ? [{ icon: 'hash' as const, label: t.pochettePatronDetail.numeroPatronLabel, value: pochette.numeroPatron }]

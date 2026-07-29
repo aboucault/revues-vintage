@@ -12,6 +12,7 @@ export const sanityClient = createClient({
 })
 
 export type StatutDroits = 'domaine-public' | 'incertain' | 'protege'
+export type PrecisionDate = 'certaine' | 'deduite'
 
 export interface RevueDoc {
   _id: string
@@ -23,7 +24,9 @@ export interface RevueDoc {
   periodicite?: string
   langue?: string
   description?: string
+  annee?: number
   dateParution?: string
+  precisionDate?: PrecisionDate
   decennieLabel?: string
   categories: string[]
   statutDroits: StatutDroits
@@ -41,6 +44,9 @@ export interface PochettePatronDoc {
   numeroPatron?: string
   categories: string[]
   decennieLabel?: string
+  annee?: number
+  dateParution?: string
+  precisionDate?: PrecisionDate
   caracteristiquesStyle: string[]
   imageRectoUrl: string
   imageVersoUrl?: string
@@ -69,7 +75,9 @@ const REVUE_QUERY = `*[_type == "revue"]{
   "periodicite": periodicite[$locale],
   "langue": langue[$locale],
   "description": description[$locale],
+  annee,
   dateParution,
+  precisionDate,
   "decennieLabel": decennie->label[$locale],
   "categories": categories[]->nom[$locale],
   statutDroits,
@@ -91,6 +99,9 @@ const POCHETTE_QUERY = `*[_type == "pochettePatron"]{
   numeroPatron,
   "categories": categories[]->nom[$locale],
   "decennieLabel": decennie->label[$locale],
+  annee,
+  dateParution,
+  precisionDate,
   "caracteristiquesStyle": coalesce(caracteristiquesStyle, []),
   "imageRectoUrl": imageRecto.asset->url,
   "imageVersoUrl": imageVerso.asset->url,

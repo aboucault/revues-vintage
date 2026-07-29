@@ -3,7 +3,7 @@ import DetailPage from '../DetailPage.astro'
 import { useTranslations } from '../../i18n'
 import type { Locale } from '../../i18n'
 import type { RevueDoc } from '../../lib/sanity'
-import { formatDateParution } from '../../lib/revueDetail'
+import { formatAnneeOuDate, getPrecisionBadge } from '../../lib/dating'
 import { getLegalText } from '../../lib/legal'
 
 interface Props {
@@ -15,11 +15,16 @@ const { locale, revue } = Astro.props
 const t = useTranslations(locale)
 const downloadHref = revue.statutDroits === 'domaine-public' ? revue.urlScanComplet : undefined
 const base = locale === 'en' ? '/en' : ''
-const dateFormatee = formatDateParution(revue.dateParution, locale)
+const dateFormatee = formatAnneeOuDate(revue.annee, revue.dateParution, locale)
+const precisionBadge = getPrecisionBadge(Boolean(dateFormatee), revue.precisionDate, {
+  certaine: t.detailPage.dateCertaine,
+  deduite: t.detailPage.dateDeduite,
+})
 
 const badges = [
   { label: t.badges.revue, variant: 'primary' as const },
   ...(revue.decennieLabel ? [{ label: revue.decennieLabel, variant: 'accent' as const }] : []),
+  ...(precisionBadge ? [precisionBadge] : []),
 ]
 
 const metadata = [

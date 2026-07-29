@@ -68,6 +68,7 @@ export interface Dictionary {
     numeroPatronLabel: string
     categoriesLabel: string
     caracteristiquesLabel: string
+    dateLabel: string
     imageRectoAlt: string
     imageVersoAlt: string
   }
@@ -82,6 +83,8 @@ export interface Dictionary {
     partage: string
     copierLeLien: string
     lienCopie: string
+    dateCertaine: string
+    dateDeduite: string
   }
   pages: {
     daterUnPatronTitre: string
