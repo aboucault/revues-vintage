@@ -30,6 +30,26 @@ describe('buildCatalog — revues', () => {
     const [entry] = buildCatalog([baseRevue], [], [])
     expect(entry.createdAt).toBe('2026-01-10T09:00:00Z')
   })
+
+  it('reporte dateParution, numero et annee sur l’entrée de catalogue', () => {
+    const revueDatee: RevueDoc = {
+      ...baseRevue,
+      dateParution: '1930-09-28',
+      numero: '39',
+      annee: 1930,
+    }
+    const [entry] = buildCatalog([revueDatee], [], [])
+    expect(entry.dateParution).toBe('1930-09-28')
+    expect(entry.numero).toBe('39')
+    expect(entry.annee).toBe(1930)
+  })
+
+  it('laisse dateParution/numero/annee indéfinis quand absents en base', () => {
+    const [entry] = buildCatalog([baseRevue], [], [])
+    expect(entry.dateParution).toBeUndefined()
+    expect(entry.numero).toBeUndefined()
+    expect(entry.annee).toBeUndefined()
+  })
 })
 
 describe('buildCatalog — pochettes de patron', () => {

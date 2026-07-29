@@ -14,6 +14,9 @@ export interface CatalogEntry {
   caracteristiquesStyle: string[]
   imageUrl: string
   telechargementUrl?: string
+  dateParution?: string
+  numero?: string
+  annee?: number
 }
 
 export function buildCatalog(
@@ -32,6 +35,9 @@ export function buildCatalog(
     caracteristiquesStyle: [],
     imageUrl: r.couvertureUrl ?? '',
     telechargementUrl: r.statutDroits === 'domaine-public' ? r.urlScanComplet : undefined,
+    dateParution: r.dateParution,
+    numero: r.numero,
+    annee: r.annee,
   }))
 
   const pochetteEntries: CatalogEntry[] = pochettes.map((p) => ({
