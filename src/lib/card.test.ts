@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { renderEntryCardHtml } from './card'
+import { getCardSubtitleLines, renderEntryCardHtml } from './card'
 import type { CatalogEntry } from './catalog'
 
 function makeEntry(overrides: Partial<CatalogEntry>): CatalogEntry {
@@ -62,5 +62,34 @@ describe('renderEntryCardHtml — anglais', () => {
       'en'
     )
     expect(html).toContain('>Download<')
+  })
+})
+
+describe('getCardSubtitleLines', () => {
+  it('affiche la date formatée et le numéro quand les deux sont connus', () => {
+    const lines = getCardSubtitleLines(
+      makeEntry({ dateParution: '1930-09-28', numero: '39', annee: 1930 }),
+      'fr'
+    )
+    expect(lines).toEqual(['28 septembre 1930', 'n°39'])
+  })
+
+  it('affiche seulement la date quand le numéro est absent', () => {
+    const lines = getCardSubtitleLines(makeEntry({ dateParution: '1930-09-28', annee: 1930 }), 'fr')
+    expect(lines).toEqual(['28 septembre 1930'])
+  })
+
+  it('retombe sur la décennie quand ni date ni année ne sont connues', () => {
+    const lines = getCardSubtitleLines(makeEntry({ decennieLabel: '1930-1940', numero: '39' }), 'fr')
+    expect(lines).toEqual(['1930-1940', 'n°39'])
+  })
+
+  it('ne renvoie rien si aucune information n’est disponible', () => {
+    expect(getCardSubtitleLines(makeEntry({}), 'fr')).toEqual([])
+  })
+
+  it('traduit le préfixe du numéro en anglais', () => {
+    const lines = getCardSubtitleLines(makeEntry({ dateParution: '1930-09-28', numero: '39', annee: 1930 }), 'en')
+    expect(lines).toEqual(['September 28, 1930', 'No. 39'])
   })
 })
