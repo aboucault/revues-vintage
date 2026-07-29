@@ -21,6 +21,8 @@ interface Props {
   backHref: string
   backLabel: string
   title: string
+  coverImageUrl?: string
+  coverImageAlt?: string
   badges: Badge[]
   metadata: MetadataRow[]
   infoBox?: { title: string; text: string }
@@ -38,21 +40,18 @@ const {
   backHref,
   backLabel,
   title,
+  coverImageUrl,
+  coverImageAlt,
   badges,
   metadata,
   infoBox,
-  legalTitle,
-  legalText,
-  shareLabel,
-  shareUrl,
-  copyLabel,
-  copiedLabel,
 } = Astro.props
 ---
 <Layout title={pageTitle} locale={locale}>
   <div class="detail-page">
     <aside class="detail-page__sidebar">
       <a class="detail-page__back" href={backHref}>← {backLabel}</a>
+      {coverImageUrl && <img class="detail-page__cover" src={coverImageUrl} alt={coverImageAlt ?? ''} />}
       <h1>{title}</h1>
       {badges.length > 0 && (
         <div class="detail-page__badges">
@@ -83,42 +82,8 @@ const {
     <div class="detail-page__main">
       <slot />
     </div>
-    <footer class="detail-page__footer">
-      <div class="detail-page__footer-block">
-        <h3>{legalTitle}</h3>
-        <p>{legalText}</p>
-      </div>
-      <div class="detail-page__footer-block">
-        <h3>{shareLabel}</h3>
-        <p class="detail-page__share-url">{shareUrl}</p>
-        <button
-          type="button"
-          class="detail-page__copy-button"
-          data-copy-link
-          data-url={shareUrl}
-          data-copy-label={copyLabel}
-          data-copied-label={copiedLabel}
-        >
-          {copyLabel}
-        </button>
-      </div>
-    </footer>
   </div>
 </Layout>
-<script>
-  document.querySelectorAll<HTMLButtonElement>('[data-copy-link]').forEach((button) => {
-    button.addEventListener('click', async () => {
-      const url = button.dataset.url ?? ''
-      const originalLabel = button.dataset.copyLabel ?? ''
-      const copiedLabel = button.dataset.copiedLabel ?? ''
-      await navigator.clipboard.writeText(url)
-      button.textContent = copiedLabel
-      setTimeout(() => {
-        button.textContent = originalLabel
-      }, 2000)
-    })
-  })
-</script>
 <style>
   .detail-page {
     display: grid;
@@ -138,6 +103,12 @@ const {
     font-size: 0.9rem;
     color: var(--color-text);
     opacity: 0.8;
+  }
+
+  .detail-page__cover {
+    width: 100%;
+    max-width: 220px;
+    border-radius: var(--radius);
   }
 
   .detail-page__badges {
@@ -186,42 +157,8 @@ const {
     min-width: 0;
   }
 
-  .detail-page__footer {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
-    border-top: 1px solid var(--color-border);
-    margin-top: var(--space-4);
-    padding-top: var(--space-3);
-  }
-
-  .detail-page__footer-block h3 {
-    margin-top: 0;
-  }
-
-  .detail-page__share-url {
-    font-size: 0.85rem;
-    opacity: 0.8;
-    word-break: break-all;
-  }
-
-  .detail-page__copy-button {
-    background: var(--color-primary);
-    color: var(--color-primary-contrast);
-    border: none;
-    border-radius: var(--radius);
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    font-weight: 500;
-  }
-
   @media (max-width: 720px) {
     .detail-page {
-      grid-template-columns: 1fr;
-    }
-
-    .detail-page__footer {
       grid-template-columns: 1fr;
     }
   }

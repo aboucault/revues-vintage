@@ -40,6 +40,8 @@ const shareUrl = Astro.url.href
   backHref={`${base}/revues`}
   backLabel={t.detailPage.retourAuxRevues}
   title={titreAffiche}
+  coverImageUrl={revue.couvertureUrl}
+  coverImageAlt={revue.titre}
   badges={badges}
   metadata={metadata}
   legalTitle={t.detailPage.informationsLegales}
@@ -49,7 +51,6 @@ const shareUrl = Astro.url.href
   copyLabel={t.detailPage.copierLeLien}
   copiedLabel={t.detailPage.lienCopie}
 >
-  {revue.couvertureUrl && <img src={revue.couvertureUrl} alt={revue.titre} class="revue-detail__cover" />}
   {downloadHref && (
     <a href={downloadHref} download class="revue-detail__download">
       {t.revueDetail.telechargerLaRevueComplete}
@@ -57,7 +58,6 @@ const shareUrl = Astro.url.href
   )}
   {revue.urlScanComplet && (
     <section class="revue-detail__reader">
-      <h2>{t.revueDetail.lireEnLigne}</h2>
       <iframe
         src={revue.urlScanComplet}
         title={revue.titre}
@@ -71,12 +71,6 @@ const shareUrl = Astro.url.href
   )}
 </DetailPage>
 <style>
-  .revue-detail__cover {
-    max-width: 200px;
-    border-radius: var(--radius);
-    margin-bottom: var(--space-2);
-  }
-
   .revue-detail__download {
     display: inline-block;
     margin-bottom: var(--space-2);
