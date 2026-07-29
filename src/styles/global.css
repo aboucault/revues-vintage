@@ -71,12 +71,26 @@ button {
   overflow: hidden;
 }
 
-.card a {
-  text-decoration: none;
-  color: inherit;
+.card-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding-right: var(--space-2);
+}
+
+.card-row .card-title,
+.card-row .card-subtitle {
+  padding-right: 0;
+}
+
+.card-link {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+  flex: 1;
 }
 
 .card-media {
@@ -150,8 +164,19 @@ button {
 }
 
 .card-download {
-  color: var(--color-primary);
-  font-weight: 500;
-  padding: 0 var(--space-2) var(--space-2);
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  text-decoration: none;
+}
+
+.card-download:hover {
+  opacity: 0.85;
 }
 
