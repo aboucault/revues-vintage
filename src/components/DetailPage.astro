@@ -46,7 +46,7 @@ const {
   infoBox,
 } = Astro.props
 ---
-<Layout title={pageTitle} locale={locale}>
+<Layout title={pageTitle} locale={locale} wide>
   <div class="detail-page">
     <aside class="detail-page__sidebar">
       <a class="detail-page__back" href={backHref}>← {backLabel}</a>
@@ -87,7 +87,7 @@ const {
 <style>
   .detail-page {
     display: grid;
-    grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
+    grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
     gap: var(--space-4);
     align-items: start;
   }
