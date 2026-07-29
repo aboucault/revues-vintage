@@ -20,15 +20,24 @@ describe('renderEntryCardHtml — français', () => {
   it('encapsule une revue dans un lien vers sa page de détail', () => {
     const html = renderEntryCardHtml(makeEntry({ type: 'revue', slug: 'modes-travaux' }), 'fr')
     expect(html).toContain('<a href="/revues/modes-travaux">')
-    expect(html).toContain('badge--primary')
+    expect(html).toContain('card-badge badge--primary')
     expect(html).toContain('Revue')
   })
 
   it('encapsule une pochette de patron dans un lien vers sa page de détail', () => {
     const html = renderEntryCardHtml(makeEntry({ type: 'pochette-patron', slug: 'vogue-1234' }), 'fr')
     expect(html).toContain('<a href="/patrons/vogue-1234">')
-    expect(html).toContain('badge--accent')
+    expect(html).toContain('card-badge badge--accent')
     expect(html).toContain('Pochette à dater')
+  })
+
+  it('affiche les lignes de sous-titre après le titre', () => {
+    const html = renderEntryCardHtml(
+      makeEntry({ type: 'revue', slug: 'modes-travaux', dateParution: '1930-09-28', numero: '39', annee: 1930 }),
+      'fr'
+    )
+    expect(html).toContain('<span class="card-subtitle">28 septembre 1930</span>')
+    expect(html).toContain('<span class="card-subtitle">n°39</span>')
   })
 
   it('affiche un lien de téléchargement uniquement si telechargementUrl est défini', () => {

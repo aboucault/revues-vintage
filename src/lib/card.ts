@@ -16,14 +16,18 @@ export function getCardSubtitleLines(entry: CatalogEntry, locale: Locale): strin
 
 export function renderEntryCardHtml(entry: CatalogEntry, locale: Locale): string {
   const t = useTranslations(locale)
-  const badge = `<span class="badge badge--${getBadgeVariant(entry.type)}">${getBadgeLabel(entry.type, locale)}</span>`
+  const badge = `<span class="card-badge badge--${getBadgeVariant(entry.type)}">${getBadgeLabel(entry.type, locale)}</span>`
   const image = entry.imageUrl ? `<img src="${entry.imageUrl}" alt="${entry.titre}" loading="lazy" />` : ''
-  const content = `${badge}${image}<span class="card-title">${entry.titre}</span>`
+  const media = `<div class="card-media">${image}${badge}</div>`
+  const subtitle = getCardSubtitleLines(entry, locale)
+    .map((line) => `<span class="card-subtitle">${line}</span>`)
+    .join('')
+  const content = `${media}<span class="card-title">${entry.titre}</span>${subtitle}`
   const basePath = getEntryPath(entry)
   const path = basePath && locale === 'en' ? `/en${basePath}` : basePath
-  const media = path ? `<a href="${path}">${content}</a>` : content
+  const link = path ? `<a href="${path}">${content}</a>` : content
   const download = entry.telechargementUrl
     ? `<a class="card-download" href="${entry.telechargementUrl}" download>${t.card.telecharger}</a>`
     : ''
-  return `<li class="card">${media}${download}</li>`
+  return `<li class="card">${link}${download}</li>`
 }
