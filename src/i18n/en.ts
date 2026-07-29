@@ -53,9 +53,38 @@ export const en: Dictionary = {
     telechargerLaRevueComplete: 'Download the full magazine',
     lireEnLigne: 'Read online',
     ouvrirLePdf: 'Open the PDF',
+    editeurLabel: 'Publisher',
+    numeroLabel: 'Issue number',
+    categoriesLabel: 'Categories',
+    dateParutionLabel: 'Publication date',
   },
   patronGratuitDetail: {
     telechargerLePatron: 'Download the pattern',
+    categoriesLabel: 'Categories',
+    aProposTitre: 'About this pattern',
+  },
+  pochettePatronDetail: {
+    marqueLabel: 'Brand',
+    numeroPatronLabel: 'Pattern number',
+    categoriesLabel: 'Categories',
+    caracteristiquesLabel: 'Style features',
+    imageRectoAlt: 'Envelope front',
+    imageVersoAlt: 'Envelope back',
+  },
+  detailPage: {
+    retourAuxRevues: 'Back to magazines',
+    retourAuxRessources: 'Back to free resources',
+    retourAuxPatrons: 'Back to pattern search',
+    informationsLegales: 'Legal information',
+    legalDomainePublic:
+      'This document is in the public domain. You can view and download it freely for personal, non-commercial use.',
+    legalIncertain:
+      "This document's rights status is unconfirmed. It is presented here for reference purposes only.",
+    legalProtege:
+      'This document is copyright protected. It is presented here for reference purposes only, with no downloadable content.',
+    partage: 'Share',
+    copierLeLien: 'Copy link',
+    lienCopie: 'Link copied!',
   },
   pages: {
     daterUnPatronTitre: 'Date a Pattern',

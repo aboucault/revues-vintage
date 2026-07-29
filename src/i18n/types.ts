@@ -50,9 +50,35 @@ export interface Dictionary {
     telechargerLaRevueComplete: string
     lireEnLigne: string
     ouvrirLePdf: string
+    editeurLabel: string
+    numeroLabel: string
+    categoriesLabel: string
+    dateParutionLabel: string
   }
   patronGratuitDetail: {
     telechargerLePatron: string
+    categoriesLabel: string
+    aProposTitre: string
+  }
+  pochettePatronDetail: {
+    marqueLabel: string
+    numeroPatronLabel: string
+    categoriesLabel: string
+    caracteristiquesLabel: string
+    imageRectoAlt: string
+    imageVersoAlt: string
+  }
+  detailPage: {
+    retourAuxRevues: string
+    retourAuxRessources: string
+    retourAuxPatrons: string
+    informationsLegales: string
+    legalDomainePublic: string
+    legalIncertain: string
+    legalProtege: string
+    partage: string
+    copierLeLien: string
+    lienCopie: string
   }
   pages: {
     daterUnPatronTitre: string

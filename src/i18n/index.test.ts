@@ -13,6 +13,13 @@ describe('useTranslations', () => {
     expect(t.nav.accueil).toBe('Home')
     expect(t.badges.pochettePatron).toBe('Pattern to date')
   })
+
+  it('expose les nouvelles clés de la page de détail générique', () => {
+    const t = useTranslations('fr')
+    expect(t.detailPage.retourAuxRevues).toBe('Retour aux revues')
+    expect(t.detailPage.partage).toBe('Partage')
+    expect(t.pochettePatronDetail.marqueLabel).toBe('Marque')
+  })
 })
 
 describe('getLocaleFromUrl', () => {

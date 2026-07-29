@@ -53,9 +53,38 @@ export const fr: Dictionary = {
     telechargerLaRevueComplete: 'Télécharger la revue complète',
     lireEnLigne: 'Lire en ligne',
     ouvrirLePdf: 'Ouvrir le PDF',
+    editeurLabel: 'Éditeur',
+    numeroLabel: 'Numéro',
+    categoriesLabel: 'Catégories',
+    dateParutionLabel: 'Date de parution',
   },
   patronGratuitDetail: {
     telechargerLePatron: 'Télécharger le patron',
+    categoriesLabel: 'Catégories',
+    aProposTitre: 'À propos de ce patron',
+  },
+  pochettePatronDetail: {
+    marqueLabel: 'Marque',
+    numeroPatronLabel: 'Numéro de patron',
+    categoriesLabel: 'Catégories',
+    caracteristiquesLabel: 'Caractéristiques de style',
+    imageRectoAlt: 'Recto de la pochette',
+    imageVersoAlt: 'Verso de la pochette',
+  },
+  detailPage: {
+    retourAuxRevues: 'Retour aux revues',
+    retourAuxRessources: 'Retour aux ressources gratuites',
+    retourAuxPatrons: 'Retour à la recherche de patrons',
+    informationsLegales: 'Informations légales',
+    legalDomainePublic:
+      'Ce document est libre de droits. Vous pouvez le consulter et le télécharger librement à des fins personnelles et non commerciales.',
+    legalIncertain:
+      "Le statut de droits de ce document n'est pas confirmé. Il est présenté ici à titre de référence uniquement.",
+    legalProtege:
+      "Ce document est protégé par le droit d'auteur. Il est présenté ici à titre de référence uniquement, sans contenu téléchargeable.",
+    partage: 'Partage',
+    copierLeLien: 'Copier le lien',
+    lienCopie: 'Lien copié !',
   },
   pages: {
     daterUnPatronTitre: 'Dater un patron',
