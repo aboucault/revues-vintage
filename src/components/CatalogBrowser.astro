@@ -39,6 +39,15 @@ const caracteristiqueOptions = showCaracteristiquesFilter
 <div class="catalog-browser">
   <div class="catalog-sidebar">
     <form id="filter-form" class="catalog-filters">
+      {showSearchInput && (
+        <input
+          type="search"
+          name="q"
+          class="filter-search"
+          placeholder={t.catalog.rechercherTitrePlaceholder}
+        />
+      )}
+
       {decennieOptions.length > 0 && (
         <fieldset class="filter-group">
           <legend>{t.catalog.decennie}</legend>
@@ -54,14 +63,6 @@ const caracteristiqueOptions = showCaracteristiquesFilter
       {showTitreFilter && titreOptions.length > 0 && (
         <fieldset class="filter-group">
           <legend>{t.catalog.titreRevue}</legend>
-          {showSearchInput && (
-            <input
-              type="search"
-              name="q"
-              class="filter-search"
-              placeholder={t.catalog.rechercherTitrePlaceholder}
-            />
-          )}
           {titreOptions.map((option) => (
             <label class="filter-option">
               <input type="checkbox" name="titres" value={option.value} />
