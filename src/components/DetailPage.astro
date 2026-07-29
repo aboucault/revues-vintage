@@ -134,18 +134,21 @@ const {
     list-style: none;
     margin: var(--space-2) 0 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
+    display: grid;
+    grid-template-columns: 1.25rem 8.5rem 1fr;
+    column-gap: 0.5rem;
+    row-gap: var(--space-1);
     border-top: 1px solid var(--color-border);
     padding-top: var(--space-2);
+    font-size: 0.9rem;
   }
 
   .detail-page__metadata li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    font-size: 0.9rem;
+    display: contents;
+  }
+
+  .detail-page__metadata li > * {
+    align-self: start;
   }
 
   .detail-page__metadata-label {
