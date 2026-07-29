@@ -63,10 +63,11 @@ export function buildCatalog(
   return [...revueEntries, ...pochetteEntries, ...patronGratuitEntries]
 }
 
-// Les Pochettes de patron n'ont pas de page de détail (V1). Les dossiers de pages ne reprennent
-// pas le type au singulier ("revue", "patron-gratuit") mais leurs propres noms de route.
+// Les dossiers de pages ne reprennent pas le type au singulier ("revue", "patron-gratuit")
+// mais leurs propres noms de route.
 export function getEntryPath(entry: CatalogEntry): string | undefined {
   if (entry.type === 'revue') return `/revues/${entry.slug}`
   if (entry.type === 'patron-gratuit') return `/ressources-gratuites/${entry.slug}`
+  if (entry.type === 'pochette-patron') return `/patrons/${entry.slug}`
   return undefined
 }

@@ -24,9 +24,9 @@ describe('renderEntryCardHtml — français', () => {
     expect(html).toContain('Revue')
   })
 
-  it('n’ajoute aucun lien pour une pochette de patron', () => {
+  it('encapsule une pochette de patron dans un lien vers sa page de détail', () => {
     const html = renderEntryCardHtml(makeEntry({ type: 'pochette-patron', slug: 'vogue-1234' }), 'fr')
-    expect(html).not.toContain('<a href=')
+    expect(html).toContain('<a href="/patrons/vogue-1234">')
     expect(html).toContain('badge--accent')
     expect(html).toContain('Pochette à dater')
   })

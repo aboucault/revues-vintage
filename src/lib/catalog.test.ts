@@ -42,6 +42,7 @@ describe('buildCatalog — pochettes de patron', () => {
       categories: ['couture'],
       caracteristiquesStyle: ['col claudine'],
       imageRectoUrl: 'https://cdn.sanity.io/recto.jpg',
+      statutDroits: 'incertain',
     }
     const [entry] = buildCatalog([], [pochette], [])
     expect(entry.telechargementUrl).toBeUndefined()
@@ -106,7 +107,7 @@ describe('getEntryPath', () => {
     )
   })
 
-  it('ne retourne aucun chemin pour une pochette de patron (pas de page de détail en V1)', () => {
-    expect(getEntryPath(makeEntry({ type: 'pochette-patron', slug: 'une-pochette' }))).toBeUndefined()
+  it('pointe vers /patrons/<slug> pour une pochette de patron', () => {
+    expect(getEntryPath(makeEntry({ type: 'pochette-patron', slug: 'une-pochette' }))).toBe('/patrons/une-pochette')
   })
 })

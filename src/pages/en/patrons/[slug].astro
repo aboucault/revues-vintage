@@ -1,0 +1,17 @@
+---
+import PochettePatronDetailPage from '../../../components/pages/PochettePatronDetailPage.astro'
+import { fetchPochettesPatron } from '../../../lib/sanity'
+import type { PochettePatronDoc } from '../../../lib/sanity'
+
+export async function getStaticPaths() {
+  const pochettes = await fetchPochettesPatron('en')
+  return pochettes.map((pochette) => ({ params: { slug: pochette.slug }, props: { pochette } }))
+}
+
+interface Props {
+  pochette: PochettePatronDoc
+}
+
+const { pochette } = Astro.props as Props
+---
+<PochettePatronDetailPage locale="en" pochette={pochette} />

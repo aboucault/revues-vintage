@@ -1,0 +1,75 @@
+---
+import DetailPage from '../DetailPage.astro'
+import { useTranslations } from '../../i18n'
+import type { Locale } from '../../i18n'
+import type { PochettePatronDoc } from '../../lib/sanity'
+import { getLegalText } from '../../lib/legal'
+
+interface Props {
+  locale: Locale
+  pochette: PochettePatronDoc
+}
+
+const { locale, pochette } = Astro.props
+const t = useTranslations(locale)
+const base = locale === 'en' ? '/en' : ''
+
+const badges = [
+  { label: t.badges.pochettePatron, variant: 'primary' as const },
+  ...(pochette.decennieLabel ? [{ label: pochette.decennieLabel, variant: 'accent' as const }] : []),
+]
+
+const metadata = [
+  ...(pochette.marqueNom ? [{ icon: 'building' as const, label: t.pochettePatronDetail.marqueLabel, value: pochette.marqueNom }] : []),
+  ...(pochette.numeroPatron
+    ? [{ icon: 'hash' as const, label: t.pochettePatronDetail.numeroPatronLabel, value: pochette.numeroPatron }]
+    : []),
+  ...(pochette.categories.length > 0
+    ? [{ icon: 'tags' as const, label: t.pochettePatronDetail.categoriesLabel, value: pochette.categories.join(' • ') }]
+    : []),
+  ...(pochette.caracteristiquesStyle.length > 0
+    ? [
+        {
+          icon: 'tags' as const,
+          label: t.pochettePatronDetail.caracteristiquesLabel,
+          value: pochette.caracteristiquesStyle.join(' • '),
+        },
+      ]
+    : []),
+]
+
+const shareUrl = Astro.url.href
+---
+<DetailPage
+  locale={locale}
+  pageTitle={pochette.titre}
+  backHref={`${base}/dater-un-patron`}
+  backLabel={t.detailPage.retourAuxPatrons}
+  title={pochette.titre}
+  badges={badges}
+  metadata={metadata}
+  legalTitle={t.detailPage.informationsLegales}
+  legalText={getLegalText(pochette.statutDroits, locale)}
+  shareLabel={t.detailPage.partage}
+  shareUrl={shareUrl}
+  copyLabel={t.detailPage.copierLeLien}
+  copiedLabel={t.detailPage.lienCopie}
+>
+  <div class="pochette-detail__images">
+    <img src={pochette.imageRectoUrl} alt={t.pochettePatronDetail.imageRectoAlt} />
+    {pochette.imageVersoUrl && <img src={pochette.imageVersoUrl} alt={t.pochettePatronDetail.imageVersoAlt} />}
+  </div>
+</DetailPage>
+<style>
+  .pochette-detail__images {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .pochette-detail__images img {
+    flex: 1 1 200px;
+    max-width: 100%;
+    border-radius: var(--radius);
+  }
+</style>
