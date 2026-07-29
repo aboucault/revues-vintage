@@ -1,9 +1,10 @@
 ---
-import Layout from '../../layouts/Layout.astro'
+import DetailPage from '../DetailPage.astro'
 import { useTranslations } from '../../i18n'
 import type { Locale } from '../../i18n'
 import type { RevueDoc } from '../../lib/sanity'
-import { getRevueDisplayTitre } from '../../lib/revueDetail'
+import { getRevueDisplayTitre, formatDateParution } from '../../lib/revueDetail'
+import { getLegalText } from '../../lib/legal'
 
 interface Props {
   locale: Locale
@@ -14,29 +15,72 @@ const { locale, revue } = Astro.props
 const t = useTranslations(locale)
 const downloadHref = revue.statutDroits === 'domaine-public' ? revue.urlScanComplet : undefined
 const titreAffiche = getRevueDisplayTitre(revue.titre, revue.dateParution, locale)
+const base = locale === 'en' ? '/en' : ''
+const dateFormatee = formatDateParution(revue.dateParution, locale)
+
+const badges = [
+  { label: t.badges.revue, variant: 'primary' as const },
+  ...(revue.decennieLabel ? [{ label: revue.decennieLabel, variant: 'accent' as const }] : []),
+]
+
+const metadata = [
+  ...(dateFormatee ? [{ icon: 'calendar' as const, label: t.revueDetail.dateParutionLabel, value: dateFormatee }] : []),
+  ...(revue.editeur ? [{ icon: 'building' as const, label: t.revueDetail.editeurLabel, value: revue.editeur }] : []),
+  ...(revue.numero ? [{ icon: 'hash' as const, label: t.revueDetail.numeroLabel, value: revue.numero }] : []),
+  ...(revue.categories.length > 0
+    ? [{ icon: 'tags' as const, label: t.revueDetail.categoriesLabel, value: revue.categories.join(' • ') }]
+    : []),
+]
+
+const shareUrl = Astro.url.href
 ---
-<Layout title={revue.titre} locale={locale}>
-  <div class="revue-detail">
-    <div class="revue-detail__main">
-      <h1>{titreAffiche}</h1>
-      {revue.decennieLabel && <span class="badge badge--primary">{revue.decennieLabel}</span>}
-      <p>{revue.editeur} — {revue.numero}</p>
-      {revue.couvertureUrl && <img src={revue.couvertureUrl} alt={revue.titre} />}
-      {downloadHref && <a href={downloadHref} download>{t.revueDetail.telechargerLaRevueComplete}</a>}
-    </div>
-    {revue.urlScanComplet && (
-      <section class="revue-detail__reader">
-        <h2>{t.revueDetail.lireEnLigne}</h2>
-        <iframe
-          src={revue.urlScanComplet}
-          title={revue.titre}
-          width="100%"
-          height="800"
-          style="height: 80vh; border: 1px solid #ccc;"
-        >
-          <a href={revue.urlScanComplet}>{t.revueDetail.ouvrirLePdf}</a>
-        </iframe>
-      </section>
-    )}
-  </div>
-</Layout>
+<DetailPage
+  locale={locale}
+  pageTitle={revue.titre}
+  backHref={`${base}/revues`}
+  backLabel={t.detailPage.retourAuxRevues}
+  title={titreAffiche}
+  badges={badges}
+  metadata={metadata}
+  legalTitle={t.detailPage.informationsLegales}
+  legalText={getLegalText(revue.statutDroits, locale)}
+  shareLabel={t.detailPage.partage}
+  shareUrl={shareUrl}
+  copyLabel={t.detailPage.copierLeLien}
+  copiedLabel={t.detailPage.lienCopie}
+>
+  {revue.couvertureUrl && <img src={revue.couvertureUrl} alt={revue.titre} class="revue-detail__cover" />}
+  {downloadHref && (
+    <a href={downloadHref} download class="revue-detail__download">
+      {t.revueDetail.telechargerLaRevueComplete}
+    </a>
+  )}
+  {revue.urlScanComplet && (
+    <section class="revue-detail__reader">
+      <h2>{t.revueDetail.lireEnLigne}</h2>
+      <iframe
+        src={revue.urlScanComplet}
+        title={revue.titre}
+        width="100%"
+        height="800"
+        style="height: 80vh; border: 1px solid var(--color-border); border-radius: var(--radius);"
+      >
+        <a href={revue.urlScanComplet}>{t.revueDetail.ouvrirLePdf}</a>
+      </iframe>
+    </section>
+  )}
+</DetailPage>
+<style>
+  .revue-detail__cover {
+    max-width: 200px;
+    border-radius: var(--radius);
+    margin-bottom: var(--space-2);
+  }
+
+  .revue-detail__download {
+    display: inline-block;
+    margin-bottom: var(--space-2);
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+</style>
