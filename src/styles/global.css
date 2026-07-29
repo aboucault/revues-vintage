@@ -84,7 +84,7 @@ button {
   min-height: 2.4rem;
 }
 
-.card-media img {
+.card img {
   display: block;
   width: 100%;
   aspect-ratio: 3 / 4;

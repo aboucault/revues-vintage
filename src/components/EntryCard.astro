@@ -2,6 +2,7 @@
 import { getEntryPath } from '../lib/catalog'
 import type { CatalogEntry } from '../lib/catalog'
 import { getBadgeLabel, getBadgeVariant } from '../lib/badge'
+import { getCardSubtitleLines } from '../lib/card'
 import type { Locale } from '../i18n'
 
 interface Props {
@@ -12,18 +13,25 @@ interface Props {
 const { entry, locale } = Astro.props
 const basePath = getEntryPath(entry)
 const href = basePath && locale === 'en' ? `/en${basePath}` : basePath
-const badgeClass = `badge badge--${getBadgeVariant(entry.type)}`
+const badgeClass = `card-badge badge--${getBadgeVariant(entry.type)}`
+const subtitleLines = getCardSubtitleLines(entry, locale)
 ---
 {href ? (
   <a class="card" href={href}>
-    <span class={badgeClass}>{getBadgeLabel(entry.type, locale)}</span>
-    {entry.imageUrl && <img src={entry.imageUrl} alt={entry.titre} loading="lazy" />}
+    <div class="card-media">
+      {entry.imageUrl && <img src={entry.imageUrl} alt={entry.titre} loading="lazy" />}
+      <span class={badgeClass}>{getBadgeLabel(entry.type, locale)}</span>
+    </div>
     <span class="card-title">{entry.titre}</span>
+    {subtitleLines.map((line) => <span class="card-subtitle">{line}</span>)}
   </a>
 ) : (
   <div class="card">
-    <span class={badgeClass}>{getBadgeLabel(entry.type, locale)}</span>
-    {entry.imageUrl && <img src={entry.imageUrl} alt={entry.titre} loading="lazy" />}
+    <div class="card-media">
+      {entry.imageUrl && <img src={entry.imageUrl} alt={entry.titre} loading="lazy" />}
+      <span class={badgeClass}>{getBadgeLabel(entry.type, locale)}</span>
+    </div>
     <span class="card-title">{entry.titre}</span>
+    {subtitleLines.map((line) => <span class="card-subtitle">{line}</span>)}
   </div>
 )}

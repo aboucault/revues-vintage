@@ -20,15 +20,17 @@ describe('renderEntryCardHtml — français', () => {
   it('encapsule une revue dans un lien vers sa page de détail', () => {
     const html = renderEntryCardHtml(makeEntry({ type: 'revue', slug: 'modes-travaux' }), 'fr')
     expect(html).toContain('<a href="/revues/modes-travaux">')
-    expect(html).toContain('card-badge badge--primary')
-    expect(html).toContain('Revue')
   })
 
   it('encapsule une pochette de patron dans un lien vers sa page de détail', () => {
     const html = renderEntryCardHtml(makeEntry({ type: 'pochette-patron', slug: 'vogue-1234' }), 'fr')
     expect(html).toContain('<a href="/patrons/vogue-1234">')
-    expect(html).toContain('card-badge badge--accent')
-    expect(html).toContain('Pochette à dater')
+  })
+
+  it('n’affiche jamais de bandeau de type (réservé à la page d’accueil)', () => {
+    const html = renderEntryCardHtml(makeEntry({ type: 'revue', slug: 'modes-travaux' }), 'fr')
+    expect(html).not.toContain('card-badge')
+    expect(html).not.toContain('Revue')
   })
 
   it('affiche les lignes de sous-titre après le titre', () => {
@@ -59,10 +61,9 @@ describe('renderEntryCardHtml — français', () => {
 })
 
 describe('renderEntryCardHtml — anglais', () => {
-  it('préfixe le lien de la revue par /en et traduit le badge', () => {
+  it('préfixe le lien de la revue par /en', () => {
     const html = renderEntryCardHtml(makeEntry({ type: 'revue', slug: 'modes-travaux' }), 'en')
     expect(html).toContain('<a href="/en/revues/modes-travaux">')
-    expect(html).toContain('Magazine')
   })
 
   it('traduit le texte de téléchargement', () => {
