@@ -37,6 +37,7 @@ export const fr: Dictionary = {
     trierPrefixe: 'Tri :',
     triRecent: 'Plus récents',
     triTitreAsc: 'Titre (A→Z)',
+    triTitreDesc: 'Titre (Z→A)',
     reinitialiser: 'Réinitialiser les filtres',
     pagePrecedente: 'Précédent',
     pageSuivante: 'Suivant',

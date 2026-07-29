@@ -34,6 +34,7 @@ export interface Dictionary {
     trierPrefixe: string
     triRecent: string
     triTitreAsc: string
+    triTitreDesc: string
     reinitialiser: string
     pagePrecedente: string
     pageSuivante: string

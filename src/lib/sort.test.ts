@@ -29,6 +29,12 @@ describe('sortEntries', () => {
     expect(sortEntries([b, a], 'titre-asc')).toEqual([a, b])
   })
 
+  it('trie par titre alphabétique décroissant avec "titre-desc"', () => {
+    const a = makeEntry({ id: 'a', titre: 'Anna' })
+    const b = makeEntry({ id: 'b', titre: 'Béatrice' })
+    expect(sortEntries([a, b], 'titre-desc')).toEqual([b, a])
+  })
+
   it('ne modifie pas le tableau d’origine', () => {
     const entries = [makeEntry({ id: 'a' }), makeEntry({ id: 'b' })]
     const original = [...entries]
