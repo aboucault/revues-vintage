@@ -55,8 +55,11 @@ export const fr: Dictionary = {
     ouvrirLePdf: 'Ouvrir le PDF',
     editeurLabel: 'Éditeur',
     numeroLabel: 'Numéro',
+    periodiciteLabel: 'Périodicité',
+    langueLabel: 'Langue',
     categoriesLabel: 'Catégories',
     dateParutionLabel: 'Date de parution',
+    aProposTitre: 'À propos de cette revue',
   },
   patronGratuitDetail: {
     telechargerLePatron: 'Télécharger le patron',

@@ -3,7 +3,7 @@ import DetailPage from '../DetailPage.astro'
 import { useTranslations } from '../../i18n'
 import type { Locale } from '../../i18n'
 import type { RevueDoc } from '../../lib/sanity'
-import { getRevueDisplayTitre, formatDateParution } from '../../lib/revueDetail'
+import { formatDateParution } from '../../lib/revueDetail'
 import { getLegalText } from '../../lib/legal'
 
 interface Props {
@@ -14,7 +14,6 @@ interface Props {
 const { locale, revue } = Astro.props
 const t = useTranslations(locale)
 const downloadHref = revue.statutDroits === 'domaine-public' ? revue.urlScanComplet : undefined
-const titreAffiche = getRevueDisplayTitre(revue.titre, revue.dateParution, locale)
 const base = locale === 'en' ? '/en' : ''
 const dateFormatee = formatDateParution(revue.dateParution, locale)
 
@@ -25,12 +24,16 @@ const badges = [
 
 const metadata = [
   ...(dateFormatee ? [{ icon: 'calendar' as const, label: t.revueDetail.dateParutionLabel, value: dateFormatee }] : []),
-  ...(revue.editeur ? [{ icon: 'building' as const, label: t.revueDetail.editeurLabel, value: revue.editeur }] : []),
   ...(revue.numero ? [{ icon: 'hash' as const, label: t.revueDetail.numeroLabel, value: revue.numero }] : []),
+  ...(revue.periodicite ? [{ icon: 'periodicite' as const, label: t.revueDetail.periodiciteLabel, value: revue.periodicite }] : []),
+  ...(revue.editeur ? [{ icon: 'building' as const, label: t.revueDetail.editeurLabel, value: revue.editeur }] : []),
+  ...(revue.langue ? [{ icon: 'langue' as const, label: t.revueDetail.langueLabel, value: revue.langue }] : []),
   ...(revue.categories.length > 0
     ? [{ icon: 'tags' as const, label: t.revueDetail.categoriesLabel, value: revue.categories.join(' • ') }]
     : []),
 ]
+
+const infoBox = revue.description ? { title: t.revueDetail.aProposTitre, text: revue.description } : undefined
 
 const shareUrl = Astro.url.href
 ---
@@ -39,11 +42,11 @@ const shareUrl = Astro.url.href
   pageTitle={revue.titre}
   backHref={`${base}/revues`}
   backLabel={t.detailPage.retourAuxRevues}
-  title={titreAffiche}
-  coverImageUrl={revue.couvertureUrl}
-  coverImageAlt={revue.titre}
+  title={revue.titre}
+  subtitle={dateFormatee}
   badges={badges}
   metadata={metadata}
+  infoBox={infoBox}
   legalTitle={t.detailPage.informationsLegales}
   legalText={getLegalText(revue.statutDroits, locale)}
   shareLabel={t.detailPage.partage}

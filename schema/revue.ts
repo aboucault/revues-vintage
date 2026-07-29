@@ -16,6 +16,33 @@ export const revue = defineType({
     defineField({ name: 'editeur', title: 'Éditeur', type: 'string' }),
     defineField({ name: 'numero', title: 'Numéro', type: 'string' }),
     defineField({
+      name: 'periodicite',
+      title: 'Périodicité',
+      type: 'object',
+      fields: [
+        defineField({ name: 'fr', title: 'Français', type: 'string' }),
+        defineField({ name: 'en', title: 'Anglais', type: 'string' }),
+      ],
+    }),
+    defineField({
+      name: 'langue',
+      title: 'Langue',
+      type: 'object',
+      fields: [
+        defineField({ name: 'fr', title: 'Français', type: 'string' }),
+        defineField({ name: 'en', title: 'Anglais', type: 'string' }),
+      ],
+    }),
+    defineField({
+      name: 'description',
+      title: 'À propos de cette revue',
+      type: 'object',
+      fields: [
+        defineField({ name: 'fr', title: 'Français', type: 'text' }),
+        defineField({ name: 'en', title: 'Anglais', type: 'text' }),
+      ],
+    }),
+    defineField({
       name: 'dateParution',
       title: 'Date de parution exacte',
       type: 'date',

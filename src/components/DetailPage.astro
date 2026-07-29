@@ -3,9 +3,10 @@ import Layout from '../layouts/Layout.astro'
 import DetailIcon from './DetailIcon.astro'
 import FlourishDecoration from './FlourishDecoration.astro'
 import type { Locale } from '../i18n'
+import type { IconName } from './DetailIcon.astro'
 
 interface MetadataRow {
-  icon: 'calendar' | 'building' | 'hash' | 'tags'
+  icon: IconName
   label: string
   value: string
 }
@@ -21,8 +22,7 @@ interface Props {
   backHref: string
   backLabel: string
   title: string
-  coverImageUrl?: string
-  coverImageAlt?: string
+  subtitle?: string
   badges: Badge[]
   metadata: MetadataRow[]
   infoBox?: { title: string; text: string }
@@ -40,8 +40,7 @@ const {
   backHref,
   backLabel,
   title,
-  coverImageUrl,
-  coverImageAlt,
+  subtitle,
   badges,
   metadata,
   infoBox,
@@ -51,8 +50,9 @@ const {
   <div class="detail-page">
     <aside class="detail-page__sidebar">
       <a class="detail-page__back" href={backHref}>← {backLabel}</a>
-      {coverImageUrl && <img class="detail-page__cover" src={coverImageUrl} alt={coverImageAlt ?? ''} />}
       <h1>{title}</h1>
+      <hr class="detail-page__divider" />
+      {subtitle && <p class="detail-page__subtitle">{subtitle}</p>}
       {badges.length > 0 && (
         <div class="detail-page__badges">
           {badges.map((badge) => (
@@ -73,7 +73,7 @@ const {
       )}
       {infoBox && (
         <div class="detail-page__info-box">
-          <h3>{infoBox.title}</h3>
+          <h3><DetailIcon name="info" />{infoBox.title}</h3>
           <p>{infoBox.text}</p>
         </div>
       )}
@@ -87,7 +87,7 @@ const {
 <style>
   .detail-page {
     display: grid;
-    grid-template-columns: minmax(260px, 2fr) minmax(0, 3fr);
+    grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
     gap: var(--space-4);
     align-items: start;
   }
@@ -105,10 +105,23 @@ const {
     opacity: 0.8;
   }
 
-  .detail-page__cover {
+  .detail-page__sidebar h1 {
+    font-size: 2.4rem;
+    margin: 0;
+  }
+
+  .detail-page__divider {
     width: 100%;
-    max-width: 220px;
-    border-radius: var(--radius);
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 0;
+  }
+
+  .detail-page__subtitle {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    margin: 0;
   }
 
   .detail-page__badges {
@@ -151,6 +164,9 @@ const {
 
   .detail-page__info-box h3 {
     margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .detail-page__main {

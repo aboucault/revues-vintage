@@ -52,8 +52,11 @@ export interface Dictionary {
     ouvrirLePdf: string
     editeurLabel: string
     numeroLabel: string
+    periodiciteLabel: string
+    langueLabel: string
     categoriesLabel: string
     dateParutionLabel: string
+    aProposTitre: string
   }
   patronGratuitDetail: {
     telechargerLePatron: string

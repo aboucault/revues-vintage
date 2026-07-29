@@ -1,5 +1,5 @@
 ---
-export type IconName = 'calendar' | 'building' | 'hash' | 'tags'
+export type IconName = 'calendar' | 'building' | 'hash' | 'tags' | 'periodicite' | 'langue' | 'info'
 
 interface Props {
   name: IconName
@@ -9,9 +9,12 @@ const { name } = Astro.props
 
 const paths: Record<IconName, string> = {
   calendar: '<rect x="3" y="4" width="14" height="13" rx="1.5"/><path d="M3 8h14M7 2.5v3M13 2.5v3"/>',
-  building: '<rect x="4" y="3" width="12" height="14" rx="1"/><path d="M7 7h1M12 7h1M7 10h1M12 10h1M7 13h1M12 13h1"/>',
+  building: '<path d="M3 9.5 10 3l7 6.5"/><path d="M5 8.5V17h10V8.5"/><path d="M8.5 17v-4h3v4"/>',
   hash: '<path d="M7 3l-1.5 14M14 3l-1.5 14M3.5 8h13M3 12.5h13"/>',
   tags: '<path d="M11 3H4v7l8.5 8.5a1.5 1.5 0 0 0 2.12 0l3.88-3.88a1.5 1.5 0 0 0 0-2.12L11 3Z"/><circle cx="7.5" cy="7.5" r="1"/>',
+  periodicite: '<path d="M10 5.5c-1.8-1.3-4.4-1.3-6.5-0.5v11c2.1-.8 4.7-.8 6.5.5"/><path d="M10 5.5c1.8-1.3 4.4-1.3 6.5-.5v11c-2.1-.8-4.7-.8-6.5.5V5.5Z"/>',
+  langue: '<path d="M6 2.5h6.5L16 6v11.5H6z"/><path d="M12.5 2.5V6H16"/><path d="M8 10.5h6M8 13.5h6"/>',
+  info: '<circle cx="10" cy="10" r="7.25"/><path d="M10 9.25v5"/><circle cx="10" cy="6.5" r="0.9" fill="currentColor" stroke="none"/>',
 }
 ---
 <svg
