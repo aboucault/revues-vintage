@@ -1,0 +1,228 @@
+---
+import Layout from '../layouts/Layout.astro'
+import DetailIcon from './DetailIcon.astro'
+import FlourishDecoration from './FlourishDecoration.astro'
+import type { Locale } from '../i18n'
+
+interface MetadataRow {
+  icon: 'calendar' | 'building' | 'hash' | 'tags'
+  label: string
+  value: string
+}
+
+interface Badge {
+  label: string
+  variant: 'primary' | 'accent'
+}
+
+interface Props {
+  locale: Locale
+  pageTitle: string
+  backHref: string
+  backLabel: string
+  title: string
+  badges: Badge[]
+  metadata: MetadataRow[]
+  infoBox?: { title: string; text: string }
+  legalTitle: string
+  legalText: string
+  shareLabel: string
+  shareUrl: string
+  copyLabel: string
+  copiedLabel: string
+}
+
+const {
+  locale,
+  pageTitle,
+  backHref,
+  backLabel,
+  title,
+  badges,
+  metadata,
+  infoBox,
+  legalTitle,
+  legalText,
+  shareLabel,
+  shareUrl,
+  copyLabel,
+  copiedLabel,
+} = Astro.props
+---
+<Layout title={pageTitle} locale={locale}>
+  <div class="detail-page">
+    <aside class="detail-page__sidebar">
+      <a class="detail-page__back" href={backHref}>← {backLabel}</a>
+      <h1>{title}</h1>
+      {badges.length > 0 && (
+        <div class="detail-page__badges">
+          {badges.map((badge) => (
+            <span class={`badge badge--${badge.variant}`}>{badge.label}</span>
+          ))}
+        </div>
+      )}
+      {metadata.length > 0 && (
+        <ul class="detail-page__metadata">
+          {metadata.map((row) => (
+            <li>
+              <DetailIcon name={row.icon} />
+              <span class="detail-page__metadata-label">{row.label}</span>
+              <span class="detail-page__metadata-value">{row.value}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {infoBox && (
+        <div class="detail-page__info-box">
+          <h3>{infoBox.title}</h3>
+          <p>{infoBox.text}</p>
+        </div>
+      )}
+      <FlourishDecoration />
+    </aside>
+    <div class="detail-page__main">
+      <slot />
+    </div>
+    <footer class="detail-page__footer">
+      <div class="detail-page__footer-block">
+        <h3>{legalTitle}</h3>
+        <p>{legalText}</p>
+      </div>
+      <div class="detail-page__footer-block">
+        <h3>{shareLabel}</h3>
+        <p class="detail-page__share-url">{shareUrl}</p>
+        <button
+          type="button"
+          class="detail-page__copy-button"
+          data-copy-link
+          data-url={shareUrl}
+          data-copy-label={copyLabel}
+          data-copied-label={copiedLabel}
+        >
+          {copyLabel}
+        </button>
+      </div>
+    </footer>
+  </div>
+</Layout>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-link]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const url = button.dataset.url ?? ''
+      const originalLabel = button.dataset.copyLabel ?? ''
+      const copiedLabel = button.dataset.copiedLabel ?? ''
+      await navigator.clipboard.writeText(url)
+      button.textContent = copiedLabel
+      setTimeout(() => {
+        button.textContent = originalLabel
+      }, 2000)
+    })
+  })
+</script>
+<style>
+  .detail-page {
+    display: grid;
+    grid-template-columns: minmax(260px, 2fr) minmax(0, 3fr);
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .detail-page__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .detail-page__back {
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    opacity: 0.8;
+  }
+
+  .detail-page__badges {
+    display: flex;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+  }
+
+  .detail-page__metadata {
+    list-style: none;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-2);
+  }
+
+  .detail-page__metadata li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .detail-page__metadata-label {
+    opacity: 0.7;
+  }
+
+  .detail-page__metadata-value {
+    font-weight: 500;
+  }
+
+  .detail-page__info-box {
+    background: var(--color-bg-alt);
+    border-radius: var(--radius);
+    padding: var(--space-2);
+  }
+
+  .detail-page__info-box h3 {
+    margin-top: 0;
+  }
+
+  .detail-page__main {
+    min-width: 0;
+  }
+
+  .detail-page__footer {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+  }
+
+  .detail-page__footer-block h3 {
+    margin-top: 0;
+  }
+
+  .detail-page__share-url {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    word-break: break-all;
+  }
+
+  .detail-page__copy-button {
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  @media (max-width: 720px) {
+    .detail-page {
+      grid-template-columns: 1fr;
+    }
+
+    .detail-page__footer {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
