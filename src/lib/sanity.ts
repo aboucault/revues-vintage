@@ -41,6 +41,7 @@ export interface PochettePatronDoc {
   caracteristiquesStyle: string[]
   imageRectoUrl: string
   imageVersoUrl?: string
+  statutDroits: StatutDroits
 }
 
 export interface PatronGratuitDoc {
@@ -86,7 +87,8 @@ const POCHETTE_QUERY = `*[_type == "pochettePatron"]{
   "decennieLabel": decennie->label[$locale],
   "caracteristiquesStyle": coalesce(caracteristiquesStyle, []),
   "imageRectoUrl": imageRecto.asset->url,
-  "imageVersoUrl": imageVerso.asset->url
+  "imageVersoUrl": imageVerso.asset->url,
+  statutDroits
 }`
 
 export async function fetchPochettesPatron(locale: Locale): Promise<PochettePatronDoc[]> {
