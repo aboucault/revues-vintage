@@ -13,7 +13,9 @@ export const fr: Dictionary = {
     heroTitle: 'Explorez un siècle de mode à la française',
     heroSubtitle:
       'Revues d’époque, pochettes de patrons à dater et patrons gratuits à télécharger. Un patrimoine unique, accessible à tous.',
-    heroButton: 'Explorer le catalogue',
+    presentationTexte:
+      'Derrière ce site, il y a une seule personne : moi. Je passe des heures à rechercher, dater et cataloguer ces revues et patrons parfois vieux d’un siècle, pour qu’ils restent accessibles à celles et ceux qui aiment encore coudre à l’ancienne.',
+    presentationLien: 'En savoir plus et soutenir le projet',
     facon1Titre: 'Revues d’époque',
     facon1Description: 'Feuilletez les magazines français numérisés, page par page.',
     facon1Libelle: 'Parcourir les revues',

@@ -13,7 +13,9 @@ export const en: Dictionary = {
     heroTitle: 'Explore a century of French fashion',
     heroSubtitle:
       'Vintage magazines, pattern envelopes to date, and free patterns to download. A unique heritage, accessible to everyone.',
-    heroButton: 'Explore the catalog',
+    presentationTexte:
+      'Behind this site, there’s just one person: me. I spend hours researching, dating, and cataloguing these magazines and patterns, some of them nearly a century old, so they stay accessible to everyone who still loves sewing the old-fashioned way.',
+    presentationLien: 'Learn more and support the project',
     facon1Titre: 'Vintage Magazines',
     facon1Description: 'Browse digitized French magazines, page by page.',
     facon1Libelle: 'Browse the magazines',

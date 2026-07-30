@@ -10,7 +10,8 @@ export interface Dictionary {
   home: {
     heroTitle: string
     heroSubtitle: string
-    heroButton: string
+    presentationTexte: string
+    presentationLien: string
     facon1Titre: string
     facon1Description: string
     facon1Libelle: string

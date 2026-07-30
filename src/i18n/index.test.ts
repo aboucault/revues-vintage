@@ -50,6 +50,18 @@ describe('useTranslations', () => {
     expect(en.pages.soutenirLeProjetParagraphe3).toBe('Every contribution, however small, makes a difference.')
     expect(en.pages.soutenirLeProjetReseauxTitre).toBe('Follow me')
   })
+
+  it('expose les nouvelles clés du bandeau de présentation sur la home', () => {
+    const t = useTranslations('fr')
+    expect(t.home.presentationTexte).toContain('Derrière ce site')
+    expect(t.home.presentationLien).toBe('En savoir plus et soutenir le projet')
+    expect(t.home).not.toHaveProperty('heroButton')
+
+    const en = useTranslations('en')
+    expect(en.home.presentationTexte).toContain('Behind this site')
+    expect(en.home.presentationLien).toBe('Learn more and support the project')
+    expect(en.home).not.toHaveProperty('heroButton')
+  })
 })
 
 describe('getLocaleFromUrl', () => {
