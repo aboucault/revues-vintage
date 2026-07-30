@@ -31,10 +31,18 @@ export const patronGratuit = defineType({
     }),
     defineField({ name: 'revueSource', title: 'Revue source', type: 'reference', to: [{ type: 'revue' }] }),
     defineField({
+      name: 'pages',
+      title: 'Pages dans la revue source',
+      type: 'array',
+      of: [{ type: 'number' }],
+      description:
+        'Numéros de page du patron dans le scan de la revue source (ex. 13, ou 3 et 18 si le modèle continue plus loin dans le numéro). Renseigné seulement si "Revue source" est rempli.',
+    }),
+    defineField({
       name: 'fichierPatron',
       title: 'Fichier patron (PDF)',
       type: 'file',
-      validation: (Rule) => Rule.required(),
+      description: 'Optionnel si le patron est déjà couvert par "Revue source" + "Pages". Requis sinon.',
     }),
     defineField({
       name: 'statutDroits',
@@ -50,4 +58,14 @@ export const patronGratuit = defineType({
       validation: (Rule) => Rule.required(),
     }),
   ],
+  validation: (Rule) =>
+    Rule.custom((doc) => {
+      const hasFichier = Boolean((doc as any)?.fichierPatron?.asset)
+      const pages = (doc as any)?.pages as number[] | undefined
+      const hasRevueLink = Boolean((doc as any)?.revueSource) && Array.isArray(pages) && pages.length > 0
+      if (!hasFichier && !hasRevueLink) {
+        return 'Il faut soit un fichier PDF autonome, soit une revue source avec au moins une page.'
+      }
+      return true
+    }),
 })
