@@ -23,10 +23,14 @@ const revueHref = patron.revueSourceSlug ? `${base}/revues/${patron.revueSourceS
 
 const badges = [{ label: t.badges.patronGratuit, variant: 'primary' as const }]
 
-const metadata =
-  patron.categories.length > 0
+const metadata = [
+  ...(patron.categories.length > 0
     ? [{ icon: 'tags' as const, label: t.patronGratuitDetail.categoriesLabel, value: patron.categories.join(' • ') }]
-    : []
+    : []),
+  ...(patron.typeActivite.length > 0
+    ? [{ icon: 'tags' as const, label: t.patronGratuitDetail.typeActiviteLabel, value: patron.typeActivite.join(' • ') }]
+    : []),
+]
 
 const infoBox = patron.description
   ? { title: t.patronGratuitDetail.aProposTitre, text: patron.description }

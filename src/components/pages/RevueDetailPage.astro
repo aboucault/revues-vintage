@@ -36,6 +36,9 @@ const metadata = [
   ...(revue.categories.length > 0
     ? [{ icon: 'tags' as const, label: t.revueDetail.categoriesLabel, value: revue.categories.join(' • ') }]
     : []),
+  ...(revue.typeActivite.length > 0
+    ? [{ icon: 'tags' as const, label: t.revueDetail.typeActiviteLabel, value: revue.typeActivite.join(' • ') }]
+    : []),
 ]
 
 const infoBox = revue.description ? { title: t.revueDetail.aProposTitre, text: revue.description } : undefined

@@ -35,6 +35,9 @@ const metadata = [
   ...(pochette.categories.length > 0
     ? [{ icon: 'tags' as const, label: t.pochettePatronDetail.categoriesLabel, value: pochette.categories.join(' • ') }]
     : []),
+  ...(pochette.typeActivite.length > 0
+    ? [{ icon: 'tags' as const, label: t.pochettePatronDetail.typeActiviteLabel, value: pochette.typeActivite.join(' • ') }]
+    : []),
   ...(pochette.caracteristiquesStyle.length > 0
     ? [
         {
