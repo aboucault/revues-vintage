@@ -66,6 +66,7 @@ export interface PatronGratuitDoc {
   revueSourceStatutDroits?: StatutDroits
   fichierUrl?: string
   pages?: number[]
+  couvertureUrl?: string
   statutDroits: StatutDroits
 }
 
@@ -129,6 +130,7 @@ const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
   "revueSourceStatutDroits": revueSource->statutDroits,
   "fichierUrl": fichierPatron.asset->url,
   pages,
+  "couvertureUrl": couverture.asset->url,
   statutDroits
 }`
 

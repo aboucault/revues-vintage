@@ -53,4 +53,14 @@ describe('fetchPatronsGratuits', () => {
     expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('revueSourceStatutDroits'), { locale: 'fr' })
     expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('revueSourceTitre'), { locale: 'fr' })
   })
+
+  it('récupère la vignette de couverture', async () => {
+    const { fetchPatronsGratuits } = await import('./sanity')
+    fetchMock.mockResolvedValueOnce([])
+
+    await fetchPatronsGratuits('fr')
+
+    const patronGratuitCall = fetchMock.mock.calls.find(([query]) => query.includes('_type == "patronGratuit"'))
+    expect(patronGratuitCall?.[0]).toContain('couvertureUrl')
+  })
 })
