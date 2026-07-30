@@ -20,7 +20,21 @@ export const pochettePatron = defineType({
       title: 'Catégories',
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'categorie' }] }],
-      validation: (Rule) => Rule.required().min(1),
+    }),
+    defineField({
+      name: 'typeActivite',
+      title: "Type d'activité",
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        list: [
+          { title: 'Couture', value: 'couture' },
+          { title: 'Tricot', value: 'tricot' },
+          { title: 'Crochet', value: 'crochet' },
+          { title: 'Broderie', value: 'broderie' },
+          { title: 'Mode', value: 'mode' },
+        ],
+      },
     }),
     defineField({ name: 'decennie', title: 'Décennie', type: 'reference', to: [{ type: 'decennie' }] }),
     defineField({
