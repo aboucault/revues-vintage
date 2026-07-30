@@ -25,6 +25,7 @@ const {
 const t = useTranslations(locale)
 
 const categorieOptions = buildFacetOptions(entries.flatMap((e) => e.categories))
+const typeActiviteOptions = buildFacetOptions(entries.flatMap((e) => e.typeActivite))
 const decennieOptions = buildFacetOptions(
   entries.map((e) => e.decennieLabel).filter((v): v is string => Boolean(v))
 )
@@ -66,6 +67,18 @@ const caracteristiqueOptions = showCaracteristiquesFilter
           {titreOptions.map((option) => (
             <label class="filter-option">
               <input type="checkbox" name="titres" value={option.value} />
+              {option.value} ({option.count})
+            </label>
+          ))}
+        </fieldset>
+      )}
+
+      {typeActiviteOptions.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>{t.catalog.typeActivite}</legend>
+          {typeActiviteOptions.map((option) => (
+            <label class="filter-option">
+              <input type="checkbox" name="typesActivite" value={option.value} />
               {option.value} ({option.count})
             </label>
           ))}
@@ -191,6 +204,7 @@ const caracteristiqueOptions = showCaracteristiquesFilter
     const filtered = filterCatalog(entries, {
       q: (formData.get('q') as string) || undefined,
       categories: getCheckedValues('categories'),
+      typesActivite: getCheckedValues('typesActivite'),
       marques: getCheckedValues('marques'),
       decennies: getCheckedValues('decennies'),
       caracteristiques: getCheckedValues('caracteristiques'),
