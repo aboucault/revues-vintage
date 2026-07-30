@@ -75,6 +75,8 @@ export const fr: Dictionary = {
     telechargerLePatron: 'Télécharger le patron',
     categoriesLabel: 'Catégories',
     aProposTitre: 'À propos de ce patron',
+    pageLabel: (page: number) => `Page ${page}`,
+    voirDansLaRevue: (revueTitre: string) => `Voir dans « ${revueTitre} »`,
   },
   pochettePatronDetail: {
     marqueLabel: 'Marque',

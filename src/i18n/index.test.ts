@@ -72,6 +72,20 @@ describe('useTranslations', () => {
     expect(en.home.suivreTiktok).toBe('Follow on TikTok')
     expect(en.home.suivreYoutube).toBe('Follow on YouTube')
   })
+
+  it('expose les nouvelles clés du lecteur de patron gratuit lié à une revue', () => {
+    const t = useTranslations('fr')
+    expect(t.patronGratuitDetail.pageLabel(13)).toBe('Page 13')
+    expect(t.patronGratuitDetail.voirDansLaRevue('Le Petit Écho de la Mode')).toBe(
+      'Voir dans « Le Petit Écho de la Mode »',
+    )
+
+    const en = useTranslations('en')
+    expect(en.patronGratuitDetail.pageLabel(13)).toBe('Page 13')
+    expect(en.patronGratuitDetail.voirDansLaRevue('Le Petit Écho de la Mode')).toBe(
+      'See it in "Le Petit Écho de la Mode"',
+    )
+  })
 })
 
 describe('getLocaleFromUrl', () => {

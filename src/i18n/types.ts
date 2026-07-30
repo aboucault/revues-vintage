@@ -71,6 +71,8 @@ export interface Dictionary {
     telechargerLePatron: string
     categoriesLabel: string
     aProposTitre: string
+    pageLabel: (page: number) => string
+    voirDansLaRevue: (revueTitre: string) => string
   }
   pochettePatronDetail: {
     marqueLabel: string

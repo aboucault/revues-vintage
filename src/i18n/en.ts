@@ -75,6 +75,8 @@ export const en: Dictionary = {
     telechargerLePatron: 'Download the pattern',
     categoriesLabel: 'Categories',
     aProposTitre: 'About this pattern',
+    pageLabel: (page: number) => `Page ${page}`,
+    voirDansLaRevue: (revueTitre: string) => `See it in "${revueTitre}"`,
   },
   pochettePatronDetail: {
     marqueLabel: 'Brand',
