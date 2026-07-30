@@ -41,4 +41,16 @@ describe('fetchPatronsGratuits', () => {
     expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('_type == "patronGratuit"'), { locale: 'fr' })
     expect(result).toEqual([{ _id: '3', titre: 'Robe à smocks' }])
   })
+
+  it('récupère les pages et les informations de la revue source pour le lecteur lié', async () => {
+    const { fetchPatronsGratuits } = await import('./sanity')
+    fetchMock.mockResolvedValueOnce([])
+
+    await fetchPatronsGratuits('fr')
+
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('pages'), { locale: 'fr' })
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('revueScanUrl'), { locale: 'fr' })
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('revueSourceStatutDroits'), { locale: 'fr' })
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('revueSourceTitre'), { locale: 'fr' })
+  })
 })

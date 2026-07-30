@@ -61,7 +61,11 @@ export interface PatronGratuitDoc {
   description?: string
   categories: string[]
   revueSourceSlug?: string
+  revueSourceTitre?: string
+  revueScanUrl?: string
+  revueSourceStatutDroits?: StatutDroits
   fichierUrl?: string
+  pages?: number[]
   statutDroits: StatutDroits
 }
 
@@ -120,7 +124,11 @@ const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
   "description": description[$locale],
   "categories": categories[]->nom[$locale],
   "revueSourceSlug": revueSource->slug.current,
+  "revueSourceTitre": revueSource->titre,
+  "revueScanUrl": revueSource->urlScanComplet.asset->url,
+  "revueSourceStatutDroits": revueSource->statutDroits,
   "fichierUrl": fichierPatron.asset->url,
+  pages,
   statutDroits
 }`
 
