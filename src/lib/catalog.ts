@@ -9,6 +9,7 @@ export interface CatalogEntry {
   titre: string
   slug: string
   categories: string[]
+  typeActivite: string[]
   decennieLabel?: string
   marqueNom?: string
   caracteristiquesStyle: string[]
@@ -31,6 +32,7 @@ export function buildCatalog(
     titre: r.titre,
     slug: r.slug,
     categories: r.categories,
+    typeActivite: r.typeActivite,
     decennieLabel: r.decennieLabel,
     caracteristiquesStyle: [],
     imageUrl: r.couvertureUrl ?? '',
@@ -47,6 +49,7 @@ export function buildCatalog(
     titre: p.titre,
     slug: p.slug,
     categories: p.categories,
+    typeActivite: p.typeActivite,
     decennieLabel: p.decennieLabel,
     marqueNom: p.marqueNom,
     caracteristiquesStyle: p.caracteristiquesStyle,
@@ -61,6 +64,7 @@ export function buildCatalog(
     titre: p.titre,
     slug: p.slug,
     categories: p.categories,
+    typeActivite: p.typeActivite,
     caracteristiquesStyle: [],
     imageUrl: p.couvertureUrl ?? '',
     telechargementUrl: p.statutDroits === 'domaine-public' ? p.fichierUrl : undefined,

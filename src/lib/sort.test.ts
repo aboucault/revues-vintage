@@ -10,6 +10,7 @@ function makeEntry(overrides: Partial<CatalogEntry>): CatalogEntry {
     titre: 'Titre',
     slug: 'titre',
     categories: [],
+    typeActivite: [],
     caracteristiquesStyle: [],
     imageUrl: '',
     ...overrides,

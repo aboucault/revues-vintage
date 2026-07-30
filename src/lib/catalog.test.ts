@@ -9,6 +9,7 @@ const baseRevue: RevueDoc = {
   titre: 'Modes & Travaux 1958',
   slug: 'modes-travaux-1958',
   categories: ['couture'],
+  typeActivite: [],
   statutDroits: 'domaine-public',
   apercuPagesUrls: [],
   urlScanComplet: 'https://r2.example.com/scan.pdf',
@@ -50,6 +51,12 @@ describe('buildCatalog — revues', () => {
     expect(entry.numero).toBeUndefined()
     expect(entry.annee).toBeUndefined()
   })
+
+  it('reporte typeActivite sur l’entrée de catalogue', () => {
+    const revueAvecActivite: RevueDoc = { ...baseRevue, typeActivite: ['Couture', 'Tricot'] }
+    const [entry] = buildCatalog([revueAvecActivite], [], [])
+    expect(entry.typeActivite).toEqual(['Couture', 'Tricot'])
+  })
 })
 
 describe('buildCatalog — pochettes de patron', () => {
@@ -60,6 +67,7 @@ describe('buildCatalog — pochettes de patron', () => {
       titre: 'Vogue 1234',
       slug: 'vogue-1234',
       categories: ['couture'],
+      typeActivite: [],
       caracteristiquesStyle: ['col claudine'],
       imageRectoUrl: 'https://cdn.sanity.io/recto.jpg',
       statutDroits: 'incertain',
@@ -79,6 +87,7 @@ describe('buildCatalog — patrons gratuits', () => {
       titre: 'Robe à smocks',
       slug: 'robe-a-smocks',
       categories: ['couture'],
+      typeActivite: [],
       statutDroits: 'domaine-public',
       fichierUrl: 'https://cdn.sanity.io/patron.pdf',
     }
@@ -94,6 +103,7 @@ describe('buildCatalog — patrons gratuits', () => {
       titre: 'Robe à smocks',
       slug: 'robe-a-smocks',
       categories: ['couture'],
+      typeActivite: [],
       statutDroits: 'incertain',
       fichierUrl: 'https://cdn.sanity.io/patron.pdf',
     }
@@ -108,6 +118,7 @@ describe('buildCatalog — patrons gratuits', () => {
       titre: 'Pull pour garçon',
       slug: 'pull-pour-garcon',
       categories: ['tricot'],
+      typeActivite: [],
       statutDroits: 'domaine-public',
       couvertureUrl: 'https://cdn.sanity.io/couverture.png',
     }
@@ -122,6 +133,7 @@ describe('buildCatalog — patrons gratuits', () => {
       titre: 'Robe à smocks',
       slug: 'robe-a-smocks-2',
       categories: ['couture'],
+      typeActivite: [],
       statutDroits: 'domaine-public',
     }
     const [entry] = buildCatalog([], [], [patron])
@@ -137,6 +149,7 @@ function makeEntry(overrides: Partial<CatalogEntry>): CatalogEntry {
     titre: 'Titre',
     slug: 'un-titre',
     categories: [],
+    typeActivite: [],
     caracteristiquesStyle: [],
     imageUrl: '',
     ...overrides,
