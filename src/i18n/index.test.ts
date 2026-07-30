@@ -62,6 +62,16 @@ describe('useTranslations', () => {
     expect(en.home.presentationLien).toBe('Learn more and support the project')
     expect(en.home).not.toHaveProperty('heroButton')
   })
+
+  it('expose les libellés des icônes sociales sur la home', () => {
+    const t = useTranslations('fr')
+    expect(t.home.suivreTiktok).toBe('Suivre sur TikTok')
+    expect(t.home.suivreYoutube).toBe('Suivre sur YouTube')
+
+    const en = useTranslations('en')
+    expect(en.home.suivreTiktok).toBe('Follow on TikTok')
+    expect(en.home.suivreYoutube).toBe('Follow on YouTube')
+  })
 })
 
 describe('getLocaleFromUrl', () => {
