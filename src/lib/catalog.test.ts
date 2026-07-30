@@ -100,6 +100,33 @@ describe('buildCatalog — patrons gratuits', () => {
     const [entry] = buildCatalog([], [], [patron])
     expect(entry.telechargementUrl).toBeUndefined()
   })
+
+  it('expose la vignette de couverture quand elle existe', () => {
+    const patron: PatronGratuitDoc = {
+      _id: 'g3',
+      _createdAt: '2026-03-03T09:00:00Z',
+      titre: 'Pull pour garçon',
+      slug: 'pull-pour-garcon',
+      categories: ['tricot'],
+      statutDroits: 'domaine-public',
+      couvertureUrl: 'https://cdn.sanity.io/couverture.png',
+    }
+    const [entry] = buildCatalog([], [], [patron])
+    expect(entry.imageUrl).toBe('https://cdn.sanity.io/couverture.png')
+  })
+
+  it('laisse la vignette vide quand aucune couverture n’est renseignée', () => {
+    const patron: PatronGratuitDoc = {
+      _id: 'g4',
+      _createdAt: '2026-03-04T09:00:00Z',
+      titre: 'Robe à smocks',
+      slug: 'robe-a-smocks-2',
+      categories: ['couture'],
+      statutDroits: 'domaine-public',
+    }
+    const [entry] = buildCatalog([], [], [patron])
+    expect(entry.imageUrl).toBe('')
+  })
 })
 
 function makeEntry(overrides: Partial<CatalogEntry>): CatalogEntry {
