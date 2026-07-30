@@ -66,13 +66,16 @@ const facons = [
     ))}
   </section>
 
-  <form class="search-form" action={`${base}/revues`} method="get">
-    <label for="q">{t.home.searchLabel}</label>
-    <div class="search-row">
-      <input id="q" type="search" name="q" placeholder={t.home.searchPlaceholder} />
-      <button type="submit">{t.home.searchButton}</button>
-    </div>
-  </form>
+  <div class="search-section">
+    <img class="search-flowers" src="/search-flowers.png" alt="" aria-hidden="true" loading="lazy" width="311" height="400" />
+    <form class="search-form" action={`${base}/revues`} method="get">
+      <label for="q">{t.home.searchLabel}</label>
+      <div class="search-row">
+        <input id="q" type="search" name="q" placeholder={t.home.searchPlaceholder} />
+        <button type="submit">{t.home.searchButton}</button>
+      </div>
+    </form>
+  </div>
 
   <section class="presentation">
     <div class="presentation-header">
@@ -147,9 +150,23 @@ const facons = [
     }
   }
 
-  .search-form {
-    max-width: 560px;
+  .search-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
     margin: 0 auto var(--space-4);
+    max-width: 700px;
+  }
+
+  .search-flowers {
+    flex-shrink: 0;
+    width: 90px;
+    height: auto;
+  }
+
+  .search-form {
+    flex: 1;
     text-align: left;
   }
 
@@ -253,6 +270,10 @@ const facons = [
   @media (max-width: 720px) {
     .search-row {
       flex-direction: column;
+    }
+
+    .search-flowers {
+      display: none;
     }
 
     .presentation-header {
