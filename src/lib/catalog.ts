@@ -73,6 +73,13 @@ export function buildCatalog(
   return [...revueEntries, ...pochetteEntries, ...patronGratuitEntries]
 }
 
+export function pickRepresentativeImage(
+  entries: CatalogEntry[],
+  type: CatalogEntryType
+): string | undefined {
+  return entries.find((entry) => entry.type === type && entry.imageUrl)?.imageUrl
+}
+
 // Les dossiers de pages ne reprennent pas le type au singulier ("revue", "patron-gratuit")
 // mais leurs propres noms de route.
 export function getEntryPath(entry: CatalogEntry): string | undefined {
