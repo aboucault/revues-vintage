@@ -120,7 +120,7 @@ export async function fetchPochettesPatron(locale: Locale): Promise<PochettePatr
 const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
   _id,
   _createdAt,
-  titre,
+  "titre": titre[$locale],
   "slug": slug.current,
   "description": description[$locale],
   "categories": categories[]->nom[$locale],

@@ -5,12 +5,21 @@ export const patronGratuit = defineType({
   title: 'Patron gratuit',
   type: 'document',
   fields: [
-    defineField({ name: 'titre', title: 'Titre', type: 'string', validation: (Rule) => Rule.required() }),
+    defineField({
+      name: 'titre',
+      title: 'Titre',
+      type: 'object',
+      fields: [
+        defineField({ name: 'fr', title: 'Français', type: 'string', validation: (Rule) => Rule.required() }),
+        defineField({ name: 'en', title: 'Anglais', type: 'string', validation: (Rule) => Rule.required() }),
+      ],
+      validation: (Rule) => Rule.required(),
+    }),
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'titre' },
+      options: { source: 'titre.fr' },
       validation: (Rule) => Rule.required(),
     }),
     defineField({

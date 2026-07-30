@@ -63,4 +63,14 @@ describe('fetchPatronsGratuits', () => {
     const patronGratuitCall = fetchMock.mock.calls.find(([query]) => query.includes('_type == "patronGratuit"'))
     expect(patronGratuitCall?.[0]).toContain('couvertureUrl')
   })
+
+  it('projette le titre selon la locale demandée', async () => {
+    const { fetchPatronsGratuits } = await import('./sanity')
+    fetchMock.mockResolvedValueOnce([])
+
+    await fetchPatronsGratuits('en')
+
+    const patronGratuitCall = fetchMock.mock.calls.find(([query]) => query.includes('_type == "patronGratuit"'))
+    expect(patronGratuitCall?.[0]).toContain('"titre": titre[$locale]')
+  })
 })
