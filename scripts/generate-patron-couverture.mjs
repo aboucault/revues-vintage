@@ -40,12 +40,10 @@ if (!patron.pages || patron.pages.length === 0) {
   process.exit(1)
 }
 
-const page = patron.pages[0]
 const workDir = mkdtempSync(join(tmpdir(), 'patron-couverture-'))
 
 try {
   const pdfPath = join(workDir, 'scan.pdf')
-  const outputPrefix = join(workDir, 'page')
 
   console.log(`Téléchargement du scan de "${patron.titre}"…`)
   const response = await fetch(patron.revueScanUrl)
@@ -55,25 +53,28 @@ try {
   }
   writeFileSync(pdfPath, Buffer.from(await response.arrayBuffer()))
 
-  console.log(`Extraction de la page ${page}…`)
-  execFileSync('pdftoppm', ['-png', '-f', String(page), '-l', String(page), '-r', '150', pdfPath, outputPrefix])
+  const couvertures = []
+  for (const page of patron.pages) {
+    const outputPrefix = join(workDir, `page-${page}`)
 
-  const pngName = readdirSync(workDir).find((name) => name.startsWith('page') && name.endsWith('.png'))
-  if (!pngName) {
-    console.error(`pdftoppm n'a produit aucune image pour la page ${page}.`)
-    process.exit(1)
+    console.log(`Extraction de la page ${page}…`)
+    execFileSync('pdftoppm', ['-png', '-f', String(page), '-l', String(page), '-r', '150', pdfPath, outputPrefix])
+
+    const pngName = readdirSync(workDir).find((name) => name.startsWith(`page-${page}-`) && name.endsWith('.png'))
+    if (!pngName) {
+      console.error(`pdftoppm n'a produit aucune image pour la page ${page}.`)
+      process.exit(1)
+    }
+    const pngBuffer = readFileSync(join(workDir, pngName))
+
+    console.log(`Upload de la vignette de la page ${page}…`)
+    const asset = await client.assets.upload('image', pngBuffer, { filename: `${patronId}-page-${page}.png` })
+    couvertures.push({ _type: 'image', _key: `page-${page}`, asset: { _type: 'reference', _ref: asset._id } })
   }
-  const pngBuffer = readFileSync(join(workDir, pngName))
 
-  console.log('Upload de la vignette sur Sanity…')
-  const asset = await client.assets.upload('image', pngBuffer, { filename: `${patronId}-couverture.png` })
+  await client.patch(patronId).set({ couvertures }).commit()
 
-  await client
-    .patch(patronId)
-    .set({ couverture: { _type: 'image', asset: { _type: 'reference', _ref: asset._id } } })
-    .commit()
-
-  console.log(`Vignette générée et associée à "${patron.titre}".`)
+  console.log(`${couvertures.length} vignette(s) générée(s) et associée(s) à "${patron.titre}".`)
 } finally {
   rmSync(workDir, { recursive: true, force: true })
 }
