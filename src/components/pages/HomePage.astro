@@ -39,7 +39,13 @@ const facons = [
   <section class="hero">
     <h1>{t.home.heroTitle}</h1>
     <p>{t.home.heroSubtitle}</p>
-    <a class="button" href={`${base}/revues`}>{t.home.heroButton}</a>
+    <form class="search-form" action={`${base}/revues`} method="get">
+      <label for="q">{t.home.searchLabel}</label>
+      <div class="search-row">
+        <input id="q" type="search" name="q" placeholder={t.home.searchPlaceholder} />
+        <button type="submit">{t.home.searchButton}</button>
+      </div>
+    </form>
   </section>
 
   <section class="facons">
@@ -52,18 +58,27 @@ const facons = [
     ))}
   </section>
 
+  <section class="presentation">
+    <img
+      class="presentation-photo"
+      src="/portrait-auteure.jpg"
+      alt=""
+      width="812"
+      height="900"
+      loading="lazy"
+    />
+    <div class="presentation-content">
+      <p>{t.home.presentationTexte}</p>
+      <a href={`${base}/soutenir-le-projet`}>{t.home.presentationLien} →</a>
+    </div>
+  </section>
+
   <section class="derniers-ajouts">
     <h2>{t.home.derniersAjouts}</h2>
     <ul class="card-grid">
       {derniersAjouts.map((entry) => <EntryCard entry={entry} locale={locale} />)}
     </ul>
   </section>
-
-  <form class="search-form" action={`${base}/revues`} method="get">
-    <label for="q">{t.home.searchLabel}</label>
-    <input id="q" type="search" name="q" placeholder={t.home.searchPlaceholder} />
-    <button type="submit">{t.home.searchButton}</button>
-  </form>
 </Layout>
 
 <style>
@@ -72,15 +87,38 @@ const facons = [
     padding: var(--space-4) 0;
   }
 
-  .button {
-    display: inline-block;
-    margin-top: var(--space-2);
-    padding: 0.75rem 1.5rem;
+  .search-form {
+    max-width: 560px;
+    margin: var(--space-3) auto 0;
+    text-align: left;
+  }
+
+  .search-form label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: var(--space-1);
+  }
+
+  .search-row {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .search-row input {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .search-row button {
+    padding: 0.5rem 1rem;
     background: var(--color-primary);
     color: var(--color-primary-contrast);
-    border-radius: 999px;
-    text-decoration: none;
+    border: none;
+    border-radius: var(--radius);
     font-weight: 500;
+    cursor: pointer;
   }
 
   .facons {
@@ -96,36 +134,40 @@ const facons = [
     padding: var(--space-3);
   }
 
-  .search-form {
-    display: flex;
-    flex-wrap: wrap;
+  .presentation {
+    display: grid;
+    grid-template-columns: minmax(160px, 220px) minmax(0, 1fr);
+    gap: var(--space-4);
     align-items: center;
-    gap: var(--space-2);
     background: var(--color-bg-alt);
     border-radius: var(--radius);
     padding: var(--space-3);
-    margin-top: var(--space-4);
+    margin: var(--space-4) 0;
   }
 
-  .search-form label {
-    font-weight: 500;
+  .presentation-photo {
     width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    object-fit: cover;
   }
 
-  .search-form input {
-    flex: 1;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
+  .presentation-content p {
+    margin-top: 0;
   }
 
-  .search-form button {
-    padding: 0.5rem 1rem;
-    background: var(--color-primary);
-    color: var(--color-primary-contrast);
-    border: none;
-    border-radius: var(--radius);
-    font-weight: 500;
-    cursor: pointer;
+  @media (max-width: 720px) {
+    .presentation {
+      grid-template-columns: 1fr;
+    }
+
+    .presentation-photo {
+      max-width: 220px;
+      margin: 0 auto;
+    }
+
+    .search-row {
+      flex-direction: column;
+    }
   }
 </style>
