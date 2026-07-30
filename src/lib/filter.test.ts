@@ -10,7 +10,7 @@ const entries: CatalogEntry[] = [
     titre: 'Modes & Travaux 1958',
     slug: 'modes-travaux-1958',
     categories: ['couture'],
-    typeActivite: [],
+    typeActivite: ['Couture', 'Tricot'],
     decennieLabel: '1950s',
     caracteristiquesStyle: [],
     imageUrl: '',
@@ -22,7 +22,7 @@ const entries: CatalogEntry[] = [
     titre: 'Vogue 1234',
     slug: 'vogue-1234',
     categories: ['couture'],
-    typeActivite: [],
+    typeActivite: ['Couture'],
     marqueNom: 'Vogue',
     decennieLabel: '1960s',
     caracteristiquesStyle: ['col claudine'],
@@ -65,5 +65,13 @@ describe('filterCatalog', () => {
 
   it('retourne un tableau vide quand rien ne correspond', () => {
     expect(filterCatalog(entries, { marques: ['Butterick'] })).toEqual([])
+  })
+
+  it('filtre par type d’activité (une valeur sélectionnée)', () => {
+    expect(filterCatalog(entries, { typesActivite: ['Tricot'] })).toEqual([entries[0]])
+  })
+
+  it('filtre par type d’activité avec plusieurs valeurs sélectionnées (union)', () => {
+    expect(filterCatalog(entries, { typesActivite: ['Couture'] })).toHaveLength(2)
   })
 })

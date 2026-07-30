@@ -4,6 +4,7 @@ export interface FilterCriteria {
   type?: CatalogEntryType
   q?: string
   categories?: string[]
+  typesActivite?: string[]
   marques?: string[]
   decennies?: string[]
   caracteristiques?: string[]
@@ -17,6 +18,14 @@ export function filterCatalog(entries: CatalogEntry[], criteria: FilterCriteria)
 
     const categories = criteria.categories
     if (categories && categories.length > 0 && !entry.categories.some((c) => categories.includes(c)))
+      return false
+
+    const typesActivite = criteria.typesActivite
+    if (
+      typesActivite &&
+      typesActivite.length > 0 &&
+      !entry.typeActivite.some((t) => typesActivite.includes(t))
+    )
       return false
 
     const marques = criteria.marques
