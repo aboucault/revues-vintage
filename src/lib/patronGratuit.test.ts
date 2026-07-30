@@ -1,46 +1,47 @@
 import { describe, expect, it } from 'vitest'
-import { buildRevueReaderUrl, canShowRevueReader } from './patronGratuit'
+import { canShowGalerie } from './patronGratuit'
 
-describe('buildRevueReaderUrl', () => {
-  it('ajoute l’ancre de page au scan de la revue', () => {
-    expect(buildRevueReaderUrl('https://cdn.sanity.io/files/x/y/scan.pdf', 13)).toBe(
-      'https://cdn.sanity.io/files/x/y/scan.pdf#page=13',
-    )
-  })
-})
-
-describe('canShowRevueReader', () => {
-  it('renvoie true si la revue est domaine public avec des pages renseignées', () => {
+describe('canShowGalerie', () => {
+  it('renvoie true si la revue est domaine public avec des vignettes et un slug', () => {
     expect(
-      canShowRevueReader({
-        pages: [13],
-        revueScanUrl: 'https://cdn.sanity.io/scan.pdf',
+      canShowGalerie({
+        couverturesUrls: ['https://cdn.sanity.io/page-13.png'],
         revueSourceStatutDroits: 'domaine-public',
+        revueSourceSlug: 'le-petit-echo-de-la-mode-3',
       }),
     ).toBe(true)
   })
 
   it('renvoie false si la revue source n’est pas domaine public', () => {
     expect(
-      canShowRevueReader({
-        pages: [13],
-        revueScanUrl: 'https://cdn.sanity.io/scan.pdf',
+      canShowGalerie({
+        couverturesUrls: ['https://cdn.sanity.io/page-13.png'],
         revueSourceStatutDroits: 'incertain',
+        revueSourceSlug: 'le-petit-echo-de-la-mode-3',
       }),
     ).toBe(false)
   })
 
-  it('renvoie false si aucune page n’est renseignée', () => {
+  it('renvoie false si aucune vignette n’est générée', () => {
     expect(
-      canShowRevueReader({
-        pages: [],
-        revueScanUrl: 'https://cdn.sanity.io/scan.pdf',
+      canShowGalerie({
+        couverturesUrls: [],
+        revueSourceStatutDroits: 'domaine-public',
+        revueSourceSlug: 'le-petit-echo-de-la-mode-3',
+      }),
+    ).toBe(false)
+  })
+
+  it('renvoie false si le slug de la revue source est absent', () => {
+    expect(
+      canShowGalerie({
+        couverturesUrls: ['https://cdn.sanity.io/page-13.png'],
         revueSourceStatutDroits: 'domaine-public',
       }),
     ).toBe(false)
   })
 
   it('renvoie false si aucune revue n’est liée', () => {
-    expect(canShowRevueReader({})).toBe(false)
+    expect(canShowGalerie({})).toBe(false)
   })
 })

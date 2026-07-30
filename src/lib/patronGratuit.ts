@@ -1,18 +1,14 @@
 import type { StatutDroits } from './sanity'
 
-export function buildRevueReaderUrl(scanUrl: string, page: number): string {
-  return `${scanUrl}#page=${page}`
-}
-
-export function canShowRevueReader(patron: {
-  pages?: number[]
-  revueScanUrl?: string
+export function canShowGalerie(patron: {
+  couverturesUrls?: string[]
   revueSourceStatutDroits?: StatutDroits
+  revueSourceSlug?: string
 }): boolean {
   return Boolean(
-    patron.revueScanUrl &&
+    patron.couverturesUrls &&
+      patron.couverturesUrls.length > 0 &&
       patron.revueSourceStatutDroits === 'domaine-public' &&
-      patron.pages &&
-      patron.pages.length > 0,
+      patron.revueSourceSlug,
   )
 }
