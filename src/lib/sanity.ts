@@ -14,6 +14,15 @@ export const sanityClient = createClient({
 export type StatutDroits = 'domaine-public' | 'incertain' | 'protege'
 export type PrecisionDate = 'certaine' | 'deduite'
 
+const ACTIVITE_LABELS: Record<Locale, Record<string, string>> = {
+  fr: { couture: 'Couture', tricot: 'Tricot', crochet: 'Crochet', broderie: 'Broderie', mode: 'Mode' },
+  en: { couture: 'Sewing', tricot: 'Knitting', crochet: 'Crochet', broderie: 'Embroidery', mode: 'Fashion' },
+}
+
+export function localizeTypeActivite(keys: string[], locale: Locale): string[] {
+  return keys.map((key) => ACTIVITE_LABELS[locale][key] ?? key)
+}
+
 export interface RevueDoc {
   _id: string
   _createdAt: string
@@ -29,6 +38,7 @@ export interface RevueDoc {
   precisionDate?: PrecisionDate
   decennieLabel?: string
   categories: string[]
+  typeActivite: string[]
   statutDroits: StatutDroits
   couvertureUrl?: string
   apercuPagesUrls: string[]
@@ -43,6 +53,7 @@ export interface PochettePatronDoc {
   marqueNom?: string
   numeroPatron?: string
   categories: string[]
+  typeActivite: string[]
   decennieLabel?: string
   annee?: number
   dateParution?: string
@@ -60,6 +71,7 @@ export interface PatronGratuitDoc {
   slug: string
   description?: string
   categories: string[]
+  typeActivite: string[]
   revueSourceSlug?: string
   revueSourceTitre?: string
   revueScanUrl?: string
@@ -85,6 +97,7 @@ const REVUE_QUERY = `*[_type == "revue"]{
   precisionDate,
   "decennieLabel": decennie->label[$locale],
   "categories": categories[]->nom[$locale],
+  "typeActivite": coalesce(typeActivite, []),
   statutDroits,
   "couvertureUrl": couverture.asset->url,
   "apercuPagesUrls": coalesce(apercuPages[].asset->url, []),
@@ -92,7 +105,8 @@ const REVUE_QUERY = `*[_type == "revue"]{
 }`
 
 export async function fetchRevues(locale: Locale): Promise<RevueDoc[]> {
-  return sanityClient.fetch(REVUE_QUERY, { locale })
+  const docs = await sanityClient.fetch<RevueDoc[]>(REVUE_QUERY, { locale })
+  return docs.map((doc) => ({ ...doc, typeActivite: localizeTypeActivite(doc.typeActivite, locale) }))
 }
 
 const POCHETTE_QUERY = `*[_type == "pochettePatron"]{
@@ -103,6 +117,7 @@ const POCHETTE_QUERY = `*[_type == "pochettePatron"]{
   "marqueNom": marque->nom,
   numeroPatron,
   "categories": categories[]->nom[$locale],
+  "typeActivite": coalesce(typeActivite, []),
   "decennieLabel": decennie->label[$locale],
   annee,
   dateParution,
@@ -114,7 +129,8 @@ const POCHETTE_QUERY = `*[_type == "pochettePatron"]{
 }`
 
 export async function fetchPochettesPatron(locale: Locale): Promise<PochettePatronDoc[]> {
-  return sanityClient.fetch(POCHETTE_QUERY, { locale })
+  const docs = await sanityClient.fetch<PochettePatronDoc[]>(POCHETTE_QUERY, { locale })
+  return docs.map((doc) => ({ ...doc, typeActivite: localizeTypeActivite(doc.typeActivite, locale) }))
 }
 
 const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
@@ -124,6 +140,7 @@ const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
   "slug": slug.current,
   "description": description[$locale],
   "categories": categories[]->nom[$locale],
+  "typeActivite": coalesce(typeActivite, []),
   "revueSourceSlug": revueSource->slug.current,
   "revueSourceTitre": revueSource->titre,
   "revueScanUrl": revueSource->urlScanComplet.asset->url,
@@ -135,5 +152,6 @@ const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
 }`
 
 export async function fetchPatronsGratuits(locale: Locale): Promise<PatronGratuitDoc[]> {
-  return sanityClient.fetch(PATRON_GRATUIT_QUERY, { locale })
+  const docs = await sanityClient.fetch<PatronGratuitDoc[]>(PATRON_GRATUIT_QUERY, { locale })
+  return docs.map((doc) => ({ ...doc, typeActivite: localizeTypeActivite(doc.typeActivite, locale) }))
 }
