@@ -30,6 +30,7 @@ export interface Dictionary {
   }
   catalog: {
     decennie: string
+    typeActivite: string
     titreRevue: string
     categorie: string
     marque: string
@@ -64,12 +65,14 @@ export interface Dictionary {
     periodiciteLabel: string
     langueLabel: string
     categoriesLabel: string
+    typeActiviteLabel: string
     dateParutionLabel: string
     aProposTitre: string
   }
   patronGratuitDetail: {
     telechargerLePatron: string
     categoriesLabel: string
+    typeActiviteLabel: string
     aProposTitre: string
     pageLabel: (page: number) => string
     voirDansLaRevue: (revueTitre: string) => string
@@ -78,6 +81,7 @@ export interface Dictionary {
     marqueLabel: string
     numeroPatronLabel: string
     categoriesLabel: string
+    typeActiviteLabel: string
     caracteristiquesLabel: string
     dateLabel: string
     imageRectoAlt: string
