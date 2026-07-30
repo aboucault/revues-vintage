@@ -68,26 +68,40 @@ describe('fetchPatronsGratuits', () => {
     expect(result).toEqual([{ _id: '3', titre: 'Robe à smocks', typeActivite: ['Mode'] }])
   })
 
-  it('récupère les pages et les informations de la revue source pour le lecteur lié', async () => {
+  it('récupère les pages et le slug de la revue source pour la galerie', async () => {
     const { fetchPatronsGratuits } = await import('./sanity')
     fetchMock.mockResolvedValueOnce([])
 
     await fetchPatronsGratuits('fr')
 
     expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('pages'), { locale: 'fr' })
-    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('revueScanUrl'), { locale: 'fr' })
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('revueSourceSlug'), { locale: 'fr' })
     expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('revueSourceStatutDroits'), { locale: 'fr' })
     expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('revueSourceTitre'), { locale: 'fr' })
   })
 
-  it('récupère la vignette de couverture', async () => {
+  it('récupère les vignettes de couverture (une par page)', async () => {
     const { fetchPatronsGratuits } = await import('./sanity')
     fetchMock.mockResolvedValueOnce([])
 
     await fetchPatronsGratuits('fr')
 
     const patronGratuitCall = fetchMock.mock.calls.find(([query]) => query.includes('_type == "patronGratuit"'))
-    expect(patronGratuitCall?.[0]).toContain('couvertureUrl')
+    expect(patronGratuitCall?.[0]).toContain('couverturesUrls')
+  })
+
+  it('récupère les métadonnées de la revue source pour le bandeau de lien', async () => {
+    const { fetchPatronsGratuits } = await import('./sanity')
+    fetchMock.mockResolvedValueOnce([])
+
+    await fetchPatronsGratuits('fr')
+
+    const patronGratuitCall = fetchMock.mock.calls.find(([query]) => query.includes('_type == "patronGratuit"'))
+    expect(patronGratuitCall?.[0]).toContain('revueSourceCouvertureUrl')
+    expect(patronGratuitCall?.[0]).toContain('revueSourceNumero')
+    expect(patronGratuitCall?.[0]).toContain('revueSourceAnnee')
+    expect(patronGratuitCall?.[0]).toContain('revueSourceDateParution')
+    expect(patronGratuitCall?.[0]).toContain('revueSourceDecennieLabel')
   })
 
   it('projette le titre selon la locale demandée', async () => {

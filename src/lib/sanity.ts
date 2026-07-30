@@ -74,11 +74,15 @@ export interface PatronGratuitDoc {
   typeActivite: string[]
   revueSourceSlug?: string
   revueSourceTitre?: string
-  revueScanUrl?: string
   revueSourceStatutDroits?: StatutDroits
+  revueSourceCouvertureUrl?: string
+  revueSourceNumero?: string
+  revueSourceAnnee?: number
+  revueSourceDateParution?: string
+  revueSourceDecennieLabel?: string
   fichierUrl?: string
   pages?: number[]
-  couvertureUrl?: string
+  couverturesUrls: string[]
   statutDroits: StatutDroits
 }
 
@@ -143,11 +147,15 @@ const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
   "typeActivite": coalesce(typeActivite, []),
   "revueSourceSlug": revueSource->slug.current,
   "revueSourceTitre": revueSource->titre,
-  "revueScanUrl": revueSource->urlScanComplet.asset->url,
   "revueSourceStatutDroits": revueSource->statutDroits,
+  "revueSourceCouvertureUrl": revueSource->couverture.asset->url,
+  "revueSourceNumero": revueSource->numero,
+  "revueSourceAnnee": revueSource->annee,
+  "revueSourceDateParution": revueSource->dateParution,
+  "revueSourceDecennieLabel": revueSource->decennie->label[$locale],
   "fichierUrl": fichierPatron.asset->url,
   pages,
-  "couvertureUrl": couverture.asset->url,
+  "couverturesUrls": coalesce(couvertures[].asset->url, []),
   statutDroits
 }`
 
