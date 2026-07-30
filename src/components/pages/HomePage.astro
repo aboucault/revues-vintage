@@ -46,8 +46,11 @@ const facons = [
 ---
 <Layout title={t.nav.accueil} locale={locale}>
   <section class="hero">
-    <h1>{t.home.heroTitle}</h1>
-    <p>{t.home.heroSubtitle}</p>
+    <div class="hero-content">
+      <h1>{t.home.heroTitle}</h1>
+      <p>{t.home.heroSubtitle}</p>
+    </div>
+    <img class="hero-illustration" src="/hero-illustration.png" alt="" loading="eager" width="900" height="608" />
   </section>
 
   <section class="facons">
@@ -115,8 +118,33 @@ const facons = [
 
 <style>
   .hero {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
     padding: var(--space-4) 0;
+  }
+
+  .hero-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .hero-illustration {
+    flex-shrink: 0;
+    width: min(420px, 40%);
+    height: auto;
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .hero-illustration {
+      width: min(280px, 70%);
+    }
   }
 
   .search-form {
@@ -170,7 +198,7 @@ const facons = [
 
   .facon-image {
     width: 100%;
-    aspect-ratio: 3 / 4;
+    height: 160px;
     object-fit: cover;
   }
 
