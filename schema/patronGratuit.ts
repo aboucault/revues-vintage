@@ -45,6 +45,13 @@ export const patronGratuit = defineType({
       description: 'Optionnel si le patron est déjà couvert par "Revue source" + "Pages". Requis sinon.',
     }),
     defineField({
+      name: 'couverture',
+      title: 'Couverture (vignette)',
+      type: 'image',
+      description:
+        'Générée automatiquement via `npm run generate-couverture -- <id>` à partir de la première page listée. Ne pas uploader manuellement sauf cas particulier.',
+    }),
+    defineField({
       name: 'statutDroits',
       title: 'Statut de droits',
       type: 'string',
