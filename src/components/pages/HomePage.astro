@@ -3,14 +3,15 @@ import Layout from '../../layouts/Layout.astro'
 import EntryCard from '../EntryCard.astro'
 import { useTranslations } from '../../i18n'
 import type { Locale } from '../../i18n'
-import type { CatalogEntry } from '../../lib/catalog'
+import type { CatalogEntry, CatalogEntryType } from '../../lib/catalog'
 
 interface Props {
   locale: Locale
   derniersAjouts: CatalogEntry[]
+  faconImages: Partial<Record<CatalogEntryType, string>>
 }
 
-const { locale, derniersAjouts } = Astro.props
+const { locale, derniersAjouts, faconImages } = Astro.props
 const t = useTranslations(locale)
 const base = locale === 'en' ? '/en' : ''
 
@@ -25,18 +26,21 @@ const facons = [
     description: t.home.facon1Description,
     lien: `${base}/revues`,
     libelle: t.home.facon1Libelle,
+    image: faconImages.revue,
   },
   {
     titre: t.home.facon2Titre,
     description: t.home.facon2Description,
     lien: `${base}/dater-un-patron`,
     libelle: t.home.facon2Libelle,
+    image: faconImages['pochette-patron'],
   },
   {
     titre: t.home.facon3Titre,
     description: t.home.facon3Description,
     lien: `${base}/ressources-gratuites`,
     libelle: t.home.facon3Libelle,
+    image: faconImages['patron-gratuit'],
   },
 ]
 ---
@@ -49,9 +53,12 @@ const facons = [
   <section class="facons">
     {facons.map((f) => (
       <div class="facon-card">
-        <h2>{f.titre}</h2>
-        <p>{f.description}</p>
-        <a href={f.lien}>{f.libelle} →</a>
+        {f.image && <img class="facon-image" src={f.image} alt="" loading="lazy" />}
+        <div class="facon-body">
+          <h2>{f.titre}</h2>
+          <p>{f.description}</p>
+          <a href={f.lien}>{f.libelle} →</a>
+        </div>
       </div>
     ))}
   </section>
@@ -156,6 +163,18 @@ const facons = [
   .facon-card {
     background: var(--color-bg-alt);
     border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .facon-image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+  }
+
+  .facon-body {
     padding: var(--space-3);
   }
 

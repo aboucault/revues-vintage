@@ -1,7 +1,7 @@
 ---
 import HomePage from '../components/pages/HomePage.astro'
 import { fetchRevues, fetchPochettesPatron, fetchPatronsGratuits } from '../lib/sanity'
-import { buildCatalog } from '../lib/catalog'
+import { buildCatalog, pickRepresentativeImage } from '../lib/catalog'
 import { sortEntries } from '../lib/sort'
 
 const [revues, pochettes, patronsGratuits] = await Promise.all([
@@ -10,6 +10,12 @@ const [revues, pochettes, patronsGratuits] = await Promise.all([
   fetchPatronsGratuits('fr'),
 ])
 const entries = buildCatalog(revues, pochettes, patronsGratuits)
-const derniersAjouts = sortEntries(entries, 'recent').slice(0, 6)
+const sorted = sortEntries(entries, 'recent')
+const derniersAjouts = sorted.slice(0, 6)
+const faconImages = {
+  revue: pickRepresentativeImage(sorted, 'revue'),
+  'pochette-patron': pickRepresentativeImage(sorted, 'pochette-patron'),
+  'patron-gratuit': pickRepresentativeImage(sorted, 'patron-gratuit'),
+}
 ---
-<HomePage locale="fr" derniersAjouts={derniersAjouts} />
+<HomePage locale="fr" derniersAjouts={derniersAjouts} faconImages={faconImages} />
