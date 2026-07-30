@@ -90,6 +90,7 @@ describe('buildCatalog — patrons gratuits', () => {
       typeActivite: [],
       statutDroits: 'domaine-public',
       fichierUrl: 'https://cdn.sanity.io/patron.pdf',
+      couverturesUrls: [],
     }
     const [entry] = buildCatalog([], [], [patron])
     expect(entry.telechargementUrl).toBe('https://cdn.sanity.io/patron.pdf')
@@ -106,12 +107,13 @@ describe('buildCatalog — patrons gratuits', () => {
       typeActivite: [],
       statutDroits: 'incertain',
       fichierUrl: 'https://cdn.sanity.io/patron.pdf',
+      couverturesUrls: [],
     }
     const [entry] = buildCatalog([], [], [patron])
     expect(entry.telechargementUrl).toBeUndefined()
   })
 
-  it('expose la vignette de couverture quand elle existe', () => {
+  it('expose la première vignette de couverture quand elle existe', () => {
     const patron: PatronGratuitDoc = {
       _id: 'g3',
       _createdAt: '2026-03-03T09:00:00Z',
@@ -120,10 +122,10 @@ describe('buildCatalog — patrons gratuits', () => {
       categories: ['tricot'],
       typeActivite: [],
       statutDroits: 'domaine-public',
-      couvertureUrl: 'https://cdn.sanity.io/couverture.png',
+      couverturesUrls: ['https://cdn.sanity.io/page-13.png', 'https://cdn.sanity.io/page-18.png'],
     }
     const [entry] = buildCatalog([], [], [patron])
-    expect(entry.imageUrl).toBe('https://cdn.sanity.io/couverture.png')
+    expect(entry.imageUrl).toBe('https://cdn.sanity.io/page-13.png')
   })
 
   it('laisse la vignette vide quand aucune couverture n’est renseignée', () => {
@@ -135,6 +137,7 @@ describe('buildCatalog — patrons gratuits', () => {
       categories: ['couture'],
       typeActivite: [],
       statutDroits: 'domaine-public',
+      couverturesUrls: [],
     }
     const [entry] = buildCatalog([], [], [patron])
     expect(entry.imageUrl).toBe('')

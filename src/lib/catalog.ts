@@ -66,7 +66,7 @@ export function buildCatalog(
     categories: p.categories,
     typeActivite: p.typeActivite,
     caracteristiquesStyle: [],
-    imageUrl: p.couvertureUrl ?? '',
+    imageUrl: p.couverturesUrls[0] ?? '',
     telechargementUrl: p.statutDroits === 'domaine-public' ? p.fichierUrl : undefined,
   }))
 
