@@ -6,6 +6,7 @@ export const en: Dictionary = {
     revues: 'Magazines',
     daterUnPatron: 'Date a Pattern',
     ressourcesGratuites: 'Free Resources',
+    soutenirLeProjet: 'Support the project',
     droitsAuteur: 'Copyright',
   },
   home: {
@@ -107,6 +108,13 @@ export const en: Dictionary = {
       'The magazines and patterns offered as full downloads on this site are in the public domain. Other documents are presented for reference purposes (identification, dating) without their downloadable content being made available.',
     droitsAuteurParagraphe2:
       'If you believe a document published here should not be, please contact us and it will be removed promptly.',
+    soutenirLeProjetTitre: 'Support the project',
+    soutenirLeProjetParagraphe1:
+      'Behind every digitized magazine and every pattern catalogued on this site lies hours of work: researching, dating, and cataloguing magazines and pattern envelopes that are sometimes nearly a century old. This work takes time — weeks, in fact — but also money: every magazine, every pattern added to the library comes at a cost, even before it’s catalogued for you.',
+    soutenirLeProjetParagraphe2:
+      'If this site is useful to you, a donation helps me keep growing this library, and eventually take on digitizing patterns myself — so more of these sewing treasures don’t stay hidden in a drawer, but remain accessible to everyone who still loves sewing the old-fashioned way.',
+    soutenirLeProjetParagraphe3: 'Every contribution, however small, makes a difference.',
+    soutenirLeProjetReseauxTitre: 'Follow me',
   },
   langSwitch: {
     label: 'Français',

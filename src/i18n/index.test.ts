@@ -32,6 +32,24 @@ describe('useTranslations', () => {
     expect(en.catalog.pageIndicateur(2, 5)).toBe('Page 2 of 5')
     expect(en.card.numero('39')).toBe('No. 39')
   })
+
+  it('expose les nouvelles clés de la page Soutenir le projet', () => {
+    const t = useTranslations('fr')
+    expect(t.nav.soutenirLeProjet).toBe('Soutenir le projet')
+    expect(t.pages.soutenirLeProjetTitre).toBe('Soutenir le projet')
+    expect(t.pages.soutenirLeProjetParagraphe1).toContain('Derrière chaque revue numérisée')
+    expect(t.pages.soutenirLeProjetParagraphe2).toContain('un don m’aide à continuer')
+    expect(t.pages.soutenirLeProjetParagraphe3).toBe('Chaque contribution, même petite, compte.')
+    expect(t.pages.soutenirLeProjetReseauxTitre).toBe('Me suivre')
+
+    const en = useTranslations('en')
+    expect(en.nav.soutenirLeProjet).toBe('Support the project')
+    expect(en.pages.soutenirLeProjetTitre).toBe('Support the project')
+    expect(en.pages.soutenirLeProjetParagraphe1).toContain('Behind every digitized magazine')
+    expect(en.pages.soutenirLeProjetParagraphe2).toContain('a donation helps me keep growing')
+    expect(en.pages.soutenirLeProjetParagraphe3).toBe('Every contribution, however small, makes a difference.')
+    expect(en.pages.soutenirLeProjetReseauxTitre).toBe('Follow me')
+  })
 })
 
 describe('getLocaleFromUrl', () => {

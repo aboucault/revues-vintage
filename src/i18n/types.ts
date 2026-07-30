@@ -4,6 +4,7 @@ export interface Dictionary {
     revues: string
     daterUnPatron: string
     ressourcesGratuites: string
+    soutenirLeProjet: string
     droitsAuteur: string
   }
   home: {
@@ -99,6 +100,11 @@ export interface Dictionary {
     droitsAuteurTitre: string
     droitsAuteurParagraphe1: string
     droitsAuteurParagraphe2: string
+    soutenirLeProjetTitre: string
+    soutenirLeProjetParagraphe1: string
+    soutenirLeProjetParagraphe2: string
+    soutenirLeProjetParagraphe3: string
+    soutenirLeProjetReseauxTitre: string
   }
   langSwitch: {
     label: string

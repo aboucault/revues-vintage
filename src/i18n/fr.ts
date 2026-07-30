@@ -6,6 +6,7 @@ export const fr: Dictionary = {
     revues: 'Revues',
     daterUnPatron: 'Dater un patron',
     ressourcesGratuites: 'Ressources gratuites',
+    soutenirLeProjet: 'Soutenir le projet',
     droitsAuteur: "Droits d'auteur",
   },
   home: {
@@ -107,6 +108,13 @@ export const fr: Dictionary = {
       "Les revues et patrons proposés en téléchargement complet sur ce site sont dans le domaine public. Les autres documents sont présentés à titre de référence (identification, datation) sans que leur contenu téléchargeable soit mis à disposition.",
     droitsAuteurParagraphe2:
       "Si vous pensez qu'un document publié ici ne devrait pas l'être, contactez-nous et il sera retiré sans délai.",
+    soutenirLeProjetTitre: 'Soutenir le projet',
+    soutenirLeProjetParagraphe1:
+      'Derrière chaque revue numérisée et chaque patron répertorié sur ce site, il y a des heures de travail : rechercher, dater, cataloguer des revues et des pochettes de patron parfois vieilles de près d’un siècle. Ce travail me demande du temps — des semaines, en réalité — mais aussi de l’argent : chaque revue, chaque patron ajouté à la bibliothèque a un coût, avant même d’être répertorié pour vous.',
+    soutenirLeProjetParagraphe2:
+      'Si ce site vous est utile, un don m’aide à continuer d’étoffer cette bibliothèque, et à terme, à me lancer dans la numérisation de patrons — pour que davantage de ces trésors de couture ne disparaissent pas dans un tiroir, mais restent accessibles à toutes celles et ceux qui aiment encore coudre à l’ancienne.',
+    soutenirLeProjetParagraphe3: 'Chaque contribution, même petite, compte.',
+    soutenirLeProjetReseauxTitre: 'Me suivre',
   },
   langSwitch: {
     label: 'English',
