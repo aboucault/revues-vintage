@@ -1,6 +1,5 @@
 ---
 import Layout from '../../layouts/Layout.astro'
-import FlourishDecoration from '../FlourishDecoration.astro'
 import { useTranslations } from '../../i18n'
 import type { Locale } from '../../i18n'
 
@@ -17,36 +16,45 @@ const reseaux = [
 ]
 ---
 <Layout title={t.pages.soutenirLeProjetTitre} locale={locale}>
-  <h1>{t.pages.soutenirLeProjetTitre}</h1>
-  <p>{t.pages.soutenirLeProjetParagraphe1}</p>
-  <p>{t.pages.soutenirLeProjetParagraphe2}</p>
-  <p>{t.pages.soutenirLeProjetParagraphe3}</p>
-
-  <FlourishDecoration />
-
-  <section class="kofi-embed">
-    <iframe
-      id="kofiframe"
-      src="https://ko-fi.com/jeanjones/?hidefeed=true&widget=true&embed=true&preview=true"
-      style="border:none;width:100%;padding:4px;background:#f9f9f9;"
-      height="712"
-      title="jeanjones"
-    ></iframe>
-  </section>
-
-  <section class="social-links">
-    <h2>{t.pages.soutenirLeProjetReseauxTitre}</h2>
-    <div class="social-buttons">
-      {reseaux.map((r) => (
-        <a class="button" href={r.href} target="_blank" rel="noopener noreferrer">{r.label}</a>
-      ))}
+  <div class="support-grid">
+    <div class="kofi-col">
+      <section class="kofi-embed">
+        <iframe
+          id="kofiframe"
+          src="https://ko-fi.com/jeanjones/?hidefeed=true&widget=true&embed=true&preview=true"
+          style="border:none;width:100%;padding:4px;background:#f9f9f9;"
+          height="712"
+          title="jeanjones"
+        ></iframe>
+      </section>
     </div>
-  </section>
+
+    <div class="content-col">
+      <h1>{t.pages.soutenirLeProjetTitre}</h1>
+      <p>{t.pages.soutenirLeProjetParagraphe1}</p>
+      <p>{t.pages.soutenirLeProjetParagraphe2}</p>
+      <p>{t.pages.soutenirLeProjetParagraphe3}</p>
+
+      <section class="social-links">
+        <h2>{t.pages.soutenirLeProjetReseauxTitre}</h2>
+        <div class="social-buttons">
+          {reseaux.map((r) => (
+            <a class="button" href={r.href} target="_blank" rel="noopener noreferrer">{r.label}</a>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
 </Layout>
 
 <style>
+  .support-grid {
+    display: grid;
+    grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
   .kofi-embed {
-    margin-top: var(--space-4);
     padding: var(--space-2);
     background: var(--color-bg-alt);
     border-radius: var(--radius);
@@ -70,6 +78,12 @@ const reseaux = [
     border-radius: 999px;
     text-decoration: none;
     font-weight: 500;
+  }
+
+  @media (max-width: 720px) {
+    .support-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </content>
