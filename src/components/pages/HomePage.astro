@@ -1,17 +1,18 @@
 ---
 import Layout from '../../layouts/Layout.astro'
 import EntryCard from '../EntryCard.astro'
+import FaconIcon from '../FaconIcon.astro'
 import { useTranslations } from '../../i18n'
 import type { Locale } from '../../i18n'
-import type { CatalogEntry, CatalogEntryType } from '../../lib/catalog'
+import type { CatalogEntry } from '../../lib/catalog'
+import type { FaconIconName } from '../FaconIcon.astro'
 
 interface Props {
   locale: Locale
   derniersAjouts: CatalogEntry[]
-  faconImages: Partial<Record<CatalogEntryType, string>>
 }
 
-const { locale, derniersAjouts, faconImages } = Astro.props
+const { locale, derniersAjouts } = Astro.props
 const t = useTranslations(locale)
 const base = locale === 'en' ? '/en' : ''
 
@@ -20,27 +21,51 @@ const reseaux = [
   { label: t.home.suivreYoutube, href: 'https://www.youtube.com/@JeanJones' },
 ]
 
-const facons = [
+type BadgeVariant = 'muted' | 'accent' | 'primary'
+
+const facons: Array<{
+  titre: string
+  description: string
+  lien: string
+  libelle: string
+  badgeLabel: string
+  badgeVariant: BadgeVariant
+  icon: FaconIconName
+  image: string
+  rotate: number
+}> = [
   {
     titre: t.home.facon1Titre,
     description: t.home.facon1Description,
     lien: `${base}/revues`,
     libelle: t.home.facon1Libelle,
-    image: faconImages.revue,
+    badgeLabel: t.badges.revue,
+    badgeVariant: 'muted',
+    icon: 'revue',
+    image: '/facon-revue.png',
+    rotate: -3,
   },
   {
     titre: t.home.facon2Titre,
     description: t.home.facon2Description,
     lien: `${base}/dater-un-patron`,
     libelle: t.home.facon2Libelle,
-    image: faconImages['pochette-patron'],
+    badgeLabel: t.badges.pochettePatron,
+    badgeVariant: 'accent',
+    icon: 'pochette-patron',
+    image: '/facon-pochette-patron.png',
+    rotate: -2,
   },
   {
     titre: t.home.facon3Titre,
     description: t.home.facon3Description,
     lien: `${base}/ressources-gratuites`,
     libelle: t.home.facon3Libelle,
-    image: faconImages['patron-gratuit'],
+    badgeLabel: t.badges.patronGratuit,
+    badgeVariant: 'primary',
+    icon: 'patron-gratuit',
+    image: '/facon-patron-gratuit.png',
+    rotate: 4,
   },
 ]
 ---
@@ -57,12 +82,25 @@ const facons = [
   <section class="facons">
     {facons.map((f) => (
       <div class="facon-card">
-        {f.image && <img class="facon-image" src={f.image} alt="" loading="lazy" />}
         <div class="facon-body">
+          <span class={`badge badge--${f.badgeVariant} facon-badge`}>
+            <FaconIcon name={f.icon} size={14} />
+            {f.badgeLabel}
+          </span>
+          <div class="facon-icon-circle">
+            <FaconIcon name={f.icon} size={26} />
+          </div>
           <h2>{f.titre}</h2>
           <p>{f.description}</p>
           <a href={f.lien}>{f.libelle} →</a>
         </div>
+        <img
+          class="facon-image"
+          src={f.image}
+          alt=""
+          loading="lazy"
+          style={`transform: rotate(${f.rotate}deg)`}
+        />
       </div>
     ))}
   </section>
@@ -239,21 +277,71 @@ const facons = [
   }
 
   .facon-card {
+    position: relative;
+    overflow: hidden;
     background: var(--color-bg-alt);
     border-radius: var(--radius);
-    overflow: hidden;
     display: flex;
-    flex-direction: column;
-  }
-
-  .facon-image {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
+    align-items: stretch;
+    min-height: 220px;
   }
 
   .facon-body {
+    position: relative;
+    z-index: 2;
+    flex: 1 1 55%;
+    min-width: 0;
     padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .facon-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    align-self: flex-start;
+  }
+
+  .facon-icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-border);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--space-2) 0 var(--space-1);
+  }
+
+  .facon-body h2 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .facon-body p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+
+  .facon-body a {
+    margin-top: auto;
+    padding-top: var(--space-1);
+  }
+
+  .facon-image {
+    position: absolute;
+    right: -10%;
+    bottom: -8%;
+    width: 55%;
+    height: auto;
+    max-height: 115%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.25));
+    pointer-events: none;
   }
 
   .presentation {

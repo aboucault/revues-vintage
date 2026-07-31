@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildCatalog, getEntryPath, pickRepresentativeImage } from './catalog'
+import { buildCatalog, getEntryPath } from './catalog'
 import type { CatalogEntry } from './catalog'
 import type { PatronGratuitDoc, PochettePatronDoc, RevueDoc } from './sanity'
 
@@ -172,58 +172,5 @@ describe('getEntryPath', () => {
 
   it('pointe vers /patrons/<slug> pour une pochette de patron', () => {
     expect(getEntryPath(makeEntry({ type: 'pochette-patron', slug: 'une-pochette' }))).toBe('/patrons/une-pochette')
-  })
-})
-
-describe('pickRepresentativeImage', () => {
-  const entries: CatalogEntry[] = [
-    {
-      id: 'p1',
-      createdAt: '2026-01-01T00:00:00Z',
-      type: 'patron-gratuit',
-      titre: 'Patron sans image',
-      slug: 'patron-sans-image',
-      categories: [],
-      typeActivite: [],
-      caracteristiquesStyle: [],
-      imageUrl: '',
-    },
-    {
-      id: 'r1',
-      createdAt: '2026-01-02T00:00:00Z',
-      type: 'revue',
-      titre: 'Revue avec image',
-      slug: 'revue-avec-image',
-      categories: [],
-      typeActivite: [],
-      caracteristiquesStyle: [],
-      imageUrl: 'https://cdn.example.com/revue.png',
-    },
-    {
-      id: 'pp1',
-      createdAt: '2026-01-03T00:00:00Z',
-      type: 'pochette-patron',
-      titre: 'Pochette avec image',
-      slug: 'pochette-avec-image',
-      categories: [],
-      typeActivite: [],
-      caracteristiquesStyle: [],
-      imageUrl: 'https://cdn.example.com/pochette.png',
-    },
-  ]
-
-  it('retourne l’image de la première entrée du type demandé qui en a une', () => {
-    expect(pickRepresentativeImage(entries, 'revue')).toBe('https://cdn.example.com/revue.png')
-    expect(pickRepresentativeImage(entries, 'pochette-patron')).toBe(
-      'https://cdn.example.com/pochette.png'
-    )
-  })
-
-  it('ignore les entrées du bon type sans image', () => {
-    expect(pickRepresentativeImage(entries, 'patron-gratuit')).toBeUndefined()
-  })
-
-  it('retourne undefined quand aucune entrée du type demandé n’existe', () => {
-    expect(pickRepresentativeImage([], 'revue')).toBeUndefined()
   })
 })
