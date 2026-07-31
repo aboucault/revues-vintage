@@ -21,15 +21,11 @@ const reseaux = [
   { label: t.home.suivreYoutube, href: 'https://www.youtube.com/@JeanJones' },
 ]
 
-type BadgeVariant = 'muted' | 'accent' | 'primary'
-
 const facons: Array<{
   titre: string
   description: string
   lien: string
   libelle: string
-  badgeLabel: string
-  badgeVariant: BadgeVariant
   icon: FaconIconName
   image: string
   rotate: number
@@ -39,8 +35,6 @@ const facons: Array<{
     description: t.home.facon1Description,
     lien: `${base}/revues`,
     libelle: t.home.facon1Libelle,
-    badgeLabel: t.badges.revue,
-    badgeVariant: 'muted',
     icon: 'revue',
     image: '/facon-revue.png',
     rotate: -3,
@@ -50,8 +44,6 @@ const facons: Array<{
     description: t.home.facon2Description,
     lien: `${base}/dater-un-patron`,
     libelle: t.home.facon2Libelle,
-    badgeLabel: t.badges.pochettePatron,
-    badgeVariant: 'accent',
     icon: 'pochette-patron',
     image: '/facon-pochette-patron.png',
     rotate: -2,
@@ -61,8 +53,6 @@ const facons: Array<{
     description: t.home.facon3Description,
     lien: `${base}/ressources-gratuites`,
     libelle: t.home.facon3Libelle,
-    badgeLabel: t.badges.patronGratuit,
-    badgeVariant: 'primary',
     icon: 'patron-gratuit',
     image: '/facon-patron-gratuit.png',
     rotate: 4,
@@ -83,10 +73,6 @@ const facons: Array<{
     {facons.map((f) => (
       <div class="facon-card">
         <div class="facon-body">
-          <span class={`badge badge--${f.badgeVariant} facon-badge`}>
-            <FaconIcon name={f.icon} size={14} />
-            {f.badgeLabel}
-          </span>
           <div class="facon-icon-circle">
             <FaconIcon name={f.icon} size={26} />
           </div>
@@ -270,7 +256,6 @@ const facons: Array<{
     z-index: 2;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    align-items: start;
     gap: var(--space-3);
     margin: 0 0 var(--space-4) 0;
     padding-top: var(--space-3);
@@ -296,13 +281,6 @@ const facons: Array<{
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
-  }
-
-  .facon-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    align-self: flex-start;
   }
 
   .facon-icon-circle {
