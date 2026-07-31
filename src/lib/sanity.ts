@@ -84,6 +84,7 @@ export interface PatronGratuitDoc {
   pages?: number[]
   couverturesUrls: string[]
   statutDroits: StatutDroits
+  traductionInstructionsEn?: string
 }
 
 const REVUE_QUERY = `*[_type == "revue"]{
@@ -156,7 +157,8 @@ const PATRON_GRATUIT_QUERY = `*[_type == "patronGratuit"]{
   "fichierUrl": fichierPatron.asset->url,
   pages,
   "couverturesUrls": coalesce(couvertures[].asset->url, []),
-  statutDroits
+  statutDroits,
+  "traductionInstructionsEn": traductionInstructions.en
 }`
 
 export async function fetchPatronsGratuits(locale: Locale): Promise<PatronGratuitDoc[]> {
