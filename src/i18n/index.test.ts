@@ -86,6 +86,18 @@ describe('useTranslations', () => {
       'See it in "Le Petit Écho de la Mode"',
     )
   })
+
+  it('expose la clé du bandeau de traduction des instructions', () => {
+    const t = useTranslations('fr')
+    expect(t.patronGratuitDetail.lireTraductionInstructions).toBe(
+      'Voir la traduction anglaise des instructions',
+    )
+
+    const en = useTranslations('en')
+    expect(en.patronGratuitDetail.lireTraductionInstructions).toBe(
+      'Read the English translation of the instructions',
+    )
+  })
 })
 
 describe('getLocaleFromUrl', () => {

@@ -80,6 +80,7 @@ export const fr: Dictionary = {
     aProposTitre: 'À propos de ce patron',
     pageLabel: (page: number) => `Page ${page}`,
     voirDansLaRevue: (revueTitre: string) => `Voir dans « ${revueTitre} »`,
+    lireTraductionInstructions: 'Voir la traduction anglaise des instructions',
   },
   pochettePatronDetail: {
     marqueLabel: 'Marque',

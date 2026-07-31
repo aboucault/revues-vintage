@@ -80,6 +80,7 @@ export const en: Dictionary = {
     aProposTitre: 'About this pattern',
     pageLabel: (page: number) => `Page ${page}`,
     voirDansLaRevue: (revueTitre: string) => `See it in "${revueTitre}"`,
+    lireTraductionInstructions: 'Read the English translation of the instructions',
   },
   pochettePatronDetail: {
     marqueLabel: 'Brand',
