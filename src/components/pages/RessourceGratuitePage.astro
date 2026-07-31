@@ -4,7 +4,7 @@ import { useTranslations } from '../../i18n'
 import type { Locale } from '../../i18n'
 import type { PatronGratuitDoc } from '../../lib/sanity'
 import { getLegalText } from '../../lib/legal'
-import { canShowGalerie } from '../../lib/patronGratuit'
+import { canShowGalerie, canShowTranslation } from '../../lib/patronGratuit'
 import { getCardSubtitleLines } from '../../lib/card'
 
 interface Props {
@@ -17,6 +17,7 @@ const t = useTranslations(locale)
 const base = locale === 'en' ? '/en' : ''
 
 const showGalerie = canShowGalerie(patron)
+const showTranslation = canShowTranslation(patron, locale)
 const downloadHref = !showGalerie && patron.statutDroits === 'domaine-public' ? patron.fichierUrl : undefined
 const revueHref = patron.revueSourceSlug ? `${base}/revues/${patron.revueSourceSlug}` : undefined
 const revueSubtitleLines = getCardSubtitleLines(
@@ -101,6 +102,28 @@ const shareUrl = Astro.url.href
           <path d="M7 4l6 6-6 6" />
         </svg>
       </a>
+      {showTranslation && (
+        <details class="patron-gratuit__translation">
+          <summary class="patron-gratuit__translation-summary">
+            <span>{t.patronGratuitDetail.lireTraductionInstructions}</span>
+            <svg
+              class="patron-gratuit__translation-arrow"
+              viewBox="0 0 20 20"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M7 4l6 6-6 6" />
+            </svg>
+          </summary>
+          <p class="patron-gratuit__translation-text">{patron.traductionInstructionsEn}</p>
+        </details>
+      )}
       {patron.couverturesUrls.map((url, index) => (
         <img
           src={url}
@@ -166,6 +189,37 @@ const shareUrl = Astro.url.href
   .patron-gratuit__source-arrow {
     flex-shrink: 0;
     color: var(--color-primary);
+  }
+  .patron-gratuit__translation {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-bg-alt);
+    padding: var(--space-1) var(--space-2);
+  }
+  .patron-gratuit__translation-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    list-style: none;
+  }
+  .patron-gratuit__translation-summary::-webkit-details-marker {
+    display: none;
+  }
+  .patron-gratuit__translation-arrow {
+    flex-shrink: 0;
+    color: var(--color-primary);
+    transition: transform 0.15s ease;
+  }
+  .patron-gratuit__translation[open] .patron-gratuit__translation-arrow {
+    transform: rotate(90deg);
+  }
+  .patron-gratuit__translation-text {
+    margin-top: var(--space-2);
+    white-space: pre-line;
   }
   .patron-gratuit__page-image {
     width: 100%;
