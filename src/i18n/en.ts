@@ -21,7 +21,7 @@ export const en: Dictionary = {
     facon1Titre: 'Vintage Magazines',
     facon1Description: 'Browse digitized French magazines, page by page.',
     facon1Libelle: 'Browse the magazines',
-    facon2Titre: 'Pattern Envelopes to Date',
+    facon2Titre: 'Date a Pattern',
     facon2Description: 'Identify a vintage pattern by comparing its envelope, publisher, and style.',
     facon2Libelle: 'Search pattern envelopes',
     facon3Titre: 'Free Patterns',
