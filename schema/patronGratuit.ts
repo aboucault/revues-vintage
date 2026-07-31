@@ -89,6 +89,17 @@ export const patronGratuit = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: 'traductionInstructions',
+      title: 'Traduction des instructions (anglais)',
+      type: 'object',
+      description:
+        'Transcription du texte français d’origine et traduction anglaise des instructions du patron, lues directement depuis les pages scannées (pas d’OCR). Seul le champ "en" est affiché sur le site.',
+      fields: [
+        defineField({ name: 'fr', title: 'Transcription française', type: 'text' }),
+        defineField({ name: 'en', title: 'Traduction anglaise', type: 'text' }),
+      ],
+    }),
   ],
   validation: (Rule) =>
     Rule.custom((doc) => {
