@@ -1,4 +1,5 @@
 import type { StatutDroits } from './sanity'
+import type { Locale } from '../i18n'
 
 export function canShowGalerie(patron: {
   couverturesUrls?: string[]
@@ -11,4 +12,8 @@ export function canShowGalerie(patron: {
       patron.revueSourceStatutDroits === 'domaine-public' &&
       patron.revueSourceSlug,
   )
+}
+
+export function canShowTranslation(patron: { traductionInstructionsEn?: string }, locale: Locale): boolean {
+  return locale === 'en' && Boolean(patron.traductionInstructionsEn)
 }
