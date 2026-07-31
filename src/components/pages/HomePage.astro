@@ -276,7 +276,7 @@ const facons: Array<{
     position: relative;
     z-index: 2;
     flex: none;
-    width: 52%;
+    width: 58%;
     padding: var(--space-3);
     display: flex;
     flex-direction: column;
@@ -312,12 +312,13 @@ const facons: Array<{
 
   .facon-image {
     position: absolute;
+    top: 0;
     right: -10%;
     bottom: -8%;
-    width: 55%;
-    height: auto;
-    max-height: 115%;
-    object-fit: contain;
+    width: 48%;
+    height: 108%;
+    object-fit: cover;
+    object-position: top;
     filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.25));
     pointer-events: none;
   }
