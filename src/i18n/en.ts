@@ -15,7 +15,7 @@ export const en: Dictionary = {
       'Vintage magazines, pattern envelopes to date, and free patterns to download. A unique heritage, accessible to everyone.',
     presentationTexte:
       'Behind this site, there’s just one person: me. I spend hours researching, dating, and cataloguing these magazines and patterns, some of them nearly a century old, so they stay accessible to everyone who still loves sewing the old-fashioned way.',
-    presentationLien: 'Learn more and support the project',
+    kofiButtonLabel: 'Support on Ko-fi',
     suivreTiktok: 'Follow on TikTok',
     suivreYoutube: 'Follow on YouTube',
     facon1Titre: 'Vintage Magazines',

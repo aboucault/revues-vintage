@@ -11,7 +11,7 @@ export interface Dictionary {
     heroTitle: string
     heroSubtitle: string
     presentationTexte: string
-    presentationLien: string
+    kofiButtonLabel: string
     suivreTiktok: string
     suivreYoutube: string
     facon1Titre: string

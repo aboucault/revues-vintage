@@ -123,7 +123,14 @@ const facons: Array<{
       <p>{t.home.presentationTexte}</p>
     </div>
     <div class="presentation-footer">
-      <a href={`${base}/soutenir-le-projet`}>{t.home.presentationLien} →</a>
+      <div id="kofi-home-widget" class="kofi-home-widget"></div>
+      <script is:inline async src="https://storage.ko-fi.com/cdn/widget/Widget_2.js" id="kofi-widget-loader"></script>
+      <script is:inline define:vars={{ kofiLabel: t.home.kofiButtonLabel, kofiColor: '#1f3d2e', kofiId: 'jeanjones' }}>
+        document.getElementById('kofi-widget-loader').addEventListener('load', function () {
+          kofiwidget2.init(kofiLabel, kofiColor, kofiId)
+          document.getElementById('kofi-home-widget').innerHTML = kofiwidget2.getHTML()
+        })
+      </script>
       <div class="presentation-social">
         {reseaux.map((r) => (
           <a href={r.href} target="_blank" rel="noopener noreferrer" aria-label={r.label}>
@@ -371,6 +378,11 @@ const facons: Array<{
   .presentation-social a {
     color: var(--color-primary);
     display: flex;
+  }
+
+  .kofi-home-widget {
+    display: inline-flex;
+    align-items: center;
   }
 
   @media (max-width: 720px) {

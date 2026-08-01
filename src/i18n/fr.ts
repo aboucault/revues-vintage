@@ -15,7 +15,7 @@ export const fr: Dictionary = {
       'Revues d’époque, pochettes de patrons à dater et patrons gratuits à télécharger. Un patrimoine unique, accessible à tous.',
     presentationTexte:
       'Derrière ce site, il y a une seule personne : moi. Je passe des heures à rechercher, dater et cataloguer ces revues et patrons parfois vieux d’un siècle, pour qu’ils restent accessibles à celles et ceux qui aiment encore coudre à l’ancienne.',
-    presentationLien: 'En savoir plus et soutenir le projet',
+    kofiButtonLabel: 'Soutenir sur Ko-fi',
     suivreTiktok: 'Suivre sur TikTok',
     suivreYoutube: 'Suivre sur YouTube',
     facon1Titre: 'Revues d’époque',

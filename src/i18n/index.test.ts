@@ -51,16 +51,18 @@ describe('useTranslations', () => {
     expect(en.pages.soutenirLeProjetReseauxTitre).toBe('Follow me')
   })
 
-  it('expose les nouvelles clés du bandeau de présentation sur la home', () => {
+  it('expose la clé du bouton Ko-fi sur la home', () => {
     const t = useTranslations('fr')
     expect(t.home.presentationTexte).toContain('Derrière ce site')
-    expect(t.home.presentationLien).toBe('En savoir plus et soutenir le projet')
+    expect(t.home.kofiButtonLabel).toBe('Soutenir sur Ko-fi')
     expect(t.home).not.toHaveProperty('heroButton')
+    expect(t.home).not.toHaveProperty('presentationLien')
 
     const en = useTranslations('en')
     expect(en.home.presentationTexte).toContain('Behind this site')
-    expect(en.home.presentationLien).toBe('Learn more and support the project')
+    expect(en.home.kofiButtonLabel).toBe('Support on Ko-fi')
     expect(en.home).not.toHaveProperty('heroButton')
+    expect(en.home).not.toHaveProperty('presentationLien')
   })
 
   it('expose les libellés des icônes sociales sur la home', () => {
