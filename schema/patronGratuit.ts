@@ -50,6 +50,7 @@ export const patronGratuit = defineType({
           { title: 'Crochet', value: 'crochet' },
           { title: 'Broderie', value: 'broderie' },
           { title: 'Mode', value: 'mode' },
+          { title: 'Chapellerie', value: 'chapellerie' },
         ],
       },
     }),
