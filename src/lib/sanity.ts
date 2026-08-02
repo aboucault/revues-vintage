@@ -15,8 +15,8 @@ export type StatutDroits = 'domaine-public' | 'incertain' | 'protege'
 export type PrecisionDate = 'certaine' | 'deduite'
 
 const ACTIVITE_LABELS: Record<Locale, Record<string, string>> = {
-  fr: { couture: 'Couture', tricot: 'Tricot', crochet: 'Crochet', broderie: 'Broderie', mode: 'Mode' },
-  en: { couture: 'Sewing', tricot: 'Knitting', crochet: 'Crochet', broderie: 'Embroidery', mode: 'Fashion' },
+  fr: { couture: 'Couture', tricot: 'Tricot', crochet: 'Crochet', broderie: 'Broderie', mode: 'Mode', chapellerie: 'Chapellerie' },
+  en: { couture: 'Sewing', tricot: 'Knitting', crochet: 'Crochet', broderie: 'Embroidery', mode: 'Fashion', chapellerie: 'Millinery' },
 }
 
 export function localizeTypeActivite(keys: string[], locale: Locale): string[] {
