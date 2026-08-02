@@ -101,7 +101,7 @@ const REVUE_QUERY = `*[_type == "revue"]{
   dateParution,
   precisionDate,
   "decennieLabel": decennie->label[$locale],
-  "categories": categories[]->nom[$locale],
+  "categories": coalesce(categories[]->nom[$locale], []),
   "typeActivite": coalesce(typeActivite, []),
   statutDroits,
   "couvertureUrl": couverture.asset->url,
