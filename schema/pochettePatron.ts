@@ -69,6 +69,13 @@ export const pochettePatron = defineType({
       of: [{ type: 'string' }],
       description: 'Ex: col claudine, silhouette trapèze, manches ballon',
     }),
+    defineField({
+      name: 'styleAnalyse',
+      title: 'Analyse de style faite',
+      type: 'boolean',
+      description:
+        "Coché une fois l'image recto examinée pour en tirer les caractéristiques de style (même si le résultat est un tableau vide). Sert à repérer les pochettes pas encore passées en revue.",
+    }),
     defineField({ name: 'imageRecto', title: 'Image recto', type: 'image', validation: (Rule) => Rule.required() }),
     defineField({ name: 'imageVerso', title: 'Image verso', type: 'image' }),
     defineField({
