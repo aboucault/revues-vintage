@@ -11,10 +11,32 @@ export interface FilterCriteria {
   titres?: string[]
 }
 
+function normalizeSearchText(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+}
+
+function buildSearchBlob(entry: CatalogEntry): string {
+  return [
+    entry.titre,
+    ...entry.caracteristiquesStyle,
+    ...entry.categories,
+    ...entry.typeActivite,
+    entry.marqueNom ?? '',
+    entry.decennieLabel ?? '',
+  ].join(' ')
+}
+
 export function filterCatalog(entries: CatalogEntry[], criteria: FilterCriteria): CatalogEntry[] {
   return entries.filter((entry) => {
     if (criteria.type && entry.type !== criteria.type) return false
-    if (criteria.q && !entry.titre.toLowerCase().includes(criteria.q.toLowerCase())) return false
+    if (criteria.q) {
+      const words = normalizeSearchText(criteria.q).split(/\s+/).filter(Boolean)
+      const haystack = normalizeSearchText(buildSearchBlob(entry))
+      if (!words.every((word) => haystack.includes(word))) return false
+    }
 
     const categories = criteria.categories
     if (categories && categories.length > 0 && !entry.categories.some((c) => categories.includes(c)))
