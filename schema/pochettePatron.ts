@@ -34,6 +34,7 @@ export const pochettePatron = defineType({
           { title: 'Broderie', value: 'broderie' },
           { title: 'Mode', value: 'mode' },
           { title: 'Chapellerie', value: 'chapellerie' },
+          { title: 'Apprentissage', value: 'apprentissage' },
         ],
       },
     }),
