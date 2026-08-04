@@ -126,6 +126,9 @@ export const fr: Dictionary = {
       'Si ce site vous est utile, un don m’aide à continuer d’étoffer cette bibliothèque, et à terme, à me lancer dans la numérisation de patrons — pour que davantage de ces trésors de couture ne disparaissent pas dans un tiroir, mais restent accessibles à toutes celles et ceux qui aiment encore coudre à l’ancienne.',
     soutenirLeProjetParagraphe3: 'Chaque contribution, même petite, compte.',
     soutenirLeProjetReseauxTitre: 'Me suivre',
+    soutenirLeProjetContribuerTitre: 'Contribuer avec vos documents',
+    soutenirLeProjetContribuerParagraphe:
+      'Vous avez des PDF de patrons, de revues ou de livres de cours de couture ? Chaque document que vous partagez enrichit le catalogue pour tout le monde.',
   },
   langSwitch: {
     label: 'English',

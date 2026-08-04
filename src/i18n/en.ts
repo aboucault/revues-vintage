@@ -126,6 +126,9 @@ export const en: Dictionary = {
       'If this site is useful to you, a donation helps me keep growing this library, and eventually take on digitizing patterns myself — so more of these sewing treasures don’t stay hidden in a drawer, but remain accessible to everyone who still loves sewing the old-fashioned way.',
     soutenirLeProjetParagraphe3: 'Every contribution, however small, makes a difference.',
     soutenirLeProjetReseauxTitre: 'Follow me',
+    soutenirLeProjetContribuerTitre: 'Contribute your documents',
+    soutenirLeProjetContribuerParagraphe:
+      'Have PDFs of patterns, magazines, or sewing course books? Every document you share enriches the catalog for everyone.',
   },
   langSwitch: {
     label: 'Français',

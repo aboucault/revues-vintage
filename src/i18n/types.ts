@@ -114,6 +114,8 @@ export interface Dictionary {
     soutenirLeProjetParagraphe2: string
     soutenirLeProjetParagraphe3: string
     soutenirLeProjetReseauxTitre: string
+    soutenirLeProjetContribuerTitre: string
+    soutenirLeProjetContribuerParagraphe: string
   }
   langSwitch: {
     label: string

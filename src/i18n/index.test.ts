@@ -51,6 +51,16 @@ describe('useTranslations', () => {
     expect(en.pages.soutenirLeProjetReseauxTitre).toBe('Follow me')
   })
 
+  it('expose les nouvelles clés de la section Contribuer', () => {
+    const t = useTranslations('fr')
+    expect(t.pages.soutenirLeProjetContribuerTitre).toBe('Contribuer avec vos documents')
+    expect(t.pages.soutenirLeProjetContribuerParagraphe).toContain('PDF de patrons')
+
+    const en = useTranslations('en')
+    expect(en.pages.soutenirLeProjetContribuerTitre).toBe('Contribute your documents')
+    expect(en.pages.soutenirLeProjetContribuerParagraphe).toContain('PDFs of patterns')
+  })
+
   it('expose la clé du bouton Ko-fi sur la home', () => {
     const t = useTranslations('fr')
     expect(t.home.presentationTexte).toContain('Derrière ce site')
