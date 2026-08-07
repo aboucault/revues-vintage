@@ -120,4 +120,9 @@ export interface Dictionary {
   langSwitch: {
     label: string
   }
+  cookieConsent: {
+    message: string
+    accept: string
+    refuse: string
+  }
 }

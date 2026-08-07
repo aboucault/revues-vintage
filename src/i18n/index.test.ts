@@ -110,6 +110,22 @@ describe('useTranslations', () => {
       'Read the English translation of the instructions',
     )
   })
+
+  it('expose les clés de la bannière de consentement cookies', () => {
+    const t = useTranslations('fr')
+    expect(t.cookieConsent.message).toBe(
+      'Nous utilisons des cookies de mesure d’audience pour comprendre comment vous utilisez le site.',
+    )
+    expect(t.cookieConsent.accept).toBe('Accepter')
+    expect(t.cookieConsent.refuse).toBe('Refuser')
+
+    const en = useTranslations('en')
+    expect(en.cookieConsent.message).toBe(
+      'We use audience measurement cookies to understand how you use the site.',
+    )
+    expect(en.cookieConsent.accept).toBe('Accept')
+    expect(en.cookieConsent.refuse).toBe('Decline')
+  })
 })
 
 describe('getLocaleFromUrl', () => {

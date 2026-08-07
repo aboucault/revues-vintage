@@ -133,4 +133,10 @@ export const fr: Dictionary = {
   langSwitch: {
     label: 'English',
   },
+  cookieConsent: {
+    message:
+      'Nous utilisons des cookies de mesure d’audience pour comprendre comment vous utilisez le site.',
+    accept: 'Accepter',
+    refuse: 'Refuser',
+  },
 }
