@@ -1,0 +1,120 @@
+---
+import { useTranslations } from '../i18n'
+import type { Locale } from '../i18n'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const t = useTranslations(locale)
+---
+<div id="cookie-consent" class="cookie-consent" hidden>
+  <p>{t.cookieConsent.message}</p>
+  <div class="cookie-consent__actions">
+    <button type="button" id="cookie-consent-refuse" class="cookie-consent__button cookie-consent__button--refuse">
+      {t.cookieConsent.refuse}
+    </button>
+    <button type="button" id="cookie-consent-accept" class="cookie-consent__button cookie-consent__button--accept">
+      {t.cookieConsent.accept}
+    </button>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'rv-cookie-consent'
+  const GTM_ID = 'GTM-NN224952'
+
+  function loadGTM(): void {
+    const w = window as typeof window & { dataLayer?: unknown[] }
+    if (w.dataLayer) return
+    w.dataLayer = w.dataLayer || []
+    w.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+
+    const script = document.createElement('script')
+    script.async = true
+    script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`
+    document.head.appendChild(script)
+
+    const iframe = document.createElement('iframe')
+    iframe.src = `https://www.googletagmanager.com/ns.html?id=${GTM_ID}`
+    iframe.height = '0'
+    iframe.width = '0'
+    iframe.style.display = 'none'
+    iframe.style.visibility = 'hidden'
+    const noscript = document.createElement('noscript')
+    noscript.appendChild(iframe)
+    document.body.appendChild(noscript)
+  }
+
+  const consent = localStorage.getItem(STORAGE_KEY)
+
+  if (consent === 'accepted') {
+    loadGTM()
+  } else if (consent !== 'refused') {
+    const banner = document.getElementById('cookie-consent') as HTMLDivElement
+    const acceptButton = document.getElementById('cookie-consent-accept') as HTMLButtonElement
+    const refuseButton = document.getElementById('cookie-consent-refuse') as HTMLButtonElement
+
+    banner.hidden = false
+
+    acceptButton.addEventListener('click', () => {
+      localStorage.setItem(STORAGE_KEY, 'accepted')
+      loadGTM()
+      banner.hidden = true
+    })
+
+    refuseButton.addEventListener('click', () => {
+      localStorage.setItem(STORAGE_KEY, 'refused')
+      banner.hidden = true
+    })
+  }
+</script>
+
+<style>
+  .cookie-consent {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .cookie-consent p {
+    margin: 0;
+    flex: 1 1 320px;
+  }
+
+  .cookie-consent__actions {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .cookie-consent__button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 500;
+    font-family: var(--font-body);
+    cursor: pointer;
+    border: 1px solid var(--color-primary);
+  }
+
+  .cookie-consent__button--accept {
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+  }
+
+  .cookie-consent__button--refuse {
+    background: transparent;
+    color: var(--color-primary);
+  }
+</style>

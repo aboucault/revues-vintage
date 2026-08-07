@@ -2,6 +2,7 @@
 import '../styles/global.css'
 import { useTranslations, switchLocalePath } from '../i18n'
 import type { Locale } from '../i18n'
+import CookieConsent from '../components/CookieConsent.astro'
 
 interface Props {
   title: string
@@ -64,6 +65,7 @@ const otherLocalePath = switchLocalePath(currentPath, otherLocale)
     <main class={wide ? 'main--wide' : undefined}>
       <slot />
     </main>
+    <CookieConsent locale={locale} />
   </body>
 </html>
 
