@@ -1,5 +1,5 @@
 ---
-export type IconName = 'calendar' | 'building' | 'hash' | 'tags' | 'periodicite' | 'langue' | 'info'
+export type IconName = 'calendar' | 'building' | 'hash' | 'tags' | 'periodicite' | 'langue' | 'info' | 'link'
 
 interface Props {
   name: IconName
@@ -15,6 +15,7 @@ const paths: Record<IconName, string> = {
   periodicite: '<path d="M10 5.5c-1.8-1.3-4.4-1.3-6.5-0.5v11c2.1-.8 4.7-.8 6.5.5"/><path d="M10 5.5c1.8-1.3 4.4-1.3 6.5-.5v11c-2.1-.8-4.7-.8-6.5.5V5.5Z"/>',
   langue: '<path d="M6 2.5h6.5L16 6v11.5H6z"/><path d="M12.5 2.5V6H16"/><path d="M8 10.5h6M8 13.5h6"/>',
   info: '<circle cx="10" cy="10" r="7.25"/><path d="M10 9.25v5"/><circle cx="10" cy="6.5" r="0.9" fill="currentColor" stroke="none"/>',
+  link: '<path d="M8 12l4-4M7 9l-2 2a2.5 2.5 0 0 0 3.5 3.5l2-2M13 11l2-2a2.5 2.5 0 0 0-3.5-3.5l-2 2"/>',
 }
 ---
 <svg

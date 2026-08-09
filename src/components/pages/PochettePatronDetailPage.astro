@@ -65,6 +65,8 @@ const shareUrl = Astro.url.href
   shareUrl={shareUrl}
   copyLabel={t.detailPage.copierLeLien}
   copiedLabel={t.detailPage.lienCopie}
+  contentType="pochette"
+  slug={pochette.slug}
 >
   <div class="pochette-detail__images">
     <img src={pochette.imageRectoUrl} alt={t.pochettePatronDetail.imageRectoAlt} />

@@ -32,6 +32,8 @@ interface Props {
   shareUrl: string
   copyLabel: string
   copiedLabel: string
+  contentType: 'revue' | 'pochette' | 'patron'
+  slug: string
 }
 
 const {
@@ -44,6 +46,12 @@ const {
   badges,
   metadata,
   infoBox,
+  shareLabel,
+  shareUrl,
+  copyLabel,
+  copiedLabel,
+  contentType,
+  slug,
 } = Astro.props
 ---
 <Layout title={pageTitle} locale={locale} wide>
@@ -78,6 +86,21 @@ const {
           <p>{infoBox.text}</p>
         </div>
       )}
+      <div class="detail-page__share">
+        <span class="detail-page__share-label">{shareLabel}</span>
+        <button
+          type="button"
+          id="detail-page-copy-link"
+          class="detail-page__copy-button"
+          data-url={shareUrl}
+          data-content-type={contentType}
+          data-slug={slug}
+          data-copied-label={copiedLabel}
+        >
+          <DetailIcon name="link" />
+          <span id="detail-page-copy-label">{copyLabel}</span>
+        </button>
+      </div>
       <FlourishDecoration />
     </aside>
     <div class="detail-page__main">
@@ -85,6 +108,38 @@ const {
     </div>
   </div>
 </Layout>
+<script>
+  import { buildShareEvent } from '../lib/analyticsEvents'
+  import type { ShareContentType } from '../lib/analyticsEvents'
+
+  const button = document.getElementById('detail-page-copy-link') as HTMLButtonElement | null
+  const labelEl = document.getElementById('detail-page-copy-label') as HTMLSpanElement | null
+
+  if (button && labelEl) {
+    const originalLabel = labelEl.textContent ?? ''
+    const copiedLabel = button.dataset.copiedLabel ?? originalLabel
+    const url = button.dataset.url ?? ''
+    const contentType = (button.dataset.contentType ?? 'revue') as ShareContentType
+    const slug = button.dataset.slug ?? ''
+
+    button.addEventListener('click', async () => {
+      const w = window as typeof window & { dataLayer?: unknown[] }
+      w.dataLayer?.push(buildShareEvent(contentType, slug))
+
+      try {
+        await navigator.clipboard.writeText(url)
+        labelEl.textContent = copiedLabel
+        setTimeout(() => {
+          labelEl.textContent = originalLabel
+        }, 2000)
+      } catch {
+        // Écriture presse-papier refusée par le navigateur (permission, contexte non
+        // sécurisé...) : le clic reste un signal d'intention valable pour la mesure,
+        // on ne bloque pas dessus, on renonce juste au retour visuel « Lien copié ! ».
+      }
+    })
+  }
+</script>
 <style>
   .detail-page {
     display: grid;
@@ -166,6 +221,32 @@ const {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  .detail-page__share {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding-top: var(--space-1);
+  }
+
+  .detail-page__share-label {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+
+  .detail-page__copy-button {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.4rem 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--color-text);
+    cursor: pointer;
   }
 
   .detail-page__main {

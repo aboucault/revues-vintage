@@ -62,6 +62,8 @@ const shareUrl = Astro.url.href
   shareUrl={shareUrl}
   copyLabel={t.detailPage.copierLeLien}
   copiedLabel={t.detailPage.lienCopie}
+  contentType="patron"
+  slug={patron.slug}
 >
   {downloadHref && (
     <a href={downloadHref} download class="patron-gratuit__download">
