@@ -270,6 +270,12 @@ const caracteristiqueOptions = showCaracteristiquesFilter
   import type { Locale } from '../i18n'
   import type { CatalogEntry } from '../lib/catalog'
   import type { SortOption } from '../lib/sort'
+  import { buildFilterEvent, buildSearchEvent } from '../lib/analyticsEvents'
+
+  function pushToDataLayer(payload: Record<string, unknown>) {
+    const w = window as typeof window & { dataLayer?: unknown[] }
+    w.dataLayer?.push(payload)
+  }
 
   const PAGE_SIZE = 20
 
@@ -342,6 +348,25 @@ const caracteristiqueOptions = showCaracteristiquesFilter
   if (searchInput) {
     const initialQuery = new URLSearchParams(window.location.search).get('q')
     if (initialQuery) searchInput.value = initialQuery
+  }
+
+  form.addEventListener('change', (event) => {
+    const target = event.target as HTMLInputElement
+    if (target.type === 'checkbox' && target.checked) {
+      pushToDataLayer(buildFilterEvent(target.name, target.value))
+    }
+  })
+
+  let searchDebounceTimer: ReturnType<typeof setTimeout> | undefined
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchDebounceTimer)
+      searchDebounceTimer = setTimeout(() => {
+        if (searchInput.value) {
+          pushToDataLayer(buildSearchEvent(searchInput.value))
+        }
+      }, 500)
+    })
   }
 
   form.addEventListener('input', applyFilters)
