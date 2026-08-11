@@ -8,10 +8,15 @@ interface Props {
   title: string
   locale: Locale
   wide?: boolean
+  description?: string
+  image?: string
 }
-const { title, locale, wide } = Astro.props
+const { title, locale, wide, description, image } = Astro.props
 const t = useTranslations(locale)
 const base = locale === 'en' ? '/en' : ''
+const metaDescription = description ?? t.home.heroSubtitle
+const metaImage = image ?? new URL('/logo.png', Astro.url).href
+const canonicalUrl = Astro.url.href
 
 const navLinks = [
   { href: base || '/', label: t.nav.accueil },
@@ -47,6 +52,19 @@ const otherLocalePath = switchLocalePath(currentPath, otherLocale)
       rel="stylesheet"
     />
     <title>{title} — Revues Vintage</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Les Revues Vintage" />
+    <meta property="og:locale" content={locale === 'fr' ? 'fr_FR' : 'en_US'} />
+    <meta property="og:title" content={`${title} — Revues Vintage`} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={metaImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} — Revues Vintage`} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={metaImage} />
   </head>
   <body>
     <header class="site-header">

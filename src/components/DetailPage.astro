@@ -62,7 +62,7 @@ const {
 
 const shareLinks = buildShareLinks(shareUrl, title, shareImageUrl)
 ---
-<Layout title={pageTitle} locale={locale} wide>
+<Layout title={pageTitle} locale={locale} wide description={infoBox?.text} image={shareImageUrl}>
   <div class="detail-page">
     <aside class="detail-page__sidebar">
       <a class="detail-page__back" href={backHref}>← {backLabel}</a>
