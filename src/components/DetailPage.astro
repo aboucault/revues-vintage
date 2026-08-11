@@ -1,7 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import DetailIcon from './DetailIcon.astro'
+import ShareIcon from './ShareIcon.astro'
 import FlourishDecoration from './FlourishDecoration.astro'
+import { buildShareLinks } from '../lib/shareLinks'
 import type { Locale } from '../i18n'
 import type { IconName } from './DetailIcon.astro'
 
@@ -30,8 +32,10 @@ interface Props {
   legalText: string
   shareLabel: string
   shareUrl: string
+  shareImageUrl?: string
   copyLabel: string
   copiedLabel: string
+  partagerLabel: string
   contentType: 'revue' | 'pochette' | 'patron'
   slug: string
 }
@@ -48,11 +52,15 @@ const {
   infoBox,
   shareLabel,
   shareUrl,
+  shareImageUrl,
   copyLabel,
   copiedLabel,
+  partagerLabel,
   contentType,
   slug,
 } = Astro.props
+
+const shareLinks = buildShareLinks(shareUrl, title, shareImageUrl)
 ---
 <Layout title={pageTitle} locale={locale} wide>
   <div class="detail-page">
@@ -86,20 +94,60 @@ const {
           <p>{infoBox.text}</p>
         </div>
       )}
-      <div class="detail-page__share">
+      <div
+        class="detail-page__share"
+        id="detail-page-share"
+        data-url={shareUrl}
+        data-title={title}
+        data-content-type={contentType}
+        data-slug={slug}
+      >
         <span class="detail-page__share-label">{shareLabel}</span>
-        <button
-          type="button"
-          id="detail-page-copy-link"
-          class="detail-page__copy-button"
-          data-url={shareUrl}
-          data-content-type={contentType}
-          data-slug={slug}
-          data-copied-label={copiedLabel}
-        >
-          <DetailIcon name="link" />
-          <span id="detail-page-copy-label">{copyLabel}</span>
+        <button type="button" id="detail-page-native-share" class="detail-page__share-native" hidden>
+          <ShareIcon name="share" />
+          <span>{partagerLabel}</span>
         </button>
+        <div class="detail-page__share-row" id="detail-page-share-row">
+          {shareLinks.pinterest && (
+            <a
+              href={shareLinks.pinterest}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="detail-page__share-icon"
+              data-network="pinterest"
+            >
+              <ShareIcon name="pinterest" />
+            </a>
+          )}
+          <a
+            href={shareLinks.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="detail-page__share-icon"
+            data-network="facebook"
+          >
+            <ShareIcon name="facebook" />
+          </a>
+          <a href={shareLinks.x} target="_blank" rel="noopener noreferrer" class="detail-page__share-icon" data-network="x">
+            <ShareIcon name="x" />
+          </a>
+          <a
+            href={shareLinks.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="detail-page__share-icon"
+            data-network="whatsapp"
+          >
+            <ShareIcon name="whatsapp" />
+          </a>
+          <a href={shareLinks.email} class="detail-page__share-icon" data-network="email">
+            <ShareIcon name="email" />
+          </a>
+          <button type="button" id="detail-page-copy-link" class="detail-page__copy-button" data-copied-label={copiedLabel}>
+            <DetailIcon name="link" />
+            <span id="detail-page-copy-label">{copyLabel}</span>
+          </button>
+        </div>
       </div>
       <FlourishDecoration />
     </aside>
@@ -110,34 +158,63 @@ const {
 </Layout>
 <script>
   import { buildShareEvent } from '../lib/analyticsEvents'
-  import type { ShareContentType } from '../lib/analyticsEvents'
+  import type { ShareContentType, ShareMethod } from '../lib/analyticsEvents'
 
-  const button = document.getElementById('detail-page-copy-link') as HTMLButtonElement | null
-  const labelEl = document.getElementById('detail-page-copy-label') as HTMLSpanElement | null
+  const root = document.getElementById('detail-page-share') as HTMLDivElement | null
+  const nativeButton = document.getElementById('detail-page-native-share') as HTMLButtonElement | null
+  const shareRow = document.getElementById('detail-page-share-row') as HTMLDivElement | null
+  const copyButton = document.getElementById('detail-page-copy-link') as HTMLButtonElement | null
+  const copyLabelEl = document.getElementById('detail-page-copy-label') as HTMLSpanElement | null
 
-  if (button && labelEl) {
-    const originalLabel = labelEl.textContent ?? ''
-    const copiedLabel = button.dataset.copiedLabel ?? originalLabel
-    const url = button.dataset.url ?? ''
-    const contentType = (button.dataset.contentType ?? 'revue') as ShareContentType
-    const slug = button.dataset.slug ?? ''
+  if (root) {
+    const url = root.dataset.url ?? ''
+    const title = root.dataset.title ?? ''
+    const contentType = (root.dataset.contentType ?? 'revue') as ShareContentType
+    const slug = root.dataset.slug ?? ''
 
-    button.addEventListener('click', async () => {
+    const trackShare = (method: ShareMethod) => {
       const w = window as typeof window & { dataLayer?: unknown[] }
-      w.dataLayer?.push(buildShareEvent(contentType, slug))
+      w.dataLayer?.push(buildShareEvent(contentType, slug, method))
+    }
 
-      try {
-        await navigator.clipboard.writeText(url)
-        labelEl.textContent = copiedLabel
-        setTimeout(() => {
-          labelEl.textContent = originalLabel
-        }, 2000)
-      } catch {
-        // Écriture presse-papier refusée par le navigateur (permission, contexte non
-        // sécurisé...) : le clic reste un signal d'intention valable pour la mesure,
-        // on ne bloque pas dessus, on renonce juste au retour visuel « Lien copié ! ».
-      }
+    if (nativeButton && shareRow && typeof navigator.share === 'function') {
+      nativeButton.hidden = false
+      shareRow.hidden = true
+      nativeButton.addEventListener('click', async () => {
+        try {
+          await navigator.share({ title, url })
+          trackShare('native')
+        } catch {
+          // Annulation par l'utilisateur (Escape, croix) : pas une erreur à logger.
+        }
+      })
+    }
+
+    shareRow?.querySelectorAll<HTMLAnchorElement>('[data-network]').forEach((link) => {
+      const method = link.dataset.network as ShareMethod
+      link.addEventListener('click', () => trackShare(method))
     })
+
+    if (copyButton && copyLabelEl) {
+      const originalLabel = copyLabelEl.textContent ?? ''
+      const copiedLabel = copyButton.dataset.copiedLabel ?? originalLabel
+
+      copyButton.addEventListener('click', async () => {
+        trackShare('copy_link')
+
+        try {
+          await navigator.clipboard.writeText(url)
+          copyLabelEl.textContent = copiedLabel
+          setTimeout(() => {
+            copyLabelEl.textContent = originalLabel
+          }, 2000)
+        } catch {
+          // Écriture presse-papier refusée par le navigateur (permission, contexte non
+          // sécurisé...) : le clic reste un signal d'intention valable pour la mesure,
+          // on ne bloque pas dessus, on renonce juste au retour visuel « Lien copié ! ».
+        }
+      })
+    }
   }
 </script>
 <style>
@@ -225,7 +302,7 @@ const {
 
   .detail-page__share {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: var(--space-1);
     padding-top: var(--space-1);
   }
@@ -235,10 +312,34 @@ const {
     opacity: 0.7;
   }
 
+  .detail-page__share-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+  }
+
+  .detail-page__share-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius);
+    background: none;
+    transition: background 0.15s ease;
+  }
+
+  .detail-page__share-icon:hover {
+    background: var(--color-bg-alt);
+  }
+
+  .detail-page__share-native,
   .detail-page__copy-button {
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    width: fit-content;
     background: none;
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
