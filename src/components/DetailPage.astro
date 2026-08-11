@@ -350,6 +350,11 @@ const shareLinks = buildShareLinks(shareUrl, title, shareImageUrl)
     cursor: pointer;
   }
 
+  .detail-page__share-native[hidden],
+  .detail-page__share-row[hidden] {
+    display: none;
+  }
+
   .detail-page__main {
     min-width: 0;
   }
