@@ -177,7 +177,10 @@ const shareLinks = buildShareLinks(shareUrl, title, shareImageUrl)
       w.dataLayer?.push(buildShareEvent(contentType, slug, method))
     }
 
-    if (nativeButton && shareRow && typeof navigator.share === 'function') {
+    const isTouchPrimaryDevice =
+      typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches
+
+    if (nativeButton && shareRow && typeof navigator.share === 'function' && isTouchPrimaryDevice) {
       nativeButton.hidden = false
       shareRow.hidden = true
       nativeButton.addEventListener('click', async () => {
