@@ -104,6 +104,7 @@ export const fr: Dictionary = {
     legalProtege:
       "Ce document est protégé par le droit d'auteur. Il est présenté ici à titre de référence uniquement, sans contenu téléchargeable.",
     partage: 'Partage',
+    partagerLabel: 'Partager',
     copierLeLien: 'Copier le lien',
     lienCopie: 'Lien copié !',
     dateCertaine: 'Date confirmée',

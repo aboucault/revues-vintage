@@ -96,6 +96,7 @@ export interface Dictionary {
     legalIncertain: string
     legalProtege: string
     partage: string
+    partagerLabel: string
     copierLeLien: string
     lienCopie: string
     dateCertaine: string

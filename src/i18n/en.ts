@@ -104,6 +104,7 @@ export const en: Dictionary = {
     legalProtege:
       'This document is copyright protected. It is presented here for reference purposes only, with no downloadable content.',
     partage: 'Share',
+    partagerLabel: 'Share',
     copierLeLien: 'Copy link',
     lienCopie: 'Link copied!',
     dateCertaine: 'Confirmed date',

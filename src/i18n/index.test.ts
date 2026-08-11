@@ -126,6 +126,14 @@ describe('useTranslations', () => {
     expect(en.cookieConsent.accept).toBe('Accept')
     expect(en.cookieConsent.refuse).toBe('Decline')
   })
+
+  it('expose le libellé du bouton de partage natif', () => {
+    const t = useTranslations('fr')
+    expect(t.detailPage.partagerLabel).toBe('Partager')
+
+    const en = useTranslations('en')
+    expect(en.detailPage.partagerLabel).toBe('Share')
+  })
 })
 
 describe('getLocaleFromUrl', () => {
