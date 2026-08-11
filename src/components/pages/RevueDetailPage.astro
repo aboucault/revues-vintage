@@ -59,8 +59,10 @@ const shareUrl = Astro.url.href
   legalText={getLegalText(revue.statutDroits, locale)}
   shareLabel={t.detailPage.partage}
   shareUrl={shareUrl}
+  shareImageUrl={revue.couvertureUrl}
   copyLabel={t.detailPage.copierLeLien}
   copiedLabel={t.detailPage.lienCopie}
+  partagerLabel={t.detailPage.partagerLabel}
   contentType="revue"
   slug={revue.slug}
 >

@@ -63,8 +63,10 @@ const shareUrl = Astro.url.href
   legalText={getLegalText(pochette.statutDroits, locale)}
   shareLabel={t.detailPage.partage}
   shareUrl={shareUrl}
+  shareImageUrl={pochette.imageRectoUrl}
   copyLabel={t.detailPage.copierLeLien}
   copiedLabel={t.detailPage.lienCopie}
+  partagerLabel={t.detailPage.partagerLabel}
   contentType="pochette"
   slug={pochette.slug}
 >
