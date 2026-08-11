@@ -11,10 +11,13 @@ export interface SearchUsedEvent {
 
 export type ShareContentType = 'revue' | 'pochette' | 'patron'
 
+export type ShareMethod = 'pinterest' | 'facebook' | 'x' | 'whatsapp' | 'email' | 'copy_link' | 'native'
+
 export interface ShareEvent {
   event: 'share'
   content_type: ShareContentType
   slug: string
+  method: ShareMethod
 }
 
 export function buildFilterEvent(filterType: string, filterValue: string): FilterUsedEvent {
@@ -25,6 +28,6 @@ export function buildSearchEvent(query: string): SearchUsedEvent {
   return { event: 'search_used', query }
 }
 
-export function buildShareEvent(contentType: ShareContentType, slug: string): ShareEvent {
-  return { event: 'share', content_type: contentType, slug }
+export function buildShareEvent(contentType: ShareContentType, slug: string, method: ShareMethod): ShareEvent {
+  return { event: 'share', content_type: contentType, slug, method }
 }
