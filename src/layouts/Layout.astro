@@ -10,8 +10,9 @@ interface Props {
   wide?: boolean
   description?: string
   image?: string
+  jsonLd?: Record<string, unknown>[]
 }
-const { title, locale, wide, description, image } = Astro.props
+const { title, locale, wide, description, image, jsonLd } = Astro.props
 const t = useTranslations(locale)
 const base = locale === 'en' ? '/en' : ''
 const metaDescription = description ?? t.home.heroSubtitle
@@ -35,6 +36,28 @@ function isActive(href: string) {
 
 const otherLocale: Locale = locale === 'fr' ? 'en' : 'fr'
 const otherLocalePath = switchLocalePath(currentPath, otherLocale)
+
+const hreflangFrPath = locale === 'fr' ? currentPath : switchLocalePath(currentPath, 'fr')
+const hreflangEnPath = locale === 'en' ? currentPath : switchLocalePath(currentPath, 'en')
+const hreflangFrHref = new URL(hreflangFrPath, Astro.url).href
+const hreflangEnHref = new URL(hreflangEnPath, Astro.url).href
+
+const siteJsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Les Revues Vintage',
+    url: 'https://revues-vintage.jollyhome.org',
+    inLanguage: ['fr', 'en'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Les Revues Vintage',
+    url: 'https://revues-vintage.jollyhome.org',
+    logo: 'https://revues-vintage.jollyhome.org/logo.png',
+  },
+]
 ---
 <html lang={locale}>
   <head>
@@ -54,9 +77,13 @@ const otherLocalePath = switchLocalePath(currentPath, otherLocale)
     <title>{title} — Revues Vintage</title>
     <meta name="description" content={metaDescription} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="fr" href={hreflangFrHref} />
+    <link rel="alternate" hreflang="en" href={hreflangEnHref} />
+    <link rel="alternate" hreflang="x-default" href={hreflangFrHref} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Les Revues Vintage" />
     <meta property="og:locale" content={locale === 'fr' ? 'fr_FR' : 'en_US'} />
+    <meta property="og:locale:alternate" content={locale === 'fr' ? 'en_US' : 'fr_FR'} />
     <meta property="og:title" content={`${title} — Revues Vintage`} />
     <meta property="og:description" content={metaDescription} />
     <meta property="og:url" content={canonicalUrl} />
@@ -65,6 +92,8 @@ const otherLocalePath = switchLocalePath(currentPath, otherLocale)
     <meta name="twitter:title" content={`${title} — Revues Vintage`} />
     <meta name="twitter:description" content={metaDescription} />
     <meta name="twitter:image" content={metaImage} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(siteJsonLd)} />
+    {jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
     <header class="site-header">
