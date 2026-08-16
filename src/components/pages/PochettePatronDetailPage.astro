@@ -5,6 +5,7 @@ import type { Locale } from '../../i18n'
 import type { PochettePatronDoc } from '../../lib/sanity'
 import { getLegalText } from '../../lib/legal'
 import { formatAnneeOuDate, getPrecisionBadge } from '../../lib/dating'
+import { buildPochetteFallbackDescription } from '../../lib/seo'
 
 interface Props {
   locale: Locale
@@ -49,11 +50,23 @@ const metadata = [
     : []),
 ]
 
+const metaDescription = buildPochetteFallbackDescription(pochette.titre, pochette.marqueNom, locale)
+
+const pochetteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: pochette.titre,
+  description: metaDescription,
+  image: pochette.imageRectoUrl,
+  inLanguage: locale,
+}
+
 const shareUrl = Astro.url.href
 ---
 <DetailPage
   locale={locale}
   pageTitle={pochette.titre}
+  description={metaDescription}
   backHref={`${base}/dater-un-patron`}
   backLabel={t.detailPage.retourAuxPatrons}
   title={pochette.titre}
@@ -69,6 +82,7 @@ const shareUrl = Astro.url.href
   partagerLabel={t.detailPage.partagerLabel}
   contentType="pochette"
   slug={pochette.slug}
+  contentJsonLd={pochetteJsonLd}
 >
   <div class="pochette-detail__images">
     <img src={pochette.imageRectoUrl} alt={t.pochettePatronDetail.imageRectoAlt} />
