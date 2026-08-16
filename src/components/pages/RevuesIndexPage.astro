@@ -13,7 +13,8 @@ interface Props {
 const { locale, entries } = Astro.props
 const t = useTranslations(locale)
 ---
-<Layout title={t.pages.revuesTitre} locale={locale} wide>
+<Layout title={t.seo.revuesTitle} description={t.seo.revuesDescription} locale={locale} wide>
   <h1>{t.pages.revuesTitre}</h1>
+  <p>{t.seo.revuesIntro}</p>
   <CatalogBrowser entries={entries} locale={locale} showTitreFilter showSearchInput />
 </Layout>
