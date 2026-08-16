@@ -10,7 +10,7 @@ interface Props {
 const { locale } = Astro.props
 const t = useTranslations(locale)
 ---
-<Layout title={t.pages.droitsAuteurTitre} locale={locale}>
+<Layout title={t.pages.droitsAuteurTitre} description={t.seo.droitsAuteurDescription} locale={locale}>
   <h1>{t.pages.droitsAuteurTitre}</h1>
   <p>{t.pages.droitsAuteurParagraphe1}</p>
   <p>{t.pages.droitsAuteurParagraphe2}</p>
