@@ -4,6 +4,7 @@ import DetailIcon from './DetailIcon.astro'
 import ShareIcon from './ShareIcon.astro'
 import FlourishDecoration from './FlourishDecoration.astro'
 import { buildShareLinks } from '../lib/shareLinks'
+import { useTranslations } from '../i18n'
 import type { Locale } from '../i18n'
 import type { IconName } from './DetailIcon.astro'
 
@@ -21,6 +22,7 @@ interface Badge {
 interface Props {
   locale: Locale
   pageTitle: string
+  description?: string
   backHref: string
   backLabel: string
   title: string
@@ -38,11 +40,13 @@ interface Props {
   partagerLabel: string
   contentType: 'revue' | 'pochette' | 'patron'
   slug: string
+  contentJsonLd?: Record<string, unknown>
 }
 
 const {
   locale,
   pageTitle,
+  description,
   backHref,
   backLabel,
   title,
@@ -58,11 +62,25 @@ const {
   partagerLabel,
   contentType,
   slug,
+  contentJsonLd,
 } = Astro.props
 
+const t = useTranslations(locale)
 const shareLinks = buildShareLinks(shareUrl, title, shareImageUrl)
+
+const homeHref = locale === 'en' ? '/en' : '/'
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t.nav.accueil, item: new URL(homeHref, Astro.url).href },
+    { '@type': 'ListItem', position: 2, name: backLabel, item: new URL(backHref, Astro.url).href },
+    { '@type': 'ListItem', position: 3, name: title, item: shareUrl },
+  ],
+}
+const detailJsonLd = contentJsonLd ? [breadcrumbJsonLd, contentJsonLd] : [breadcrumbJsonLd]
 ---
-<Layout title={pageTitle} locale={locale} wide description={infoBox?.text} image={shareImageUrl}>
+<Layout title={pageTitle} locale={locale} wide description={description ?? infoBox?.text} image={shareImageUrl} jsonLd={detailJsonLd}>
   <div class="detail-page">
     <aside class="detail-page__sidebar">
       <a class="detail-page__back" href={backHref}>← {backLabel}</a>
