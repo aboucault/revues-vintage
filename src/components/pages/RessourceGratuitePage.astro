@@ -6,6 +6,7 @@ import type { PatronGratuitDoc } from '../../lib/sanity'
 import { getLegalText } from '../../lib/legal'
 import { canShowGalerie, canShowTranslation } from '../../lib/patronGratuit'
 import { getCardSubtitleLines } from '../../lib/card'
+import { buildPatronGratuitFallbackDescription } from '../../lib/seo'
 
 interface Props {
   locale: Locale
@@ -44,12 +45,24 @@ const metadata = [
 const infoBox = patron.description
   ? { title: t.patronGratuitDetail.aProposTitre, text: patron.description }
   : undefined
+const metaDescription = patron.description ?? buildPatronGratuitFallbackDescription(patron.titre, locale)
+
+const patronJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: patron.titre,
+  description: metaDescription,
+  image: patron.couverturesUrls[0],
+  inLanguage: locale,
+  isAccessibleForFree: patron.statutDroits === 'domaine-public',
+}
 
 const shareUrl = Astro.url.href
 ---
 <DetailPage
   locale={locale}
   pageTitle={patron.titre}
+  description={metaDescription}
   backHref={`${base}/ressources-gratuites`}
   backLabel={t.detailPage.retourAuxRessources}
   title={patron.titre}
@@ -66,6 +79,7 @@ const shareUrl = Astro.url.href
   partagerLabel={t.detailPage.partagerLabel}
   contentType="patron"
   slug={patron.slug}
+  contentJsonLd={patronJsonLd}
 >
   {downloadHref && (
     <a href={downloadHref} download class="patron-gratuit__download">
