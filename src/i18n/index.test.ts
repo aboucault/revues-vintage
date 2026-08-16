@@ -136,6 +136,20 @@ describe('useTranslations', () => {
   })
 })
 
+describe('seo', () => {
+  it('expose les titres et descriptions optimisés pour le SEO', () => {
+    const t = useTranslations('fr')
+    expect(t.seo.homeTitle).toBe('Revues vintage gratuites à consulter et patrons anciens à télécharger')
+    expect(t.seo.ressourcesGratuitesTitle).toBe('Patrons de couture vintage gratuits à télécharger')
+    expect(t.seo.revuesIntro).toContain('domaine public')
+
+    const en = useTranslations('en')
+    expect(en.seo.homeTitle).toBe('Free Vintage Magazines to Browse & Vintage Sewing Patterns to Download')
+    expect(en.seo.ressourcesGratuitesTitle).toBe('Free Vintage Sewing Patterns to Download')
+    expect(en.seo.revuesIntro).toContain('public domain')
+  })
+})
+
 describe('getLocaleFromUrl', () => {
   it('détecte la locale anglaise sur un chemin préfixé /en/', () => {
     expect(getLocaleFromUrl('/en/revues')).toBe('en')

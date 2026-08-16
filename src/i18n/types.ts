@@ -118,6 +118,18 @@ export interface Dictionary {
     soutenirLeProjetContribuerTitre: string
     soutenirLeProjetContribuerParagraphe: string
   }
+  seo: {
+    homeTitle: string
+    homeDescription: string
+    ressourcesGratuitesTitle: string
+    ressourcesGratuitesDescription: string
+    revuesTitle: string
+    revuesDescription: string
+    revuesIntro: string
+    daterUnPatronDescription: string
+    droitsAuteurDescription: string
+    soutenirLeProjetDescription: string
+  }
   langSwitch: {
     label: string
   }

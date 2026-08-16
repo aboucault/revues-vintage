@@ -131,6 +131,25 @@ export const fr: Dictionary = {
     soutenirLeProjetContribuerParagraphe:
       'Vous avez des PDF de patrons, de revues ou de livres de cours de couture ? Chaque document que vous partagez enrichit le catalogue pour tout le monde.',
   },
+  seo: {
+    homeTitle: 'Revues vintage gratuites à consulter et patrons anciens à télécharger',
+    homeDescription:
+      'Revues de mode, couture, tricot et broderie du XXe siècle numérisées, patrons de couture gratuits à télécharger et pochettes de patrons anciens à dater. Une bibliothèque vintage gratuite, mise à jour régulièrement.',
+    ressourcesGratuitesTitle: 'Patrons de couture vintage gratuits à télécharger',
+    ressourcesGratuitesDescription:
+      'Téléchargez gratuitement des patrons de couture, tricot, broderie et crochet issus de revues de mode vintage du domaine public. Tous les patrons sont libres de droits et téléchargeables immédiatement.',
+    revuesTitle: 'Revues de mode vintage à consulter — certaines gratuites (domaine public)',
+    revuesDescription:
+      'Parcourez notre catalogue de revues de mode françaises numérisées, des années 1920 aux années 1960. Les revues du domaine public se feuillettent et se téléchargent gratuitement en PDF.',
+    revuesIntro:
+      'Certaines revues présentées ici sont dans le domaine public : vous pouvez les feuilleter en ligne et télécharger le PDF complet gratuitement. Repérez-les grâce au bouton « Télécharger la revue complète » sur leur page.',
+    daterUnPatronDescription:
+      'Comparez votre pochette de patron ancien à notre bibliothèque de référence pour estimer sa décennie, sa marque et son style.',
+    droitsAuteurDescription:
+      'Statut des droits des revues et patrons publiés sur Les Revues Vintage : domaine public, incertain ou protégé.',
+    soutenirLeProjetDescription:
+      'Soutenez la numérisation et le catalogage de revues et patrons de couture vintage en faisant un don sur Ko-fi.',
+  },
   langSwitch: {
     label: 'English',
   },

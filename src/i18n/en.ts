@@ -131,6 +131,25 @@ export const en: Dictionary = {
     soutenirLeProjetContribuerParagraphe:
       'Have PDFs of patterns, magazines, or sewing course books? Every document you share enriches the catalog for everyone.',
   },
+  seo: {
+    homeTitle: 'Free Vintage Magazines to Browse & Vintage Sewing Patterns to Download',
+    homeDescription:
+      'Digitized 20th-century French fashion, sewing, knitting and embroidery magazines, free vintage sewing patterns to download, and vintage pattern envelopes to date. A free vintage library, updated regularly.',
+    ressourcesGratuitesTitle: 'Free Vintage Sewing Patterns to Download',
+    ressourcesGratuitesDescription:
+      'Download free sewing, knitting, embroidery and crochet patterns sourced from public-domain vintage fashion magazines. Every pattern is rights-free and available for immediate download.',
+    revuesTitle: 'Browse Vintage Fashion Magazines — Some Free (Public Domain)',
+    revuesDescription:
+      'Browse our catalog of digitized French fashion magazines, from the 1920s to the 1960s. Public-domain issues can be read and downloaded for free as a PDF.',
+    revuesIntro:
+      'Some magazines featured here are in the public domain: you can read them online and download the full PDF for free. Look for the "Download the full magazine" button on their page.',
+    daterUnPatronDescription:
+      'Compare your vintage pattern envelope to our reference library to estimate its decade, brand, and style.',
+    droitsAuteurDescription:
+      'Rights status of the magazines and patterns published on Revues Vintage: public domain, uncertain, or copyrighted.',
+    soutenirLeProjetDescription:
+      'Support the digitization and cataloguing of vintage magazines and sewing patterns with a donation on Ko-fi.',
+  },
   langSwitch: {
     label: 'Français',
   },
