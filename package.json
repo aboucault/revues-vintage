@@ -16,6 +16,7 @@
     "studio:deploy": "sanity deploy"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
     "@sanity/client": "^7.25.0",
     "astro": "^7.1.4"
   },
